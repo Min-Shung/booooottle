@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模擬投資平台</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 頂部導航欄 -->
+    <header class="navbar">
+        <h1>模擬投資平台</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#personal-investment">個人投資</a></li>
+                <li><a href="#market-data">市場數據</a></li>
+                <li><a href="#trading">交易</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 主內容區域 -->
+    <main>
+        <section id="overview">
+            <h2>總收益數據</h2>
+            <div id="total-earnings">
+                <p>總收益：<span id="earnings-value">--</span> 元</p>
+            </div>
+        </section>
+
+        <section id="quick-navigation">
+            <h2>快速導航</h2>
+            <div class="navigation-buttons">
+                <button onclick="navigateTo('personal-investment')">個人投資</button>
+                <button onclick="navigateTo('market-data')">市場數據</button>
+                <button onclick="navigateTo('trading')">交易</button>
+            </div>
+        </section>
+
+        <section id="market-overview">
+            <h2>當日市場數據概覽</h2>
+            <div id="market-data-overview">
+                <p>最新指數：<span id="market-index">--</span></p>
+                <p>漲跌幅：<span id="market-change">--</span></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 引入 JS -->
+    <script src="script.js"></script>
+</body>
+</html>
