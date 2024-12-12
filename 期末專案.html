@@ -3,50 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模擬投資平台</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Booooottle</title>
+    <link rel="stylesheet" href="home_dec.css">
+    <link rel="stylesheet" href="asideBar.css">
+    <link rel="stylesheet" href="waterpool.css">
 </head>
 <body>
-    <!-- 頂部導航欄 -->
-    <header class="navbar">
-        <h1>模擬投資平台</h1>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#personal-investment">個人投資</a></li>
-                <li><a href="#market-data">市場數據</a></li>
-                <li><a href="#trading">交易</a></li>
+    <!-- 以圖標取代 -->
+    <aside class="sidebar">
+        <ul class="sidebar-links">
+          <li>
+            <a href="#"><span id="mailbox" class="sideindex"> 信箱 </span ></a>
+          </li>
+          <li class="dropdown">
+            <a href="#"><span id="sidePool" class="sideindex"> 水池連結 </span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#" class="pool-option" data-pool="today">今日灣</a></li>
+                <li><a href="#" class="pool-option" data-pool="fortune">幸運河</a></li>
+                <li><a href="#" class="pool-option" data-pool="bottle">漂流海</a></li>
+                <li><a href="#" class="pool-option" data-pool="developer">開發池</a></li>
             </ul>
-        </nav>
-    </header>
-
+          </li>
+          <li>
+            <a href="#"><span id="sideExp" class="sideindex"> 快速說明 </span></a>
+          </li>
+        </ul>
+      </aside>
     <!-- 主內容區域 -->
     <main>
-        <section id="overview">
-            <h2>總收益數據</h2>
-            <div id="total-earnings">
-                <p>總收益：<span id="earnings-value">--</span> 元</p>
-            </div>
+        <section id="home">
+            <button id="pickBottle" type="button">丟瓶子</button>
+            <button id="releaseBottle" type="button">撈瓶子</button>
         </section>
-
-        <section id="quick-navigation">
-            <h2>快速導航</h2>
-            <div class="navigation-buttons">
-                <button onclick="navigateTo('personal-investment')">個人投資</button>
-                <button onclick="navigateTo('market-data')">市場數據</button>
-                <button onclick="navigateTo('trading')">交易</button>
-            </div>
-        </section>
-
-        <section id="market-overview">
-            <h2>當日市場數據概覽</h2>
-            <div id="market-data-overview">
-                <p>最新指數：<span id="market-index">--</span></p>
-                <p>漲跌幅：<span id="market-change">--</span></p>
-            </div>
-        </section>
+        <div id="waterLayer_today" class="overlay hidden">
+            <h2>指定水池</h2>
+            <div>開發池</div>
+            <button class="closeOverlay">關閉</button>
+        </div>
+        <div id="waterLayer_fortune" class="overlay hidden">
+            <h2>指定水池</h2>
+            <div>幸運河</div>
+            <button class="closeOverlay">關閉</button>
+        </div>
+        <div id="waterLayer_bottle" class="overlay hidden">
+            <h2>指定水池</h2>
+            <div>今日灣</div>
+            <button class="closeOverlay">關閉</button>
+         </div>
+        <div id="waterLayer_developer" class="overlay hidden">
+            <h2>指定水池</h2>
+            <div>漂流海</div>
+            <button class="closeOverlay">關閉</button>
+        </div>
     </main>
+        
 
     <!-- 引入 JS -->
-    <script src="script.js"></script>
+    <script src="waterpool.js"></script>
 </body>
 </html>
