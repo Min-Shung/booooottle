@@ -56,3 +56,29 @@ section {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+#pickBottle, #releaseBottle {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* 深色字體 */
+    background: #fff; /* 白色背景 */
+    border: 6px solid #add8e6; /* 淺藍色加粗邊框 */
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    margin: 0 20px; /* 增加水平間距 */
+}
+
+#pickBottle:hover, #releaseBottle:hover {
+    background: #add8e6; /* 微調背景顏色 */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+#pickBottle:active, #releaseBottle:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
