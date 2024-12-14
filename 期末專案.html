@@ -7,28 +7,38 @@
     <link rel="stylesheet" href="home_dec.css">
     <link rel="stylesheet" href="asideBar.css">
     <link rel="stylesheet" href="waterpool.css">
+    <style>
+        body {
+            background-image: url('海.jpg');
+            background-size: cover;
+            background-position: top 100 left 100;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <!-- 以圖標取代 -->
     <aside class="sidebar">
         <ul class="sidebar-links">
-          <li>
-            <a href="#"><span id="mailbox" class="sideindex"> 信箱 </span ></a>
-          </li>
-          <li class="dropdown">
-            <a href="#"><span id="sidePool" class="sideindex"> 水池連結 </span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#" class="pool-option" data-pool="today">今日灣</a></li>
-                <li><a href="#" class="pool-option" data-pool="fortune">幸運河</a></li>
-                <li><a href="#" class="pool-option" data-pool="bottle">漂流海</a></li>
-                <li><a href="#" class="pool-option" data-pool="developer">開發池</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#"><span id="sideExp" class="sideindex"> 快速說明 </span></a>
-          </li>
+            <li>
+                <a href="#"><span id="mailbox" class="sideindex"> 信箱 </span ></a>
+            </li>
+            <li class="dropdown">
+                <a href="#"><span id="sidePool" class="sideindex"> 水池</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="pool-option" data-pool="today">今日灣</a></li>
+                    <li><a href="#" class="pool-option" data-pool="fortune">幸運河</a></li>
+                    <li><a href="#" class="pool-option" data-pool="bottle">漂流海</a></li>
+                    <li><a href="#" class="pool-option" data-pool="developer">開發池</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><span id="sideExp" class="sideindex"> 快速說明 </span></a>
+            </li>
         </ul>
-      </aside>
+    </aside>
     <!-- 主內容區域 -->
     <main>
         <section id="home">
