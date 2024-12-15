@@ -56,11 +56,10 @@
     top: 10%; /* 放置於螢幕中間偏上方 */
     font-size: 50px; /* 放大字體 */
     font-weight: bold; /* 加粗字體 */
-    color: #fff; /* 白色字體，與背景形成對比 */
-    text-shadow: 2px 2px 5px rgba(87, 134, 171, 0.771); /* 增加陰影效果 */
-    margin: 0;
-    padding: 10px 20px;
-    border-radius: 10px;
+    color: #efefef; /* 白色字體，與背景形成對比 */
+    text-shadow: -1px -1px 2px #695a41b7, 1px -1px 2px #695a41b7, -1px 1px 2px #695a41b7, 1px 1px 2px #695a41b7; /* 加入文字外框效果 */
+    letter-spacing: 20px;
+    font-family: "cwTeXKai", sans-serif;
 }
 
 /* 淡入動畫效果 */
