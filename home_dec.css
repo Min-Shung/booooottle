@@ -1,6 +1,6 @@
 /* 全局樣式 */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "cwTeXKai", sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -70,12 +70,13 @@ section {
 }
 
 #pickBottle, #releaseBottle {
+    font-family: "cwTeXKai", sans-serif;
     padding: 15px 25px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     color: #093451;
     background: #fff; /* 白色背景 */
-    border: 6px solid #65B1E2; /* 淺藍色加粗邊框 */
+    border: 6px solid #70b7e6; /* 淺藍色加粗邊框 */
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -83,7 +84,7 @@ section {
 }
 
 #pickBottle:hover, #releaseBottle:hover {
-    background: #65B1E2; /* 微調背景顏色 */
+    background: #70b7e6; /* 微調背景顏色 */
     color: white;
     transform: translateY(-3px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
@@ -93,4 +94,9 @@ section {
     transform: translateY(2px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     
+}
+
+img{
+    position: fixed;
+    bottom: 100px; /* 距離螢幕底部20px */
 }
