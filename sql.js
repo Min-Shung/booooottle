@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const app = express();
 
-// 設定 MySQL 資料庫連結
+// 設定 MySQL
 const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -10,7 +10,7 @@ const db = mysql.createPool({
   database: 'bottle_text'
 });
 
-// API：撈一個瓶子
+// API：撈瓶子
 app.get('/api/getBottle', async (req, res) => {
     try {
       // 撈取符合條件的瓶子，排除敏感內容，優先返回新瓶子
