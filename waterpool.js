@@ -1,5 +1,4 @@
 const closeButtons = document.querySelectorAll('.closeOverlay');
-<<<<<<< HEAD
 const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
 //撈瓶子
@@ -31,12 +30,14 @@ releaseBottle.addEventListener('click', event => {
     targetLayer.classList.remove('hidden'); 
 });
 // 點擊關閉按鈕
-    closeButtons.forEach(button => {
-        button.addEventListener('click', event => {
-            const overlay = event.target.closest('.overlay');
-            if (overlay) {
-                overlay.classList.add('hidden');
-=======
+closeButtons.forEach(button => {
+    button.addEventListener('click', event => {
+        const overlay = event.target.closest('.overlay');
+        if (overlay) {
+            overlay.classList.add('hidden');
+        }
+    });
+});
 
 // 當點擊水池選項時，顯示對應的水池
 poolLinks.forEach(link => {
@@ -108,7 +109,6 @@ function fetchNews() {
                 newsContent.innerHTML = newsContentHTML;
             } else {
                 newsContent.innerHTML = "<p>目前沒有可用的新聞，請稍後再試。</p>";
->>>>>>> 1548da21b23be1d0fcea4353c4140b5d015cfd94
             }
         })
         .catch(error => {
