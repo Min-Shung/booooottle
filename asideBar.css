@@ -1,58 +1,75 @@
 /* 側邊欄樣式 */
 .sidebar {
-  float: right;
-  width: 200px;
-  height: 100%;
-  padding: 10px;
+    float: right;
+    width: 200px;
+    height: 100%;
+    padding: 10px;
+  }
+  
+  /* 側邊欄連結樣式 */
+  .sidebar-links li {
+    list-style: none;
+    margin: 10px 0;
+    position: relative; /* 必須設置為相對定位 */
+    font-size: 20px;
+  }
+  
+  .sidebar-links a {
+    text-decoration: none;
+    color: #695a41;
+    font-weight: bold;
+    display: block;
+    padding: 5px 10px;
+    border-radius: 13px;
+    background-color: #FDF2E0; 
+    box-shadow: 0 4px 6px #695a41b7;
+    transition: all 0.3s ease;
+    text-align: center;
+    margin-bottom: 15px; /* 增加垂直距離 */
 }
-
-/* 側邊欄連結樣式 */
-.sidebar-links li {
-  list-style: none;
-  margin: 10px 0;
-  position: relative; /* 必須設置為相對定位 */
-}
-
-.sidebar-links a {
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  display: block;
-  padding: 5px;
-  border-radius: 5px;
-}
-
+  
 .sidebar-links a:hover {
-  background-color: #ddd;
+    background-color: #FDF9ED;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px #d4d0c2;
 }
-
-/* 下拉選單樣式 */
-.dropdown-menu {
-  display: none; /* 默認隱藏選單 */
-  padding: 0;
-  background-color: #fff;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  
+  /* 下拉選單樣式 */
+  .dropdown-menu {
+    display: none; /* 默認隱藏選單 */
+    padding: 10px;
+    background: #f8f4ed;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(139, 155, 165, 0.518);
+    transition: all 0.3s ease;
 }
 
 .dropdown-menu li {
-  list-style: none;
+    list-style: none;
+    margin: 5px 0;
+    
 }
 
 .dropdown-menu a {
-  text-decoration: none;
-  color: #333;
-  display: block;
-  padding: 10px;
-  font-size: 14px;
-  border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: #555;
+    font-size: 16px;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #f3f3f3;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .dropdown-menu a:hover {
-  background-color: #f0f0f0;
+    background: linear-gradient(45deg, #FDF9ED, #fdf9ede4);
+    color: #000;
+    transform: translateX(5px);
 }
 
-/* 顯示下拉選單 */
-.dropdown:hover .dropdown-menu {
-  display: block;
-  position: static; /* 保持選單在 aside 內部 */
+  
+  /* 顯示下拉選單 */
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    position: static; /* 保持選單在 aside 內部 */
 }

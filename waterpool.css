@@ -1,24 +1,167 @@
-/* 覆蓋層樣式 */
+/* 通用覆蓋層樣式 */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* 半透明背景 */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
-
-#biggest_watter {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
+    animation: fadeIn 0.5s ease; /* 淡入動畫效果 */
 }
 
 .hidden {
-    display: none; /* 隱藏層 */
+    display: none; /* 預設隱藏 */
+}
+
+/* 水池容器的樣式 */
+#biggest_water {
+    background: linear-gradient(135deg, #4facfe, #00f2fe); /* 美麗的漸變背景 */
+    color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 600px;
+}
+
+/* 關閉按鈕樣式 */
+.closeOverlay {
+    position: absolute;
+    bottom: 20px; /* 居中對齊，放置於底部 */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff6b6b; /* 紅色按鈕，帶有漸變效果 */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s; /* 懸停效果的過渡 */
+}
+
+.closeOverlay:hover {
+    background: #ff3b3b; /* 懸停時變深紅色 */
+}
+
+/* 標題樣式*/
+.overlay div {
+    position: absolute;
+    top: 10%; /* 放置於螢幕中間偏上方 */
+    font-size: 50px; /* 放大字體 */
+    font-weight: bold; /* 加粗字體 */
+    color: #efefef; /* 白色字體，與背景形成對比 */
+    text-shadow: -1px -1px 2px #695a41b7, 1px -1px 2px #695a41b7, -1px 1px 2px #695a41b7, 1px 1px 2px #695a41b7; /* 加入文字外框效果 */
+    letter-spacing: 20px;
+    font-family: "cwTeXKai", sans-serif;
+}
+
+/* 淡入動畫效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* 特定水池背景樣式 */
+#waterLayer_today {
+    background-image: url('今日灣.png');
+    background-size: cover;
+    background-position: center;
+}
+
+#waterLayer_fortune {
+    background-image: url('幸運河.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#waterLayer_bottle {
+    background-image: url('漂流海.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#waterLayer_developer {
+    background-image: url('開發池.jpg');
+    background-size: cover;
+    background-position: center;
+}
+/* 水池內撈瓶子按鈕樣式 */
+.releaseBottle {
+    font-family: "cwTeXKai", sans-serif;
+    padding: 15px 25px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #093451;
+    background: #fff; /* 白色背景 */
+    border: 6px solid #70b7e6; /* 淺藍色加粗邊框 */
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    bottom: 10%; /* 放置於容器底部 */
+    left: 50%; /* 水平置中 */
+    transform: translateX(-50%);
+}
+
+.releaseBottle:hover {
+    background: #70b7e6; /* 懸停時背景變淺藍 */
+    color: white;
+    transform: translate(-50%, -3px); /* 輕微向上移動 */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.releaseBottle:active {
+    transform: translate(-50%, 2px); /* 點擊時輕微向下移動 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 新聞內容容器 */
+.news-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.news-container h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.news-container p {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.news-container a {
+    font-size: 18px;
+    color: #0073e6;
+    text-decoration: none;
+}
+
+.news-container a:hover {
+    text-decoration: underline;
+}
+
+#news-content.hidden {
+    visibility: hidden;
 }

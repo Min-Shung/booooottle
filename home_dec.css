@@ -1,6 +1,6 @@
 /* 全局樣式 */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "cwTeXKai", sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -21,6 +21,8 @@ body {
 
 /* 主內容樣式 */
 main {
+    position: relative;
+    min-height: 100vh; 
     padding: 20px;
     max-width: 900px;
     margin: auto;
@@ -55,4 +57,46 @@ section {
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+#button-container {
+    position: fixed;
+    bottom: 20px; /* 距離螢幕底部20px */
+    left: 50%; /* 將容器定位到螢幕的水平中線 */
+    transform: translateX(-50%); /* 使容器精確居中 */
+    display: flex;
+    justify-content: space-between; /* 讓兩個按鈕在容器內的間距為20px */
+    width: 320px; /* 設定容器寬度以適應兩個按鈕 */
+}
+
+#pickBottle, #releaseBottle {
+    font-family: "cwTeXKai", sans-serif;
+    padding: 15px 25px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #093451;
+    background: #fff; /* 白色背景 */
+    border: 6px solid #70b7e6; /* 淺藍色加粗邊框 */
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#pickBottle:hover, #releaseBottle:hover {
+    background: #70b7e6; /* 微調背景顏色 */
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+#pickBottle:active, #releaseBottle:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    
+}
+
+img{
+    position: fixed;
+    bottom: 100px; /* 距離螢幕底部20px */
 }
