@@ -31,10 +31,27 @@
       </aside>
     <!-- 主內容區域 -->
     <main>
+        <!-- 初始、丟撈瓶子 -->
         <section id="home">
-            <button id="pickBottle" type="button">丟瓶子</button>
-            <button id="releaseBottle" type="button">撈瓶子</button>
+            <button id="pickBottle" type="button">撈瓶子</button>
+            <button id="releaseBottle" type="button">丟瓶子</button>
         </section>
+        <div id="releasebox" class="overlay hidden">
+            <div>
+                丟瓶子
+                <form action="#">
+                    <input type="text" name="bottletext"><br>
+                    <input type="submit" value="提交">
+                </form>
+            </div>
+            <button class="closeOverlay">關閉</button>
+        </div>
+        <div id="pickbox" class="overlay hidden">
+            <div>撈瓶子</div>
+            <div id="bottleContent"></div>
+            <button class="closeOverlay">關閉</button>
+        </div>
+
         <div id="waterLayer_today" class="overlay hidden">
             <h2>指定水池</h2>
             <div>開發池</div>
@@ -60,5 +77,6 @@
 
     <!-- 引入 JS -->
     <script src="waterpool.js"></script>
+    <script src="asideBar.js"></script>
 </body>
 </html>
