@@ -7,32 +7,45 @@
     <link rel="stylesheet" href="home_dec.css">
     <link rel="stylesheet" href="asideBar.css">
     <link rel="stylesheet" href="waterpool.css">
+    <link href="https://fonts.googleapis.com/earlyaccess/cwtexkai.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'cwTeXKai', sans-serif;
+            background-image: url('海.jpg');
+            background-size: cover;
+            background-position: top 100 left 100;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <!-- 以圖標取代 -->
     <aside class="sidebar">
         <ul class="sidebar-links">
-          <li>
-            <a href="#"><span id="mailbox" class="sideindex"> 信箱 </span ></a>
-          </li>
-          <li class="dropdown">
-            <a href="#"><span id="sidePool" class="sideindex"> 水池連結 </span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#" class="pool-option" data-pool="today">今日灣</a></li>
-                <li><a href="#" class="pool-option" data-pool="fortune">幸運河</a></li>
-                <li><a href="#" class="pool-option" data-pool="bottle">漂流海</a></li>
-                <li><a href="#" class="pool-option" data-pool="developer">開發池</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#"><span id="sideExp" class="sideindex"> 快速說明 </span></a>
-          </li>
+            <li>
+                <a href="#"><span id="mailbox" class="sideindex"> 信箱 </span ></a>
+            </li>
+            <li class="dropdown">
+                <a href="#"><span id="sidePool" class="sideindex"> 水池</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="pool-option" data-pool="today">今日灣</a></li>
+                    <li><a href="#" class="pool-option" data-pool="fortune">幸運河</a></li>
+                    <li><a href="#" class="pool-option" data-pool="bottle">漂流海</a></li>
+                    <li><a href="#" class="pool-option" data-pool="developer">開發池</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><span id="sideExp" class="sideindex"> 快速說明 </span></a>
+            </li>
         </ul>
-      </aside>
+    </aside>
     <!-- 主內容區域 -->
     <main>
         <!-- 初始、丟撈瓶子 -->
         <section id="home">
+<<<<<<< HEAD
             <button id="pickBottle" type="button">撈瓶子</button>
             <button id="releaseBottle" type="button">丟瓶子</button>
         </section>
@@ -52,25 +65,35 @@
             <button class="closeOverlay">關閉</button>
         </div>
 
+=======
+            <div id="button-container">
+                <button id="pickBottle" type="button">丟瓶子</button>
+                <button id="releaseBottle" type="button">撈瓶子</button>
+            </div>
+        </section>
+        <!-- 這段放在水池 Today 的區域內 -->
+>>>>>>> 1548da21b23be1d0fcea4353c4140b5d015cfd94
         <div id="waterLayer_today" class="overlay hidden">
-            <h2>指定水池</h2>
-            <div>開發池</div>
-            <button class="closeOverlay">關閉</button>
-        </div>
-        <div id="waterLayer_fortune" class="overlay hidden">
-            <h2>指定水池</h2>
-            <div>幸運河</div>
-            <button class="closeOverlay">關閉</button>
-        </div>
-        <div id="waterLayer_bottle" class="overlay hidden">
-            <h2>指定水池</h2>
             <div>今日灣</div>
             <button class="closeOverlay">關閉</button>
-         </div>
-        <div id="waterLayer_developer" class="overlay hidden">
-            <h2>指定水池</h2>
+            <img src="瓶子2-removebg-preview.png" width="70px" height="70px">
+            <button class="releaseBottle">撈瓶子</button>
+            <div id="news-content" class="news-container"></div> <!-- 用來顯示新聞的區域 -->
+        </div>
+        <div id="waterLayer_fortune" class="overlay hidden">
+            <div>幸運河</div>
+            <button class="closeOverlay">關閉</button>
+            <button class="releaseBottle">撈瓶子</button>
+        </div>
+        <div id="waterLayer_bottle" class="overlay hidden">
             <div>漂流海</div>
             <button class="closeOverlay">關閉</button>
+            <button class="releaseBottle">撈瓶子</button>
+         </div>
+        <div id="waterLayer_developer" class="overlay hidden">
+            <div>開發池</div>
+            <button class="closeOverlay">關閉</button>
+            <button class="releaseBottle">撈瓶子</button>
         </div>
     </main>
         
