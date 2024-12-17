@@ -1,6 +1,8 @@
 const closeButtons = document.querySelectorAll('.closeOverlay');
 const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
+
+// 撈瓶子
 const apiBaseUrl = 'http://localhost:8080'; // API 根網址 ＃要改
 /*--------撈瓶子---------*/
 
@@ -34,10 +36,64 @@ pickBottle.addEventListener('click', async event => {
             console.error('Error fetching data:', error);
             alert('獲取資料失敗');
         }
-    event.preventDefault(); // 阻止默認跳轉行為
+        event.preventDefault(); // 阻止默認跳轉行為
+        const targetLayer = document.getElementById(`pickbox`); // 找到對應的遮罩層
+        targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
+    });
+
+// 撈取新聞
+/*async function fetchNews() {
+    const newsContent = document.getElementById("news-content");
+
+    // 檢查 news-content 是否存在
+    if (!newsContent) {
+        console.error("找不到 #news-content 元素！");
+        return;
+    }
+
+    // 顯示載入中的提示
+    newsContent.innerHTML = "<p>載入中...</p>";
+    newsContent.style.display = "block"; // 顯示元素
+
+    try {
+        // 發送請求到 NewsAPI
+        const response = await fetch(`https://newsapi.org/v2/top-headlines?country=tw&apiKey=3d29c7d7f9304476afaa830b7d888dad`);
+        
+        // 檢查 HTTP 響應是否成功
+        if (!response.ok) {
+            throw new Error(`HTTP 錯誤: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.status === 'ok' && data.totalResults > 0) {
+            // 隨機選擇一則新聞
+            const randomIndex = Math.floor(Math.random() * data.articles.length);
+            const article = data.articles[randomIndex];
+
+            // 顯示新聞內容
+            const newsContentHTML = `
+                <h3>${article.title}</h3>
+                <p>${article.description}</p>
+                <a href="${article.url}" target="_blank">閱讀更多</a>
+            `;
+            newsContent.innerHTML = newsContentHTML;
+        } else {
+            newsContent.innerHTML = "<p>目前沒有可用的新聞，請稍後再試。</p>";
+        }
+    } catch (error) {
+        console.error('發生錯誤:', error);
+        newsContent.innerHTML = "<p>發生錯誤，請稍後再試。</p>";
+    }
+}*/
+
+// 撈瓶子按鈕
+pickBottle.addEventListener('click', event => {
+    event.preventDefault(); // 阻止默認行為
+    console.log('撈瓶子按鈕被點擊');
     const targetLayer = document.getElementById(`pickbox`); // 找到對應的遮罩層
     targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
-    
+    fetchNews();  // 撈取新聞
 });
 
 /*--------丟瓶子---------*/
@@ -76,9 +132,10 @@ text_buttom.addEventListener('click', event => {
 
 releaseBottle.addEventListener('click', event => {
     event.preventDefault();
-    const targetLayer = document.getElementById(`releasebox`); 
-    targetLayer.classList.remove('hidden'); 
+    const targetLayer = document.getElementById(`releasebox`);
+    targetLayer.classList.remove('hidden');
 });
+
 // 點擊關閉按鈕
 closeButtons.forEach(button => {
     button.addEventListener('click', event => {
@@ -89,8 +146,9 @@ closeButtons.forEach(button => {
     });
 });
 
-// 當點擊水池選項時，顯示對應的水池
 const poolLinks = document.querySelectorAll('.pool-option[data-pool]');
+
+// 當點擊水池選項時，顯示對應的水池
 poolLinks.forEach(link => {
     link.addEventListener('click', event => {
         event.preventDefault(); // 阻止默認行為
@@ -111,62 +169,42 @@ poolLinks.forEach(link => {
     });
 });
 
-// 點擊關閉按鈕，隱藏對應的水池層
-closeButtons.forEach(button => {
-    button.addEventListener('click', event => {
-        const overlay = event.target.closest('.overlay');
-        if (overlay) {
-            overlay.classList.add('hidden');
-        }
-    });
-});
+// 顯示幸運河的詩籤結果
+document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("click", async function () {
+    try {
+        // 讀取詩籤資料
+        const response = await fetch("poems.json");
+        if (!response.ok) throw new Error("無法載入詩籤檔案");
 
-// 點擊撈瓶子按鈕時，觸發撈取新聞
-document.querySelectorAll(".releaseBottle").forEach(button => {
-    button.addEventListener('click', function() {
-        console.log("撈瓶子按鈕被點擊！");
-        fetchNews();
-    });
-});
+        const poems = await response.json();
 
-// News API 密鑰
-const API_KEY = '3d29c7d7f9304476afaa830b7d888dad'; // 替換為您從 NewsAPI 獲得的密鑰
+        // 隨機抽取一條詩籤
+        const poemKeys = Object.keys(poems);
+        const randomKey = poemKeys[Math.floor(Math.random() * poemKeys.length)];
+        const randomPoem = poems[randomKey];
 
-// 撈取今日新聞的函數
-function fetchNews() {
-    const newsContent = document.getElementById("news-content");
-    
-    // 檢查 news-content 是否存在
-    if (!newsContent) {
-        console.error("找不到 #news-content 元素！");
-        return;
+        // 美化框框內顯示詩籤內容
+        const bottleContent = document.querySelector("#waterLayer_fortune .poem-overlay");
+        bottleContent.innerHTML = `
+            <h4>詩籤內容</h4>
+            <p id = "lucky"><strong></strong>${randomPoem.吉凶}</p>
+            <p id = "poem"><strong></strong>${randomPoem.詩籤}</p>
+            <hr>
+            <p id = "ex"><strong></strong>${randomPoem.解釋}</p>
+            <p id = "content"><strong>願望：</strong>${randomPoem.願望}</p>
+            <p id = "content"><strong>疾病：</strong>${randomPoem.疾病}</p>
+            <p id = "content"><strong>盼望的人：</strong>${randomPoem.盼望的人}</p>
+            <p id = "content"><strong>遺失物：</strong>${randomPoem.遺失物}</p>
+            <p id = "content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
+            <p id = "content"><strong>交往</strong>${randomPoem.交往}</p>
+            <p id = "content"><strong>旅行：</strong>${randomPoem.旅行}</p>
+        `;
+
+        // 確保幸運河背景層顯示
+        document.getElementById("waterLayer_fortune").classList.remove("hidden");
+
+    } catch (error) {
+        console.error("錯誤:", error);
+        alert("無法載入詩籤，請稍後再試！");
     }
-
-    // 顯示載入中的提示
-    newsContent.innerHTML = "<p>載入中...</p>";
-
-    // 發送請求到 NewsAPI
-    fetch(`https://newsapi.org/v2/top-headlines?country=tw&apiKey=${API_KEY}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if (data.status === 'ok' && data.totalResults > 0) {
-                const article = data.articles[0]; // 撈取最新的一則新聞
-                const newsContentHTML = `
-                    <h3>${article.title}</h3>
-                    <p>${article.description}</p>
-                    <a href="${article.url}" target="_blank">閱讀更多</a>
-                `;
-                newsContent.innerHTML = newsContentHTML;
-            } else {
-                newsContent.innerHTML = "<p>目前沒有可用的新聞，請稍後再試。</p>";
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching news:', error);
-            newsContent.innerHTML = "<p>發生錯誤，請稍後再試。</p>";
-        });
-}
-
-const newsContent = document.getElementById("news-content");
-newsContent.style.display = "none"; // 隱藏元素
+});
