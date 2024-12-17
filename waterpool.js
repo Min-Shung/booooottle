@@ -1,29 +1,79 @@
 const closeButtons = document.querySelectorAll('.closeOverlay');
 const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
-//撈瓶子
-async function fetchBottle() {
-    const response = await fetch('/api/getBottle');
-    if (response.ok) {
-      const bottle = await response.json();
-      console.log('撈到的瓶子:', bottle);
-  
-      // 獲取瓶子內容並顯示
-      const bottleContent = bottle.Content;  // 假設後端返回的內容字段是 `Content`
-      const bottleElement = document.getElementById('bottleContent');
-      bottleElement.innerHTML = bottleContent;  // 顯示撈到的瓶子內容
-    } else {
-      console.log('撈瓶子失敗:', response.statusText);
-    }
-  }
-  
-pickBottle.addEventListener('click', event => {
+const apiBaseUrl = 'http://localhost:8080'; // API 根網址 ＃要改
+/*--------撈瓶子---------*/
+
+pickBottle.addEventListener('click', async event => {
+    try {
+        const response = await fetch(`${apiBaseUrl}/show`);
+        const result = await response.json();
+
+        const dataList = document.getElementById('bottleContent');
+        dataList.innerHTML = ''; // 清空舊資料
+        /*--------等瓶子格式確定後再修改---------------*/
+        if (result.data && result.data.length > 0) {
+            // 隨機選擇一個項目
+            const randomIndex = Math.floor(Math.random() * result.data.length);
+            const randomItem = result.data[randomIndex];
+
+            // 創建並顯示隨機選擇的項目
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <strong>BottleID:</strong> ${randomItem.BottleID}<br>
+                <strong>UserID:</strong> ${randomItem.UserID}<br>
+                <strong>Content:</strong> ${randomItem.Content}<br>
+                <strong>CreatedAt:</strong> ${new Date(randomItem.CreatedAt).toLocaleString()}
+            `;
+            dataList.appendChild(listItem);}
+        else {
+            dataList.innerHTML = '<li>水裡空空的>w<</li>';
+        }
+    } 
+        catch (error) {
+            console.error('Error fetching data:', error);
+            alert('獲取資料失敗');
+        }
     event.preventDefault(); // 阻止默認跳轉行為
     const targetLayer = document.getElementById(`pickbox`); // 找到對應的遮罩層
     targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
-    fetchBottle();
+    
 });
-//丟瓶子
+
+/*--------丟瓶子---------*/
+
+const addData = async () => {
+    const UserID = 1; // 使用者ID，根據實際情況獲取   #要修改
+    const Content = document.getElementById('bottletext_input').value;
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/add`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ UserID, Content })
+        });
+
+        const result = await response.json();
+        console.log('Response:', response.status, result);//debug
+        if (response.ok) {
+            alert(result.message);
+        }
+        else {
+            alert(result.message); // 禁用字錯誤或其他問題
+            document.getElementById('errorMessage').textContent = result.message;
+        }
+    } 
+    catch (error) {
+        console.error('Error:', error);
+        alert('提交失敗，請再試一次。');
+    }
+};
+//提交表單（漂流瓶）
+const text_buttom = document.getElementById('text_buttom');
+text_buttom.addEventListener('click', event => { 
+    addData(); 
+});
+
 releaseBottle.addEventListener('click', event => {
     event.preventDefault();
     const targetLayer = document.getElementById(`releasebox`); 
@@ -40,6 +90,7 @@ closeButtons.forEach(button => {
 });
 
 // 當點擊水池選項時，顯示對應的水池
+const poolLinks = document.querySelectorAll('.pool-option[data-pool]');
 poolLinks.forEach(link => {
     link.addEventListener('click', event => {
         event.preventDefault(); // 阻止默認行為
