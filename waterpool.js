@@ -1,4 +1,5 @@
 const closeButtons = document.querySelectorAll('.closeOverlay');
+const closeformButtons = document.querySelectorAll('.formcloseOverlay');
 const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
 
@@ -150,6 +151,16 @@ closeButtons.forEach(button => {
         if (overlay) {
             overlay.classList.add('hidden');
         }
+        
+    });
+});
+closeformButtons.forEach(button => {
+    button.addEventListener('click', event => {
+        const overlay = event.target.closest('.overlay');
+        if (overlay) {
+            overlay.classList.add('hidden');
+        }
+        
     });
 });
 
@@ -205,6 +216,13 @@ document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("c
             <p id = "content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
             <p id = "content"><strong>交往</strong>${randomPoem.交往}</p>
             <p id = "content"><strong>旅行：</strong>${randomPoem.旅行}</p>
+            <p class = "content"><strong>願望：</strong>${randomPoem.願望}</p>
+            <p class = "content"><strong>疾病：</strong>${randomPoem.疾病}</p>
+            <p class = "content"><strong>盼望的人：</strong>${randomPoem.盼望的人}</p>
+            <p class = "content"><strong>遺失物：</strong>${randomPoem.遺失物}</p>
+            <p class = "content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
+            <p class = "content"><strong>交往</strong>${randomPoem.交往}</p>
+            <p class = "content"><strong>旅行：</strong>${randomPoem.旅行}</p>
         `;
 
         // 確保幸運河背景層顯示

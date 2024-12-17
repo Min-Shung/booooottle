@@ -1,6 +1,5 @@
 /* 全局樣式 */
 body {
-    font-family: "cwTeXKai", sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -90,4 +89,138 @@ section {
 #pickBottle:active, #releaseBottle:active {
     transform: translateY(2px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/*主頁撈瓶子*/
+#pickbox .content-box {
+    background-color: white;
+    padding: 20px;
+    width: 80%;
+    margin: auto;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 關閉按鈕 */
+#pickbox .closeOverlay {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#pickbox .closeOverlay:hover {
+    background-color: #e53935;
+}
+
+.hidden {
+    display: none;
+}
+
+/* 設定表單的寬度、邊距和排版 */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 70vh;
+    margin: 0;
+    padding: 20px;
+    background-color: #fdf2e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #695a41;
+}
+
+/* 輸入框樣式 */
+#bottletext_input {
+    width: 300px; /* 寬度設為300px */
+    height: 400px; /* 高度設為40px */
+    padding: 5px 10px; /* 內邊距，增加內部文字的間距 */
+    font-size: 16px; /* 字體大小 */
+    border: 1px solid #ccc; /* 邊框顏色 */
+    border-radius: 5px; /* 輸入框邊角圓滑 */
+    box-sizing: border-box; /* 確保寬度包含 padding 和 border */
+    transition: border-color 0.3s ease;
+}
+
+/* 聚焦時的輸入框樣式 */
+#bottletext_input:focus {
+    border-color: #66afe9;
+    outline: none;
+}
+
+/* 提交按鈕樣式 */
+#text_buttom {
+    width: 100%;
+    padding: 10px;
+    background-color: #695a41;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 提交按鈕懸停時的樣式 */
+#text_buttom:hover {
+    background-color: #423929;
+}
+
+/* 關閉按鈕樣式 */
+#close_button {
+    width: 100%;
+    padding: 10px;
+    background-color: #f44336; /* 紅色背景 */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px; /* 讓關閉按鈕與提交按鈕之間有間距 */
+    transition: background-color 0.3s ease;
+}
+
+/* 關閉按鈕懸停時的樣式 */
+#close_button:hover {
+    background-color: #e53935; /* 稍微深一些的紅色 */
+}
+
+/* 表單中輸入框和按鈕之間的間距 */
+form input {
+    margin-bottom: 10px;
+}
+
+.overlay p{
+    font-size: 20px;
+    color: #695a41;
+    margin-top: 50px;
+}
+
+/* 撈瓶子的關閉按鈕樣式 */
+.formcloseOverlay {
+    position: absolute;
+    bottom: 90px; /* 居中對齊，放置於底部 */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff6b6b; /* 紅色按鈕，帶有漸變效果 */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s; /* 懸停效果的過渡 */
+}
+
+.formcloseOverlay:hover {
+    background: #ff3b3b; /* 懸停時變深紅色 */
 }
