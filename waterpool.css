@@ -165,3 +165,57 @@
 #news-content.hidden {
     visibility: hidden;
 }
+
+/* 詩籤美化框框 */
+#waterLayer_fortune .poem-overlay {
+    position: absolute; /* 絕對定位 */
+    top: 50%; /* 垂直置中 */
+    left: 50%; /* 水平置中 */
+    transform: translate(-50%, -50%); /* 完全置中 */
+    background: #fcf2e3ec;
+    padding: 15px;
+    border-radius: 5px; /* 圓角框框 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* 增加陰影效果 */
+    text-align: center; /* 內容置中 */
+    color: #333; /* 字體顏色 */
+    line-height: 1.2; /* 行距 */
+    max-width: 60%; /* 最大寬度 */
+    max-height: 70%; /* 最大高度 */
+    overflow-y: auto; /* 若內容超出，顯示滾動條 */
+    z-index: 15; /* 確保在最上層 */
+}
+
+/* 詩籤標題樣式 */
+#waterLayer_fortune .poem-overlay h4 {
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #695a41b7; /* 標題顏色 */
+}
+
+#waterLayer_fortune .poem-overlay #lucky {
+    font-size: 30px;
+    margin: 10px 0;
+    color: #555;
+    font-weight: bold;
+}
+
+#waterLayer_fortune .poem-overlay #poem {
+    font-size: 20px;
+    margin: 10px 0;
+    color: #555;
+    font-weight: bold;
+}
+
+div#waterLayer_fortune .poem-overlay #ex {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #555;
+}
+
+#waterLayer_fortune .poem-overlay p #content{
+    font-size: 20px;
+    margin: 10px 0;
+    color: #555;
+}
