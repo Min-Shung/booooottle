@@ -202,7 +202,7 @@ document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("c
         const randomPoem = poems[randomKey];
 
         // 美化框框內顯示詩籤內容
-        const bottleContent = document.querySelector("#waterLayer_fortune .luckyContent");
+        const bottleContent = document.querySelector("#waterLayer_fortune .news-container");
         bottleContent.innerHTML = `
             <h4>詩籤內容</h4>
             <p id = "lucky"><strong></strong>${randomPoem.吉凶}</p>
