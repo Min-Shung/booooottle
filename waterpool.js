@@ -207,7 +207,7 @@ document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("c
             <p class = "content"><strong>旅行：</strong>${randomPoem.旅行}</p>
         `;
 
-        // 確保幸運河背景層顯示
+        // 幸運河背景層顯示
         document.getElementById("waterLayer_fortune").classList.remove("hidden");
 
     } catch (error) {
