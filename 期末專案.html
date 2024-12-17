@@ -53,8 +53,8 @@
             <div>
                 丟瓶子
                 <form action="#">
-                    <input type="text" name="bottletext"><br>
-                    <input type="submit" value="提交">
+                    <input type="text" name="bottletext" id="bottletext_input"><br>
+                    <input type="submit" value="提交" id="text_buttom">
                 </form>
             </div>
             <button class="closeOverlay">關閉</button>
@@ -87,11 +87,12 @@
             <button class="closeOverlay">關閉</button>
             <button class="releaseBottle">撈瓶子</button>
         </div>
+    <!-- 錯誤訊息區域 -->
+    <p id="errorMessage" style="color: red; font-weight: bold;"></p>
     </main>
         
 
     <!-- 引入 JS -->
     <script src="waterpool.js"></script>
-    <script src="asideBar.js"></script>
 </body>
 </html>
