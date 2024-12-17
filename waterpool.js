@@ -41,51 +41,58 @@ pickBottle.addEventListener('click', async event => {
         targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
     });
 
-// 撈取新聞
-/*async function fetchNews() {
-    const newsContent = document.getElementById("news-content");
-
-    // 檢查 news-content 是否存在
-    if (!newsContent) {
-        console.error("找不到 #news-content 元素！");
-        return;
-    }
-
-    // 顯示載入中的提示
-    newsContent.innerHTML = "<p>載入中...</p>";
-    newsContent.style.display = "block"; // 顯示元素
-
-    try {
-        // 發送請求到 NewsAPI
-        const response = await fetch(`https://newsapi.org/v2/top-headlines?country=tw&apiKey=3d29c7d7f9304476afaa830b7d888dad`);
-        
-        // 檢查 HTTP 響應是否成功
-        if (!response.ok) {
-            throw new Error(`HTTP 錯誤: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (data.status === 'ok' && data.totalResults > 0) {
-            // 隨機選擇一則新聞
-            const randomIndex = Math.floor(Math.random() * data.articles.length);
-            const article = data.articles[randomIndex];
-
-            // 顯示新聞內容
-            const newsContentHTML = `
-                <h3>${article.title}</h3>
-                <p>${article.description}</p>
-                <a href="${article.url}" target="_blank">閱讀更多</a>
-            `;
-            newsContent.innerHTML = newsContentHTML;
+//新聞
+function fetchNews() {
+    // 直接使用 NewsAPI 的 HTTP 請求，而不是 require
+    const apiKey = 'f076c58eb1d24bf18489cc021bf02feb'; // 你的 NewsAPI API 金鑰
+    const today = new Date();
+    const lastWeek = new Date(today);
+    lastWeek.setDate(today.getDate() - 7);
+  
+    // 格式化日期
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+  
+    // 定義隨機關鍵字陣列
+    const keywords = ['政治', '社會', '財經', '生活', '影視', '體育', '金融'];
+    const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
+  
+    // 使用 fetch 發送 HTTP 請求
+    const url = `https://newsapi.org/v2/everything?q=${randomKeyword}&language=zh&from=${formatDate(lastWeek)}&to=${formatDate(today)}&pageSize=1&apiKey=${apiKey}`;
+  
+    fetch(url)
+      .then(response => response.json())
+      .then(responseData => {
+        if (responseData && responseData.articles && responseData.articles.length > 0) {
+          const article = responseData.articles[0]; // 只取得第一篇文章
+          const title = article.title;
+          const description = article.description;
+  
+          const newsContent = document.getElementById('newsContent');
+          newsContent.innerHTML = ''; // 清空內容
+          newsContent.innerHTML = `
+            <h2>${title}</h2>
+            <p>${description}</p>
+          `;
         } else {
-            newsContent.innerHTML = "<p>目前沒有可用的新聞，請稍後再試。</p>";
+          alert('未找到任何文章');
         }
-    } catch (error) {
-        console.error('發生錯誤:', error);
-        newsContent.innerHTML = "<p>發生錯誤，請稍後再試。</p>";
-    }
-}*/
+      })
+      .catch(error => {
+        console.error('無法取得新聞資料:', error.message);
+        alert('無法取得新聞資料');
+      });
+  }
+  
+  
+ToDaybutton.addEventListener('click', async event => {
+    fetchNews();
+});
+
 
 // 撈瓶子按鈕
 pickBottle.addEventListener('click', event => {
