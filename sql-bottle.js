@@ -41,14 +41,26 @@ app.get('/show', async function (req, res) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        const [results, fields] = await mc.promise().query('SELECT * FROM bottle_text.bottles');
-        return res.send({ error: false, data: results, message: 'products list.' });
+        // 從查詢參數中獲取表格名稱
+        const tableName = req.query.table;
+
+        // 確保表格名稱是預定義的安全選項之一（避免 SQL 注入）
+        const allowedTables = ['bottles', 'wtfdevelopersay']; // 定義允許的表格名稱
+        if (!allowedTables.includes(tableName)) {
+            return res.status(400).send({ error: true, message: 'Invalid table name.' });
+        }
+
+        // 動態構建查詢，查詢特定表格
+        const [results, fields] = await mc.promise().query(`SELECT * FROM bottle_text.${tableName}`);
+
+        return res.send({ error: false, data: results, message: `${tableName} list.` });
     } 
     catch (error) {
         console.error(error);  // 輸出錯誤到控制台
         return res.status(500).send({ error: true, message: 'Database query failed.' });
     }
 });
+
 //新增aka丟
 app.post('/add', async (req, res) => {
     try {
@@ -139,5 +151,4 @@ app.get('/proxy', async (req, res) => {
       }
     }
   });
-  
   
