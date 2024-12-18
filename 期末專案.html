@@ -22,6 +22,7 @@
 <body>
     <!-- 以圖標取代 -->
     <aside class="sidebar">
+        
         <ul class="sidebar-links">
             <li>
                 <a href="#"><span id="mailbox" class="sideindex"> 信箱 </span ></a>
@@ -42,6 +43,40 @@
     </aside>
     <!-- 主內容區域 -->
     <main>
+        <!--登入註冊-->
+        <div id="sign-container">
+            <button id="loginButton" type="button">登入</button>
+            <button id="registerButton" type="button">註冊</button>
+        </div>
+        <!-- 登入模態框 -->
+        <div id="loginModal" class="overlay hidden">
+            <div class="form-container">
+                
+                <form action="logcheck.php" method="post">
+                    <h1>登入</h1>
+                    <input type="text" name="account" pattern="\d{6}" class="sign_input" placeholder="輸入帳號(6位數字)" required>
+                    <input type="password" name="password" class="sign_input" placeholder="輸入密碼" required>
+                    <button type="submit"  class="text_buttom">登入</button>
+                </form>
+                <button id="closeLogin" class="formcloseOverlay">關閉</button>
+            </div>
+        </div>
+
+        <!-- 註冊模態框 -->
+        <div id="registerModal" class="overlay hidden">
+            <div class="form-container">
+                
+                <form action="add.php" method="post">
+                    <h1>註冊</h1>
+                    <input type="text" name="account" class="sign_input" placeholder="輸入帳號(6位數字)" required>
+                    <input type="text" name="password" class="sign_input" placeholder="輸入密碼" required>
+                    <input type="password" name="pwcheck" class="sign_input" placeholder="再次輸入密碼" required>
+                    <input type="text" name="name" class="sign_input" placeholder="輸入姓名" required>
+                    <button type="submit" class="text_buttom">註冊</button>
+                </form>
+                <button id="closeRegister" class="formcloseOverlay">關閉</button>
+            </div>
+        </div>
         <!-- 初始、丟撈瓶子 -->
         <section id="home">
             <div id="button-container">
@@ -54,7 +89,7 @@
                     <h1>丟瓶子</h1>
                     <p>請輸入想說的話</p>
                     <input type="text" name="bottletext" id="bottletext_input"><br>
-                    <input type="submit" value="提交" id="text_buttom">
+                    <input type="submit" value="提交" id="text_buttom" class="text_buttom">
                     <button class="formcloseOverlay">關閉</button>
                 </form>        
         </div>

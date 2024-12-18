@@ -168,6 +168,7 @@
 
 /* 詩籤美化框框 */
 .news-container {
+    background-image: url('皺褶紙.jpg');
     position: absolute; /* 絕對定位 */
     top: 40%; /* 垂直置中 */
     left: 50%; /* 水平置中 */
