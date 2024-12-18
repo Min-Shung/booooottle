@@ -136,8 +136,8 @@ function fetchNews() {
           const newsContent = document.getElementById('newsContent');
           newsContent.innerHTML = ''; // 清空內容
           newsContent.innerHTML = `
-            <p class = "content>${title}</p>
-            <p class = "content>${description}</p>
+            <p class = "content" id = "title">${title}</p>
+            <p class = "content">${description}</p>
           `;
         } else {
           alert('未找到任何文章');
