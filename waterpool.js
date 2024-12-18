@@ -89,6 +89,7 @@ closeButtons.forEach(button => {
             const inlay = overlay.querySelector('.news-container'); // 直接抓取
             if (inlay) {
                 inlay.classList.add('hiddenForInner');
+                
             }
             inlay.innerHTML = ''; // 清空內容
         }
@@ -259,8 +260,20 @@ function fetchKKBOX(){
             }
     })
 }
+const bottleImage = document.getElementById('bottleImage');
+const newsContent = document.getElementById('newsContent');
 const ToDaybutton=document.getElementById('ToDaybutton');
 ToDaybutton.addEventListener('click', async event => {
+    // 撈瓶子的動畫效果
+    waterLayer_today.classList.add('shake'); // 啟動動畫
+
+    // 設定動畫結束後的動作
+    const bottleImage = waterLayer_today.querySelector('img');
+    waterLayer_today.addEventListener('animationend', () => {
+        if (bottleImage) bottleImage.style.display = 'none'; // 隱藏瓶子
+        newsContent.classList.add('show'); // 顯示新聞內容
+    });
+    // 這裡可以根據隨機決定要顯示哪一個內容（新聞或KKBOX）
     const randomtoday = Math.random();
     if (randomtoday < 0.5) fetchNews();
     else fetchKKBOX();
@@ -308,22 +321,7 @@ luckybuttom.addEventListener('click', async event =>  {
     const InnerLayer = document.getElementById(`luckyContent`); // 找到對應的遮罩層
     InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
 });
-/*
-function randomizeImages() {
-    const container = document.getElementById('imageContainer');
-    const images = container.querySelectorAll('img');
-    const containerWidth = container.offsetWidth;
-    const containerHeight = container.offsetHeight;
 
-    images.forEach(img => {
-      const randomX = Math.random() * (containerWidth - 100); // 隨機 x 位移
-      const randomY = Math.random() * (containerHeight - 200); // 隨機 y 位移
-      img.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotation}deg)`;
-    });
-  }
-  // 當頁面載入完成後隨機排列圖片
-  window.onload = randomizeImages;
-*/
 /*--------漂流瓶撈瓶子---------*/
 const bottleButton = document.getElementById('bottleButton');
 bottleButton.addEventListener('click', async event => {

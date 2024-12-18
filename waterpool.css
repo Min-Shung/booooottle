@@ -126,6 +126,53 @@
     transform: translate(-50%, 2px); /* 點擊時輕微向下移動 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+/*******瓶子動畫********/
+
+/* 動畫效果：搖晃和放大圖片 */
+@keyframes shakeAndGrow {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    25% {
+        transform: rotate(10deg) scale(1.2);
+    }
+    50% {
+        transform: rotate(-10deg) scale(1.2);
+    }
+    75% {
+        transform: rotate(10deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(0deg) scale(1.5); /* 放大到1.5倍 */
+    }
+}
+
+/* 圖片的動畫樣式 */
+.overlay img {
+    animation: none; /* 預設無動畫 */
+    transition: opacity 1s ease-in-out; /* 加入過渡效果 */
+    transform: translateY(110px);
+}
+
+/* 當瓶子被撈起來時啟動動畫 */
+.overlay.shake img {
+    
+    animation: shakeAndGrow 1s ease-in-out forwards;
+}
+
+/* 顯示newsContent */
+#newsContent {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* 顯示newsContent */
+#newsContent.show {
+    opacity: 1;
+    visibility: visible;
+}
+/********瓶子動畫********/
 
 /* 新聞內容容器 */
 .news-container {
