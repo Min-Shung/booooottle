@@ -150,10 +150,12 @@ closeButtons.forEach(button => {
         const overlay = event.target.closest('.overlay');
         if (overlay) {
             overlay.classList.add('hidden');
+            const bottleContent = overlay.querySelector('.news-container');
+            bottleContent.innerHTML = '';
         }
-        
     });
 });
+// 點擊主頁丟瓶子的關閉按鈕
 closeformButtons.forEach(button => {
     button.addEventListener('click', event => {
         const overlay = event.target.closest('.overlay');
@@ -209,19 +211,12 @@ document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("c
             <p id = "poem"><strong></strong>${randomPoem.詩籤}</p>
             <hr>
             <p id = "ex"><strong></strong>${randomPoem.解釋}</p>
-            <p id = "content"><strong>願望：</strong>${randomPoem.願望}</p>
-            <p id = "content"><strong>疾病：</strong>${randomPoem.疾病}</p>
-            <p id = "content"><strong>盼望的人：</strong>${randomPoem.盼望的人}</p>
-            <p id = "content"><strong>遺失物：</strong>${randomPoem.遺失物}</p>
-            <p id = "content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
-            <p id = "content"><strong>交往</strong>${randomPoem.交往}</p>
-            <p id = "content"><strong>旅行：</strong>${randomPoem.旅行}</p>
             <p class = "content"><strong>願望：</strong>${randomPoem.願望}</p>
             <p class = "content"><strong>疾病：</strong>${randomPoem.疾病}</p>
             <p class = "content"><strong>盼望的人：</strong>${randomPoem.盼望的人}</p>
             <p class = "content"><strong>遺失物：</strong>${randomPoem.遺失物}</p>
             <p class = "content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
-            <p class = "content"><strong>交往</strong>${randomPoem.交往}</p>
+            <p class = "content"><strong>交往：</strong>${randomPoem.交往}</p>
             <p class = "content"><strong>旅行：</strong>${randomPoem.旅行}</p>
         `;
 
@@ -233,3 +228,19 @@ document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("c
         alert("無法載入詩籤，請稍後再試！");
     }
 });
+
+function randomizeImages() {
+    const container = document.getElementById('imageContainer');
+    const images = container.querySelectorAll('img');
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+
+    images.forEach(img => {
+      const randomX = Math.random() * (containerWidth - 100); // 隨機 x 位移
+      const randomY = Math.random() * (containerHeight - 200); // 隨機 y 位移
+      img.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotation}deg)`;
+    });
+  }
+
+  // 當頁面載入完成後隨機排列圖片
+  window.onload = randomizeImages;

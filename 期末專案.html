@@ -67,13 +67,20 @@
 
         <div id="waterLayer_today" class="overlay hidden">
             <div>今日灣</div>
+            <div class="image-container" id="imageContainer">
+                <!-- 多個圖片 -->
+                <img src="瓶子2-removebg-preview.png" alt="Image 1">
+                <img src="瓶子2-removebg-preview.png" alt="Image 2">
+                <img src="瓶子2-removebg-preview.png" alt="Image 3">
+                <img src="瓶子2-removebg-preview.png" alt="Image 4">
+                <img src="瓶子2-removebg-preview.png" alt="Image 5">
+              </div>
             <button class="closeOverlay">關閉</button>
-            <img src="瓶子2-removebg-preview.png" width="70px" height="70px">
             <button class="releaseBottle" id="ToDaybutton">撈瓶子</button>
             <div class="news-container" id="newsContent"></div> <!-- 用來顯示新聞的區域 -->
         </div>
         <div id="waterLayer_fortune" class="overlay hidden">
-            <div>幸運河</div>
+            <div id="overlay-title">幸運河</div>
             <button class="closeOverlay">關閉</button>
             <button class="releaseBottle">撈瓶子</button>
             <div class="news-container" id="luckyContent"></div>

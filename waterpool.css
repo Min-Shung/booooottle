@@ -9,7 +9,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 500;
     animation: fadeIn 0.5s ease; /* 淡入動畫效果 */
 }
 
@@ -51,15 +51,15 @@
 }
 
 /* 標題樣式*/
-.overlay div {
+#overlay-title {
     position: absolute;
     top: 10%; /* 放置於螢幕中間偏上方 */
     font-size: 50px; /* 放大字體 */
     font-weight: bold; /* 加粗字體 */
-    color: #efefef; /* 白色字體，與背景形成對比 */
+    color: #efefef; 
     text-shadow: -1px -1px 2px #695a41b7, 1px -1px 2px #695a41b7, -1px 1px 2px #695a41b7, 1px 1px 2px #695a41b7; /* 加入文字外框效果 */
     letter-spacing: 20px;
-    font-family: "cwTeXKai", sans-serif;
+    /*z-index: 1001;*/
 }
 
 /* 淡入動畫效果 */
@@ -167,55 +167,79 @@
 }
 
 /* 詩籤美化框框 */
-#waterLayer_fortune .poem-overlay {
+.news-container {
     position: absolute; /* 絕對定位 */
-    top: 50%; /* 垂直置中 */
+    top: 40%; /* 垂直置中 */
     left: 50%; /* 水平置中 */
     transform: translate(-50%, -50%); /* 完全置中 */
-    background: #fcf2e3ec;
+    background-color: #f9f2e6;
     padding: 15px;
-    border-radius: 5px; /* 圓角框框 */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* 增加陰影效果 */
+    border-radius: 5px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     text-align: center; /* 內容置中 */
-    color: #333; /* 字體顏色 */
-    line-height: 1.2; /* 行距 */
-    max-width: 60%; /* 最大寬度 */
-    max-height: 70%; /* 最大高度 */
-    overflow-y: auto; /* 若內容超出，顯示滾動條 */
-    z-index: 15; /* 確保在最上層 */
+    color: #333;
+    line-height: 1; /* 行距 */
+    max-width: 28%; /* 最大寬度 */
+    max-height: 80%; /* 最大高度 */
+    overflow-y: auto;
+    z-index: 2000; /* 確保在最上層 */
 }
 
 /* 詩籤標題樣式 */
-#waterLayer_fortune .poem-overlay h4 {
-    font-size: 26px;
+#waterLayer_fortune h4 {
+    font-size: 22px;
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px;
     color: #695a41b7; /* 標題顏色 */
+    text-shadow: none;
 }
 
-#waterLayer_fortune .poem-overlay #lucky {
-    font-size: 30px;
+.news-container #lucky {
+    font-size: 35px;
     margin: 10px 0;
     color: #555;
     font-weight: bold;
+    text-shadow: none;
 }
 
-#waterLayer_fortune .poem-overlay #poem {
+.news-container #poem {
     font-size: 20px;
     margin: 10px 0;
     color: #555;
     font-weight: bold;
+    text-shadow: none;
 }
 
-div#waterLayer_fortune .poem-overlay #ex {
-    font-size: 16px;
+.news-container #ex {
+    font-size: 17px;
     margin: 10px 0;
     color: #555;
+    text-shadow: none;
+    line-height: 1.3;
 }
 
-#waterLayer_fortune .poem-overlay p #content{
-    font-size: 20px;
+.news-container p .content{
+    font-size: 22px;
     margin: 10px 0;
     color: #555;
+    text-shadow: none;
 }
+
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .image-container img {
+    position: absolute;
+    width: 100px; /* 圖片寬度 */
+    height: 100px; /* 圖片高度 */
+    object-fit: cover;
+    transform: translate(0, 0) rotate(0deg);
+  }
