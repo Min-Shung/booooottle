@@ -301,7 +301,8 @@ const bottleButton = document.getElementById('bottleButton');
 bottleButton.addEventListener('click', async event => {
     event.preventDefault(); // 阻止默認跳轉行為
     try {
-        const response = await fetch(`${apiBaseUrl}/show`);
+        const tableName = 'bottles';
+        const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
         const result = await response.json();
 
         const dataList = document.getElementById('bottleContent');
@@ -329,3 +330,27 @@ bottleButton.addEventListener('click', async event => {
         alert('獲取資料失敗');
     }
     });
+  /*--------開發碎碎念---------*/
+  const devButton = document.getElementById('devButton');
+  devButton.addEventListener('click', async event => {
+      event.preventDefault(); // 阻止默認跳轉行為
+      try {
+        const tableName = 'wtfdevelopersay';
+        const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
+        const result = await response.json();
+        const dataList = document.getElementById('developerContent');
+        dataList.innerHTML = ''; // 清空舊資料
+              // 隨機選擇一個項目
+            const randomIndex = Math.floor(Math.random() * result.data.length);
+            const randomItem = result.data[randomIndex];
+            const InnerLayer = document.getElementById('developerContent');
+            innerLayer.innerHTML = `
+                <p class = "content"> ${randomItem.Content}</p>
+            `;
+        InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
+      } 
+      catch (error) {
+          console.error('Error fetching data:', error);
+          alert('獲取資料失敗');
+      }
+      });
