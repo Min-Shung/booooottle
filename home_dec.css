@@ -120,10 +120,12 @@ section {
     background-color: #e53935;
 }
 
-.hidden , .hiddenForInner {
+.hidden {
     display: none;
 }
-
+.hiddenForInner {
+    display: none !important; 
+}
 /* 設定表單的寬度、邊距和排版 */
 form {
     display: flex;
