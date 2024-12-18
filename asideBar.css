@@ -5,33 +5,6 @@
     height: 100%;
     padding: 10px;
   }
-/*登入註冊按鈕*/
-  #sign-container {
-    display: flex; /* 使用 Flexbox 排列 */
-    gap: 10px; /* 按鈕間距 */
-    position: fixed; /* 固定在螢幕上，不隨滾動移動 */
-    top: 20px; /* 距離螢幕頂部 10px */
-    left: 20px; /* 距離螢幕左側 10px */
-    z-index: 1000; /* 確保按鈕在其他元素之上 */
-}
-
-#sign-container button {
-    text-decoration: none;
-    color: #695a41;
-    font-weight: bold;
-    padding: 8px 20px;
-    border-radius: 13px;
-    background-color: #FDF2E0;
-    transition: all 0.3s ease;
-    text-align: center;
-    border: 2.5px solid #695a41; /* 移除按鈕預設邊框 */
-    cursor: pointer; /* 鼠標樣式 */
-}
-
-#sign-container button:hover {
-    background-color: #FDF9ED;
-    border: 2.5px solid #FDF9ED;
-}
   
   /* 側邊欄連結樣式 */
   .sidebar-links li {
