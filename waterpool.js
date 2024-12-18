@@ -1,48 +1,108 @@
-const closeButtons = document.querySelectorAll('.closeOverlay');
-const closeformButtons = document.querySelectorAll('.formcloseOverlay');
 const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
-
-// 撈瓶子
 const apiBaseUrl = 'http://localhost:8080'; // API 根網址 ＃要改
-/*--------撈瓶子---------*/
+// 撈瓶子按鈕
+pickBottle.addEventListener('click', event => {
+    event.preventDefault(); // 阻止默認行為
+    console.log('撈瓶子按鈕被點擊');
+    const targetLayer = document.getElementById(`pickbox`); // 找到對應的遮罩層
+    targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
+});
+/*--------主頁丟瓶子---------*/
 
-pickBottle.addEventListener('click', async event => {
+const addData = async () => {
+    const UserID = 1; // 使用者ID，根據實際情況獲取   #要修改
+    const Content = document.getElementById('bottletext_input').value;
+
     try {
-        const response = await fetch(`${apiBaseUrl}/show`);
+        const response = await fetch(`${apiBaseUrl}/add`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ UserID, Content })
+        });
+
         const result = await response.json();
-
-        const dataList = document.getElementById('bottleContent');
-        dataList.innerHTML = ''; // 清空舊資料
-        /*--------等瓶子格式確定後再修改---------------*/
-        if (result.data && result.data.length > 0) {
-            // 隨機選擇一個項目
-            const randomIndex = Math.floor(Math.random() * result.data.length);
-            const randomItem = result.data[randomIndex];
-
-            // 創建並顯示隨機選擇的項目
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <strong>BottleID:</strong> ${randomItem.BottleID}<br>
-                <strong>UserID:</strong> ${randomItem.UserID}<br>
-                <strong>Content:</strong> ${randomItem.Content}<br>
-                <strong>CreatedAt:</strong> ${new Date(randomItem.CreatedAt).toLocaleString()}
-            `;
-            dataList.appendChild(listItem);}
+        console.log('Response:', response.status, result);//debug
+        if (response.ok) {
+            alert(result.message);
+        }
         else {
-            dataList.innerHTML = '<li>水裡空空的>w<</li>';
+            alert(result.message); // 禁用字錯誤或其他問題
+            document.getElementById('errorMessage').textContent = result.message;
         }
     } 
-        catch (error) {
-            console.error('Error fetching data:', error);
-            alert('獲取資料失敗');
-        }
-        event.preventDefault(); // 阻止默認跳轉行為
-        const targetLayer = document.getElementById(`pickbox`); // 找到對應的遮罩層
-        targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
-    });
+    catch (error) {
+        console.error('Error:', error);
+        alert('提交失敗，請再試一次。');
+    }
+};
+//提交表單（漂流瓶）
+const text_buttom = document.getElementById('text_buttom');
+text_buttom.addEventListener('click', event => { 
+    addData(); 
+});
 
-//新聞
+releaseBottle.addEventListener('click', event => {
+    event.preventDefault();
+    const targetLayer = document.getElementById(`releasebox`);
+    targetLayer.classList.remove('hidden');
+});
+
+/*-----------關閉按鈕-----------*/
+const closeButtons = document.querySelectorAll('.closeOverlay');
+const closeformButtons = document.querySelectorAll('.formcloseOverlay');
+// 點擊關閉按鈕
+closeButtons.forEach(button => {
+    button.addEventListener('click', event => {
+        const overlay = event.target.closest('.overlay');
+        const inlay = event.target.closest('.news-container');
+        if (overlay) {
+            overlay.classList.add('hidden');
+            inlay.classList.add('hiddenForInner');
+            const bottleContent = overlay.querySelector('.news-container');
+            bottleContent.innerHTML = '';
+        }
+    });
+});
+// 點擊主頁丟瓶子的關閉按鈕
+closeformButtons.forEach(button => {
+    button.addEventListener('click', event => {
+        const overlay = event.target.closest('.overlay');
+        if (overlay) {
+            overlay.classList.add('hidden');
+        }
+        
+    });
+});
+/*-------------側邊欄點擊-----------*/
+const poolLinks = document.querySelectorAll('.pool-option[data-pool]');
+
+// 當點擊水池選項時，顯示對應的水池
+poolLinks.forEach(link => {
+    link.addEventListener('click', event => {
+        event.preventDefault(); // 阻止默認行為
+
+        // 獲取對應的水池層ID
+        const targetId = link.getAttribute('data-pool');
+        const targetLayer = document.getElementById(`waterLayer_${targetId}`);
+
+        // 隱藏所有水池層
+        document.querySelectorAll('.overlay').forEach(layer => {
+            layer.classList.add('hidden');
+        });
+
+        // 顯示選中的水池層
+        if (targetLayer) {
+            targetLayer.classList.remove('hidden');
+        }
+    });
+});
+//
+//
+//以下是各個分區的設定
+//
+//
+/*-------------新聞--------------*/
 function fetchNews() {
     // 直接使用 NewsAPI 的 HTTP 請求，而不是 require
     const apiKey = 'f076c58eb1d24bf18489cc021bf02feb'; // 你的 NewsAPI API 金鑰
@@ -92,103 +152,10 @@ function fetchNews() {
   
 ToDaybutton.addEventListener('click', async event => {
     fetchNews();
+    const InnerLayer = document.getElementById(`newsContent`); // 找到對應的遮罩層
+    InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
 });
-
-
-// 撈瓶子按鈕
-pickBottle.addEventListener('click', event => {
-    event.preventDefault(); // 阻止默認行為
-    console.log('撈瓶子按鈕被點擊');
-    const targetLayer = document.getElementById(`pickbox`); // 找到對應的遮罩層
-    targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
-    fetchNews();  // 撈取新聞
-});
-
-/*--------丟瓶子---------*/
-
-const addData = async () => {
-    const UserID = 1; // 使用者ID，根據實際情況獲取   #要修改
-    const Content = document.getElementById('bottletext_input').value;
-
-    try {
-        const response = await fetch(`${apiBaseUrl}/add`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ UserID, Content })
-        });
-
-        const result = await response.json();
-        console.log('Response:', response.status, result);//debug
-        if (response.ok) {
-            alert(result.message);
-        }
-        else {
-            alert(result.message); // 禁用字錯誤或其他問題
-            document.getElementById('errorMessage').textContent = result.message;
-        }
-    } 
-    catch (error) {
-        console.error('Error:', error);
-        alert('提交失敗，請再試一次。');
-    }
-};
-//提交表單（漂流瓶）
-const text_buttom = document.getElementById('text_buttom');
-text_buttom.addEventListener('click', event => { 
-    addData(); 
-});
-
-releaseBottle.addEventListener('click', event => {
-    event.preventDefault();
-    const targetLayer = document.getElementById(`releasebox`);
-    targetLayer.classList.remove('hidden');
-});
-
-// 點擊關閉按鈕
-closeButtons.forEach(button => {
-    button.addEventListener('click', event => {
-        const overlay = event.target.closest('.overlay');
-        if (overlay) {
-            overlay.classList.add('hidden');
-            const bottleContent = overlay.querySelector('.news-container');
-            bottleContent.innerHTML = '';
-        }
-    });
-});
-// 點擊主頁丟瓶子的關閉按鈕
-closeformButtons.forEach(button => {
-    button.addEventListener('click', event => {
-        const overlay = event.target.closest('.overlay');
-        if (overlay) {
-            overlay.classList.add('hidden');
-        }
-        
-    });
-});
-
-const poolLinks = document.querySelectorAll('.pool-option[data-pool]');
-
-// 當點擊水池選項時，顯示對應的水池
-poolLinks.forEach(link => {
-    link.addEventListener('click', event => {
-        event.preventDefault(); // 阻止默認行為
-
-        // 獲取對應的水池層ID
-        const targetId = link.getAttribute('data-pool');
-        const targetLayer = document.getElementById(`waterLayer_${targetId}`);
-
-        // 隱藏所有水池層
-        document.querySelectorAll('.overlay').forEach(layer => {
-            layer.classList.add('hidden');
-        });
-
-        // 顯示選中的水池層
-        if (targetLayer) {
-            targetLayer.classList.remove('hidden');
-        }
-    });
-});
-
+/*-----------幸運河---------------*/
 // 顯示幸運河的詩籤結果
 document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("click", async function () {
     try {
@@ -227,8 +194,10 @@ document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("c
         console.error("錯誤:", error);
         alert("無法載入詩籤，請稍後再試！");
     }
+    const InnerLayer = document.getElementById(`luckyContent`); // 找到對應的遮罩層
+    InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
 });
-
+/*
 function randomizeImages() {
     const container = document.getElementById('imageContainer');
     const images = container.querySelectorAll('img');
@@ -241,6 +210,38 @@ function randomizeImages() {
       img.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotation}deg)`;
     });
   }
-
   // 當頁面載入完成後隨機排列圖片
   window.onload = randomizeImages;
+*/
+  /*--------漂流瓶撈瓶子---------*/
+const bottleButton = document.getElementById('bottleButton');
+bottleButton.addEventListener('click', async event => {
+    try {
+        const response = await fetch(`${apiBaseUrl}/show`);
+        const result = await response.json();
+
+        const dataList = document.getElementById('bottleContent');
+        dataList.innerHTML = ''; // 清空舊資料
+        /*--------等瓶子格式確定後再修改---------------*/
+        if (result.data && result.data.length > 0) {
+            // 隨機選擇一個項目
+            const randomIndex = Math.floor(Math.random() * result.data.length);
+            const randomItem = result.data[randomIndex];
+            InnerLayer.innerHTML ='';
+            InnerLayer.innerHTML = `
+                <p class = "content"> ${randomItem.Content}</p>
+                <p class = "content"> ${new Date(randomItem.CreatedAt).toLocaleString()}<p>
+            `;
+            dataList.appendChild(listItem);}
+        else {
+            dataList.innerHTML = '<li>水裡空空的>w<</li>';
+        }
+    } 
+    catch (error) {
+        onsole.error('Error fetching data:', error);
+        alert('獲取資料失敗');
+    }
+    event.preventDefault(); // 阻止默認跳轉行為
+    const InnerLayer = document.getElementById(`bottleContent`); // 找到對應的遮罩層
+    InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
+    });

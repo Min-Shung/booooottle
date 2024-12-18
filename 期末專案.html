@@ -56,46 +56,37 @@
                     <input type="text" name="bottletext" id="bottletext_input"><br>
                     <input type="submit" value="提交" id="text_buttom">
                     <button class="formcloseOverlay">關閉</button>
-                </form>
-            
+                </form>        
         </div>
         <div id="pickbox" class="overlay hidden">
-            <div>撈瓶子</div>
-            <div id="bottleContent"></div>
+            主頁的撈瓶子
+            <div id="HomeContent"> </div>
             <button class="closeOverlay">關閉</button>
         </div>
-
+        <!-- 今日消息 -->
         <div id="waterLayer_today" class="overlay hidden">
-            <div>今日灣</div>
-            <div class="image-container" id="imageContainer">
-                <!-- 多個圖片 -->
-                <img src="瓶子2-removebg-preview.png" alt="Image 1">
-                <img src="瓶子2-removebg-preview.png" alt="Image 2">
-                <img src="瓶子2-removebg-preview.png" alt="Image 3">
-                <img src="瓶子2-removebg-preview.png" alt="Image 4">
-                <img src="瓶子2-removebg-preview.png" alt="Image 5">
-              </div>
             <button class="closeOverlay">關閉</button>
+            <img src="瓶子2-removebg-preview.png" width="70px" height="70px">
             <button class="releaseBottle" id="ToDaybutton">撈瓶子</button>
-            <div class="news-container" id="newsContent"></div> <!-- 用來顯示新聞的區域 -->
+            <div class="news-container hiddenForInner" id="newsContent"></div> 
         </div>
+        <!-- 籤詩 -->
         <div id="waterLayer_fortune" class="overlay hidden">
-            <div id="overlay-title">幸運河</div>
             <button class="closeOverlay">關閉</button>
             <button class="releaseBottle">撈瓶子</button>
-            <div class="news-container" id="luckyContent"></div>
+            <div class="news-container hiddenForInner" id="luckyContent"></div>
         </div>
+        <!-- 漂流瓶 -->
         <div id="waterLayer_bottle" class="overlay hidden">
-            <div>漂流海</div>
             <button class="closeOverlay">關閉</button>
-            <button class="releaseBottle">撈瓶子</button>
-            <div class="news-container" id="bottleContent"></div>
+            <button class="releaseBottle" id="bottleButton">撈瓶子</button>
+            <div class="news-container hiddenForInner" id="bottleContent"></div>
          </div>
+        <!-- 開發者碎碎念 -->
         <div id="waterLayer_developer" class="overlay hidden">
-            <div>開發池</div>
             <button class="closeOverlay">關閉</button>
             <button class="releaseBottle">撈瓶子</button>
-            <div class="news-container" id="developerContent"></div>
+            <div class="news-container hiddenForInner" id="developerContent"></div>
         </div>
     <!-- 錯誤訊息區域 -->
     <p id="errorMessage" style="color: red; font-weight: bold;"></p>
