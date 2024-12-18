@@ -103,6 +103,7 @@ poolLinks.forEach(link => {
 //以下是各個分區的設定
 //
 //
+/*-------------今日--------------*/
 /*-------------新聞--------------*/
 function fetchNews() {
     // 直接使用 NewsAPI 的 HTTP 請求，而不是 require
@@ -149,10 +150,91 @@ function fetchNews() {
         alert('無法取得新聞資料');
       });
   }
-  
+/*-------------KKBOX--------------*/
+function fetchKKBOX(){
+    const today = new Date();
+    const year = today.getFullYear();
+    const formatDate = (date) => {
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day-2}`;
+    };
+    const formatDateforweek = (date) => {
+        const dayOfWeek = date.getDay();
+        const daysToSunday =  dayOfWeek >= 4 ? dayOfWeek - 4 + 7 : dayOfWeek + 3;  
+        date.setDate(date.getDate() - daysToSunday);
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+    const theyear = new Date().getFullYear();
+    const category = [297, 390, 308];
+    let songlanguage;
+    const randomcategory = category[Math.floor(Math.random() * category.length)];
+    const language = randomcategory === 297 ? '華語' : randomcategory === 308 ? '日語' : '西洋';
+    const rankType = Math.floor(Math.random() * 3);
+    let type='daily';
+    let date=formatDate(today) ;
+    let rankname="日";
+
+    if (rankType === 1) {
+        type = 'weekly';
+        date = formatDateforweek(today);
+        rankname="週";
+    } else if (rankType === 2){
+        type = 'yearly';
+        date = year;
+        rankname="年度";
+    }
+    const apiUrl = `${apiBaseUrl}/proxy?type=${type}&category=${randomcategory}&date=${date}&year=${year}`;
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(responseData => {
+            const newReleases = responseData.data.charts.newrelease;
+            const newsContent = document.getElementById('newsContent');
+            newsContent.innerHTML = ''; // 清空內容
+            const displayMode = Math.random() < 0.5 ? 0 : 1;
+            if (displayMode === 0) {
+                let topthree=`<p>${language}本${rankname}排行榜</p>`;
+                newReleases.slice(0, 3).forEach(release => {
+                    const songName = release.song_name;
+                    const artistName = release.artist_name;
+                    const thisPeriod = release.rankings.this_period;
+                    const lastPeriod = release.rankings.last_period;
+                    topthree+=`
+                    <p><strong>歌名:</strong>${songName}</p>
+                    <p><strong>歌手:</strong>${artistName}</p>
+                    <p><strong>本${rankname}排名:</strong>${thisPeriod}</p>
+                    <p><strong>上${rankname}排名:</strong>${lastPeriod}</p>
+                    <p>------</p>`
+                });
+            newsContent.innerHTML =topthree;
+            }
+            else{
+                const randomIndex = Math.floor(Math.random() * newReleases.length);
+                const randomRelease = newReleases[randomIndex];
+                const songName = randomRelease.song_name;
+                const artistName = randomRelease.artist_name;
+                const albumName = randomRelease.album_name;
+                const coverimage = randomRelease.cover_image.small;
+                const songurl=randomRelease.song_url;
+                const thisPeriod = randomRelease.rankings.this_period;
+                newsContent.innerHTML = `
+                <p>${language}本${rankname}排行榜隨機推薦</p>
+                <p><strong>歌名:</strong><a href="${songurl}" target="_blank">${songName}</p>
+                <p><strong>歌手:</strong>${artistName}</p>
+                <p><strong>專輯:</strong>${albumName}</p>
+                <p><strong>本${rankname}排名:</strong>${thisPeriod}</p>
+                <img src="${coverimage}" alt="${songName}" style="width: 100px; height: auto; margin-bottom: 10px;">
+                `
+            }
+    })
+}
   
 ToDaybutton.addEventListener('click', async event => {
-    fetchNews();
+    const randomtoday = Math.random();
+    if (randomtoday < 0.5) fetchNews();
+    else fetchKKBOX();
     const InnerLayer = document.getElementById(`newsContent`); // 找到對應的遮罩層
     InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
 });
