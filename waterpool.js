@@ -259,7 +259,7 @@ function fetchKKBOX(){
             }
     })
 }
-  
+const ToDaybutton=document.getElementById('ToDaybutton');
 ToDaybutton.addEventListener('click', async event => {
     const randomtoday = Math.random();
     if (randomtoday < 0.5) fetchNews();
@@ -269,7 +269,8 @@ ToDaybutton.addEventListener('click', async event => {
 });
 /*-----------幸運河---------------*/
 // 顯示幸運河的詩籤結果
-document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("click", async function () {
+const luckybuttom = document.getElementById(`luckybuttom`); 
+luckybuttom.addEventListener('click', async event =>  {
     try {
         // 讀取詩籤資料
         const response = await fetch("poems.json");
@@ -283,8 +284,9 @@ document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("c
         const randomPoem = poems[randomKey];
 
         // 美化框框內顯示詩籤內容
-        const bottleContent = document.querySelector("#waterLayer_fortune .news-container");
-        bottleContent.innerHTML = `
+        const luckyContent = document.getElementById('luckyContent');
+        luckyContent.innerHTML = ''; 
+        luckyContent.innerHTML = `
             <h4>詩籤內容</h4>
             <p id = "lucky"><strong></strong>${randomPoem.吉凶}</p>
             <p id = "poem"><strong></strong>${randomPoem.詩籤}</p>
@@ -298,9 +300,6 @@ document.querySelector("#waterLayer_fortune .releaseBottle").addEventListener("c
             <p class = "content"><strong>交往：</strong>${randomPoem.交往}</p>
             <p class = "content"><strong>旅行：</strong>${randomPoem.旅行}</p>
         `;
-
-        // 確保幸運河背景層顯示
-        document.getElementById("waterLayer_fortune").classList.remove("hidden");
 
     } catch (error) {
         console.error("錯誤:", error);
@@ -325,7 +324,7 @@ function randomizeImages() {
   // 當頁面載入完成後隨機排列圖片
   window.onload = randomizeImages;
 */
-  /*--------漂流瓶撈瓶子---------*/
+/*--------漂流瓶撈瓶子---------*/
 const bottleButton = document.getElementById('bottleButton');
 bottleButton.addEventListener('click', async event => {
     event.preventDefault(); // 阻止默認跳轉行為
@@ -336,7 +335,6 @@ bottleButton.addEventListener('click', async event => {
 
         const dataList = document.getElementById('bottleContent');
         dataList.innerHTML = ''; // 清空舊資料
-        /*--------等瓶子格式確定後再修改---------------*/
         if (result.data && result.data.length > 0) {
             // 隨機選擇一個項目
             const randomIndex = Math.floor(Math.random() * result.data.length);
@@ -359,7 +357,7 @@ bottleButton.addEventListener('click', async event => {
         alert('獲取資料失敗');
     }
     });
-  /*--------開發碎碎念---------*/
+/*--------開發碎碎念---------*/
   const devButton = document.getElementById('devButton');
   devButton.addEventListener('click', async event => {
       event.preventDefault(); // 阻止默認跳轉行為
@@ -370,13 +368,12 @@ bottleButton.addEventListener('click', async event => {
         const dataList = document.getElementById('developerContent');
         dataList.innerHTML = ''; // 清空舊資料
               // 隨機選擇一個項目
-            const randomIndex = Math.floor(Math.random() * result.data.length);
-            const randomItem = result.data[randomIndex];
-            const InnerLayer = document.getElementById('developerContent');
-            innerLayer.innerHTML = `
-                <p class = "content"> ${randomItem.Content}</p>
-            `;
-        InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
+              const randomIndex = Math.floor(Math.random() * result.data.length);
+              const randomItem = result.data[randomIndex];
+              dataList.innerHTML = `
+                  <p class="content">${randomItem.content}</p>
+              `;
+        dataList.classList.remove('hiddenForInner'); // 顯示對應遮罩層
       } 
       catch (error) {
           console.error('Error fetching data:', error);
