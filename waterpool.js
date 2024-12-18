@@ -55,12 +55,13 @@ const closeformButtons = document.querySelectorAll('.formcloseOverlay');
 closeButtons.forEach(button => {
     button.addEventListener('click', event => {
         const overlay = event.target.closest('.overlay');
-        const inlay = event.target.closest('.news-container');
         if (overlay) {
             overlay.classList.add('hidden');
-            inlay.classList.add('hiddenForInner');
-            const bottleContent = overlay.querySelector('.news-container');
-            bottleContent.innerHTML = '';
+            const inlay = overlay.querySelector('.news-container'); // 直接抓取
+            if (inlay) {
+                inlay.classList.add('hiddenForInner');
+            }
+            inlay.innerHTML = ''; // 清空內容
         }
     });
 });
@@ -216,6 +217,7 @@ function randomizeImages() {
   /*--------漂流瓶撈瓶子---------*/
 const bottleButton = document.getElementById('bottleButton');
 bottleButton.addEventListener('click', async event => {
+    event.preventDefault(); // 阻止默認跳轉行為
     try {
         const response = await fetch(`${apiBaseUrl}/show`);
         const result = await response.json();
@@ -227,21 +229,21 @@ bottleButton.addEventListener('click', async event => {
             // 隨機選擇一個項目
             const randomIndex = Math.floor(Math.random() * result.data.length);
             const randomItem = result.data[randomIndex];
+            const InnerLayer = document.getElementById('bottleContent');
             InnerLayer.innerHTML ='';
             InnerLayer.innerHTML = `
                 <p class = "content"> ${randomItem.Content}</p>
                 <p class = "content"> ${new Date(randomItem.CreatedAt).toLocaleString()}<p>
             `;
-            dataList.appendChild(listItem);}
+           }
         else {
             dataList.innerHTML = '<li>水裡空空的>w<</li>';
         }
+        const InnerLayer = document.getElementById(`bottleContent`); // 找到對應的遮罩層
+        InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
     } 
     catch (error) {
-        onsole.error('Error fetching data:', error);
+        console.error('Error fetching data:', error);
         alert('獲取資料失敗');
     }
-    event.preventDefault(); // 阻止默認跳轉行為
-    const InnerLayer = document.getElementById(`bottleContent`); // 找到對應的遮罩層
-    InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
     });
