@@ -6,15 +6,43 @@ body {
     background-color: #f9f9f9;
     color: #333;
 }
-/*側邊欄*/
-
 /*登入註冊按鈕*/
-.sign-container {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    gap: 10px;
+#sign-container {
+    display: flex; /* 使用 Flexbox 排列 */
+    gap: 10px; /* 按鈕間距 */
+    position: fixed; /* 固定在螢幕上，不隨滾動移動 */
+    top: 20px; /* 距離螢幕頂部 10px */
+    left: 20px; /* 距離螢幕左側 10px */
+    z-index: 1000; /* 確保按鈕在其他元素之上 */
+}
+
+#sign-container button {
+    text-decoration: none;
+    color: #695a41;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 13px;
+    background-color: #FDF2E0;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 2.5px solid #695a41; /* 移除按鈕預設邊框 */
+    cursor: pointer; /* 鼠標樣式 */
+}
+
+#sign-container button:hover {
+    background-color: #FDF9ED;
+    border: 2.5px solid #FDF9ED;
+}
+/*登入註冊輸入框*/
+.sign_input{
+    width: 100%; /* 寬度設為300px */
+    height: 30px;
+    padding: 5px 10px; /* 內邊距，增加內部文字的間距 */
+    font-size: 16px; /* 字體大小 */
+    border: 1px solid #ccc; /* 邊框顏色 */
+    border-radius: 5px; /* 輸入框邊角圓滑 */
+    box-sizing: border-box; /* 確保寬度包含 padding 和 border */
+    transition: border-color 0.3s ease;
 }
 
 /* 主內容樣式 */
@@ -96,13 +124,14 @@ section {
     display: none;
 }
 
-/* 設定表單的寬度、邊距和排版 */
+/* 丟瓶子、登入、註冊框框 */
 form {
     display: flex;
     flex-direction: column;
     justify-content: center; /* 垂直居中 */
     align-items: center; /* 水平居中 */
     height: 500px;
+    width: 340px;
     margin: 0;
     padding: 20px;
     background-color: #f9f2e6;
@@ -113,11 +142,11 @@ form {
 /* 輸入框樣式 */
 #bottletext_input {
     width: 300px; /* 寬度設為300px */
-    height: 200px; /* 高度設為40px */
+    height: 200px;
     padding: 5px 10px; /* 內邊距，增加內部文字的間距 */
-    font-size: 16px; /* 字體大小 */
-    border: 1px solid #ccc; /* 邊框顏色 */
-    border-radius: 5px; /* 輸入框邊角圓滑 */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     box-sizing: border-box; /* 確保寬度包含 padding 和 border */
     transition: border-color 0.3s ease;
 }
@@ -129,7 +158,7 @@ form {
 }
 
 /* 提交按鈕樣式 */
-#text_buttom {
+.text_buttom {
     width: 100%;
     padding: 10px;
     background-color: #695a41;
@@ -142,7 +171,7 @@ form {
 }
 
 /* 提交按鈕懸停時的樣式 */
-#text_buttom:hover {
+.text_buttom:hover {
     background-color: #423929;
 }
 
