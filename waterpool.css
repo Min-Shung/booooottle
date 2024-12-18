@@ -168,7 +168,7 @@
 
 /* 詩籤美化框框 */
 .news-container {
-    background-image: url('皺褶紙.jpg');
+    
     position: absolute; /* 絕對定位 */
     top: 40%; /* 垂直置中 */
     left: 50%; /* 水平置中 */
@@ -184,6 +184,10 @@
     max-height: 80%; /* 最大高度 */
     overflow-y: auto;
     z-index: 2000; /* 確保在最上層 */
+}
+
+#luckyContent{
+    background-image: url('皺褶紙.jpg');
 }
 
 /* 詩籤標題樣式 */
