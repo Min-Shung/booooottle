@@ -8,14 +8,13 @@ body {
 }
 /*側邊欄*/
 
-.navigation {
-  position: fixed;
-  width: 300px;
-  height: 100%;
-  background: var(--bule);
-  border-left: 10px solid var(--blue);
-  transition: 0.5s;
-  overflow: hidden;
+/*登入註冊按鈕*/
+.sign-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 /* 主內容樣式 */
@@ -29,33 +28,6 @@ main {
 
 section {
     margin-bottom: 30px;
-}
-
-#total-earnings {
-    background: #e6f2ff;
-    padding: 15px;
-    border-radius: 5px;
-}
-
-.navigation-buttons button {
-    margin: 5px;
-    padding: 10px 15px;
-    background: #004d99;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.navigation-buttons button:hover {
-    background: #0073e6;
-}
-
-#market-data-overview {
-    background: #fff;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
 }
 
 #button-container {
