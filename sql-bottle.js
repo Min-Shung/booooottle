@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const axios = require('axios');
+
 app.use(cors());
  
 //將request進來的 data 轉成 json()
@@ -35,7 +37,6 @@ mc.connect(err => {
 // 讀取aka撈--用戶漂流瓶內容
 app.get('/show', async function (req, res) {
     try {
-        console.log('GET /show is triggered');
         // 修復 CORS 問題
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -98,3 +99,45 @@ app.post('/add', async (req, res) => {
         });
     }
 });
+//kkbox代理
+app.get('/proxy', async (req, res) => {
+    const { type, category, date, year } = req.query;
+  
+    // 驗證參數
+    if (!type || !category || (!date && type !== 'yearly') || (type === 'yearly' && !year)) {
+      return res.status(400).send('Missing required query parameters');
+    }
+  
+    let url;
+    if (type === 'daily') {
+      url = `https://kma.kkbox.com/charts/api/v1/daily?category=${category}&date=${date}&lang=tc&limit=10&terr=tw&type=newrelease`;
+    } else if (type === 'weekly') {
+      url = `https://kma.kkbox.com/charts/api/v1/weekly?category=${category}&date=${date}&lang=tc&limit=10&terr=tw&type=newrelease`;
+    } else if (type === 'yearly') {
+      url = `https://kma.kkbox.com/charts/api/v1/yearly?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=${year}`;
+    } else {
+      return res.status(400).send('Invalid type parameter');
+    }
+  
+    console.log('Requesting KKBOX API with URL:', url);
+  
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          'User-Agent': 'YourAppName/1.0',
+        },
+      });
+      res.json(response.data);
+    } catch (error) {
+      console.error('Error fetching data from KKBOX API:', error.message);
+      if (error.response) {
+        console.error('Response status:', error.response.status);
+        console.error('Response data:', error.response.data);
+        res.status(error.response.status).send(error.response.data);
+      } else {
+        res.status(500).send('Failed to fetch data from KKBOX API');
+      }
+    }
+  });
+  
+  
