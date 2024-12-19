@@ -5,7 +5,8 @@
   "main": "sql-bottle.js",
   "scripts": {
     "start": "node sql-bottle.js",
-    "dev": "nodemon sql-bottle.js"
+    "dev": "nodemon sql-bottle.js",
+    "migrate": "prisma migrate deploy"
   },
   "author": "01257028, 01257054",
   "license": "MIT",
