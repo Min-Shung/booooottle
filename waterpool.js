@@ -226,7 +226,7 @@ function fetchKKBOX(){
             newsContent.innerHTML = ''; // 清空內容
             const displayMode = Math.random() < 0.5 ? 0 : 1;
             if (displayMode === 0) {
-                let topthree=`<p>${language}本${rankname}排行榜</p>`;
+                let topthree=`<p style="font-size: 26px; font-weight: bold;">${language}本${rankname}排行榜</p><hr>`;
                 newReleases.slice(0, 3).forEach(release => {
                     const songName = release.song_name;
                     const artistName = release.artist_name;
@@ -251,8 +251,8 @@ function fetchKKBOX(){
                 const songurl=randomRelease.song_url;
                 const thisPeriod = randomRelease.rankings.this_period;
                 newsContent.innerHTML = `
-                <p>${language}本${rankname}排行榜隨機推薦</p>
-                <p><strong>歌名:</strong><a href="${songurl}" target="_blank">${songName}</p>
+                <p style="font-size: 26px; font-weight: bold;" >${language}本${rankname}排行榜隨機推薦</p><hr>
+                <p><strong>歌名:</strong><a href="${songurl}" target="_blank">${songName}</a></p>
                 <p><strong>歌手:</strong>${artistName}</p>
                 <p><strong>專輯:</strong>${albumName}</p>
                 <p><strong>本${rankname}排名:</strong>${thisPeriod}</p>
