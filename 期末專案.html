@@ -57,8 +57,9 @@
                     <input type="text" name="account" pattern="\d{6}" class="sign_input" placeholder="輸入帳號(6位數字)" required>
                     <input type="password" name="password" class="sign_input" placeholder="輸入密碼" required>
                     <button type="submit"  class="text_buttom">登入</button>
+                    <button id="closeLogin" class="formcloseOverlay">X</button>
                 </form>
-                <button id="closeLogin" class="formcloseOverlay">關閉</button>
+                
             </div>
         </div>
 
@@ -73,8 +74,9 @@
                     <input type="password" name="pwcheck" class="sign_input" placeholder="再次輸入密碼" required>
                     <input type="text" name="name" class="sign_input" placeholder="輸入姓名" required>
                     <button type="submit" class="text_buttom">註冊</button>
+                    <button id="closeRegister" class="formcloseOverlay">X</button>
                 </form>
-                <button id="closeRegister" class="formcloseOverlay">關閉</button>
+                
             </div>
         </div>
         <!-- 初始、丟撈瓶子 -->
@@ -90,7 +92,7 @@
                     <p>請輸入想說的話</p>
                     <input type="text" name="bottletext" id="bottletext_input"><br>
                     <input type="submit" value="提交" id="text_buttom" class="text_buttom">
-                    <button class="formcloseOverlay">關閉</button>
+                    <button class="formcloseOverlay">X</button>
                 </form>        
         </div>
         <div id="pickbox" class="overlay hidden">
@@ -101,7 +103,7 @@
         <!-- 今日消息 -->
         <div id="waterLayer_today" class="overlay hidden">
             <button class="closeOverlay">關閉</button>
-            <img src="瓶子2-removebg-preview.png" width="70px" height="70px">
+            <img src="瓶子2-removebg-preview.png" class="bottle" id="bottleimg" width="70px" height="70px">
             <button class="releaseBottle" id="ToDaybutton">撈瓶子</button>
             <div class="news-container hiddenForInner" id="newsContent"></div> 
         </div>
