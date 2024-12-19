@@ -13,7 +13,7 @@ body {
     position: fixed; /* 固定在螢幕上，不隨滾動移動 */
     top: 20px; /* 距離螢幕頂部 10px */
     left: 20px; /* 距離螢幕左側 10px */
-    z-index: 1000; /* 確保按鈕在其他元素之上 */
+    z-index: 500; /* 確保按鈕在其他元素之上 */
 }
 
 #sign-container button {
