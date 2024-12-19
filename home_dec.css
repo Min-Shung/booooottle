@@ -33,6 +33,36 @@ body {
     background-color: #FDF9ED;
     border: 2.5px solid #FDF9ED;
 }
+/*登入框框樣式*/
+#loginModal form {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 250px;
+    width: 340px;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #695a41;
+}
+/*註冊框框樣式*/
+#registerModal form {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 350px;
+    width: 340px;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #695a41;
+}
 /*登入註冊輸入框*/
 .sign_input{
     width: 100%; /* 寬度設為300px */
@@ -124,13 +154,14 @@ section {
     display: none;
 }
 
-/* 丟瓶子、登入、註冊框框 */
-form {
+/* 丟瓶子框框 */
+#releasebox form {
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: center; /* 垂直居中 */
     align-items: center; /* 水平居中 */
-    height: 500px;
+    height: 450px;
     width: 340px;
     margin: 0;
     padding: 20px;
@@ -214,18 +245,17 @@ h1 {
     font-weight: bold;
 }
 
-/* 撈瓶子的關閉按鈕樣式 */
+/* 主頁的關閉按鈕樣式 */
 .formcloseOverlay {
     position: absolute;
-    bottom: 12.5%; /* 居中對齊，放置於底部 */
-    left: 50%;
-    transform: translateX(-50%);
+    top: 10px;
+    right: 10px;
     background: #ff6b6b; /* 紅色按鈕，帶有漸變效果 */
     color: #fff;
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
+    border-radius: 50%;
+    padding: auto;
+    font-size: 20px;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: background 0.3s; /* 懸停效果的過渡 */

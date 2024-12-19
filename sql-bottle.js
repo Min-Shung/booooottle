@@ -18,7 +18,7 @@ const client = new Client({
     database: 'bottle_storage',    
     port: 5432,
     ssl: {
-      rejectUnauthorized: false           // 允许不验证证书（只适用于开发环境，生产环境时要使用有效的证书）
+      rejectUnauthorized: false   
   }                   
 });
 
@@ -67,7 +67,7 @@ app.post('/add', async (req, res) => {
         const result = await client.query('SELECT word FROM sensitive_words');
         const forbiddenWords = result.rows.map(row => row.word);
 
-        // 检查内容中是否包含禁用字
+        // 檢查内容中是否包含禁用字
         const hasForbiddenWord = forbiddenWords.some(word => Content.includes(word));
         if (hasForbiddenWord) {
             return res.status(400).send({ error: true, message: 'Content contains forbidden words, please re-enter.' });

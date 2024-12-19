@@ -261,7 +261,7 @@ function fetchKKBOX(){
             }
     })
 }
-const bottleImage = document.getElementById('bottleImage');
+const bottleImage = document.getElementById('bottleimg');
 const newsContent = document.getElementById('newsContent');
 const ToDaybutton=document.getElementById('ToDaybutton');
 ToDaybutton.addEventListener('click', async event => {
