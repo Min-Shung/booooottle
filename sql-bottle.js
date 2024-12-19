@@ -1,114 +1,86 @@
-var mysql = require('mysql2');
+const { Client } = require('pg'); // 使用 PostgreSQL 的客户端
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
 
-app.use(cors());
- 
-//將request進來的 data 轉成 json()
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+const app = express();
 
-// 監聽於 8080 端口
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// PostgreSQL 
+const client = new Client({
+    host: 'dpg-cthjlud2ng1s73abp7c0-a.singapore-postgres.render.com',  
+    user: 'bottle_storage_user',           
+    password: 'UPd0VCwkhvvI97fbngzVby1trGpdHCxu', 
+    database: 'bottle_storage',    
+    port: 5432,
+    ssl: {
+      rejectUnauthorized: false           // 允许不验证证书（只适用于开发环境，生产环境时要使用有效的证书）
+  }                   
+});
+
+client.connect()
+    .then(() => console.log('Connected to PostgreSQL database'))
+    .catch(err => console.error('Error connecting to PostgreSQL', err));
+
+// 監聽8080
 app.listen(8080, function () {
     console.log('Node app is running on port 8080');
 });
-
-//sql連線
-var mc = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "111aaa222bbb",
-    insecureAuth : true
-});
-
-mc.connect(err => {
-    if (err) {
-        console.error('Error connecting to MySQL: ' + err.message);
-    } else {
-        console.log('Connected to MySQL successfully.');
-    }
-});
-
-// 讀取aka撈--用戶漂流瓶內容
+//撈
 app.get('/show', async function (req, res) {
     try {
-        // 修復 CORS 問題
+        //  CORS
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-        // 從查詢參數中獲取表格名稱
         const tableName = req.query.table;
-
-        // 確保表格名稱是預定義的安全選項之一（避免 SQL 注入）
-        const allowedTables = ['bottles', 'wtfdevelopersay']; // 定義允許的表格名稱
+        const allowedTables = ['bottles', 'wtfdevelopersay']; 
         if (!allowedTables.includes(tableName)) {
             return res.status(400).send({ error: true, message: 'Invalid table name.' });
         }
-
-        // 動態構建查詢，查詢特定表格
-        const [results, fields] = await mc.promise().query(`SELECT * FROM bottle_text.${tableName}`);
-
-        return res.send({ error: false, data: results, message: `${tableName} list.` });
-    } 
-    catch (error) {
-        console.error(error);  // 輸出錯誤到控制台
+        const result = await client.query(`SELECT * FROM ${tableName}`);
+        return res.send({ error: false, data: result.rows, message: `${tableName} list.` });
+    } catch (error) {
+        console.error(error);  
         return res.status(500).send({ error: true, message: 'Database query failed.' });
     }
 });
-
-//新增aka丟
+//丟
 app.post('/add', async (req, res) => {
     try {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        const { UserID, Content } = req.body; // 從請求中獲取數據
-        //debug
+        const { UserID, Content } = req.body;  
+
         if (!Content) {
-            return res.status(400).send({
-                error: true,
-                message: '請填入內容！'
-            });}
+            return res.status(400).send({ error: true, message: 'Please fill in content!' });
+        }
         if (!UserID) {
-                return res.status(400).send({
-                    error: true,
-                    message: '無用戶資料！'
-            });}
-        // 從資料庫查詢禁用字列表
-        const [forbiddenWords] = await mc.promise().query('SELECT word FROM bottle_text.sensitive_words');
-        // 提取禁用字數組
-        const wordList = forbiddenWords.map(row => row.word);
-        // 檢查內容中是否包含禁用字
-        const hasForbiddenWord = wordList.some(word => Content.includes(word));
-        if (hasForbiddenWord) {
-            return res.status(400).send({ 
-                error: true, 
-                message: '提交內容包含敏感字彙，請重新輸入。' 
-            });
+            return res.status(400).send({ error: true, message: 'No user data!' });
         }
 
-        // 若通過審核，執行插入操作
-        const [result] = await mc.promise().query(
-            'INSERT INTO bottle_text.bottles SET ?', 
-            { UserID, Content }
+        // 禁用字列表
+        const result = await client.query('SELECT word FROM sensitive_words');
+        const forbiddenWords = result.rows.map(row => row.word);
+
+        // 检查内容中是否包含禁用字
+        const hasForbiddenWord = forbiddenWords.some(word => Content.includes(word));
+        if (hasForbiddenWord) {
+            return res.status(400).send({ error: true, message: 'Content contains forbidden words, please re-enter.' });
+        }
+
+        const insertResult = await client.query(
+            'INSERT INTO bottles (UserID, Content) VALUES ($1, $2)', [UserID, Content]
         );
 
-        return res.send({ 
-            error: false, 
-            data: result, 
-            message: '提交成功！' 
-        });
+        return res.send({ error: false, data: insertResult, message: 'Submission successful!' });
     } catch (error) {
         console.error('Error:', error);
-        return res.status(500).send({ 
-            error: true, 
-            message: '伺服器發生錯誤，請稍後再試。' 
-        });
+        return res.status(500).send({ error: true, message: 'Server error, please try again later.' });
     }
 });
 //kkbox代理
@@ -151,4 +123,3 @@ app.get('/proxy', async (req, res) => {
       }
     }
   });
-  

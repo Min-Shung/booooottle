@@ -342,8 +342,8 @@ bottleButton.addEventListener('click', async event => {
             const InnerLayer = document.getElementById('bottleContent');
             InnerLayer.innerHTML ='';
             InnerLayer.innerHTML = `
-                <p class = "content"> ${randomItem.Content}</p>
-                <p class = "content"> ${new Date(randomItem.CreatedAt).toLocaleString()}<p>
+                <p class = "content"> ${randomItem.content}</p>
+                <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}<p>
             `;
            }
         else {
