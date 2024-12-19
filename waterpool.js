@@ -84,6 +84,7 @@ const closeformButtons = document.querySelectorAll('.formcloseOverlay');
 closeButtons.forEach(button => {
     button.addEventListener('click', event => {
         const overlay = event.target.closest('.overlay');
+        bottleback();
         if (overlay) {
             overlay.classList.add('hidden');
             const inlay = overlay.querySelector('.news-container'); // 直接抓取
@@ -105,6 +106,31 @@ closeformButtons.forEach(button => {
         
     });
 });
+/*--------------瓶子動畫------------*/
+function bottleback() {
+    const bottleImage = document.getElementById('bottleimg');
+    bottleImage.style.display = 'block';
+}
+
+function bottleshack() {
+    const waterLayerToday = document.getElementById('waterLayer_today');
+    const bottleImage = document.getElementById('bottleimg');
+    const newsContent = document.getElementById('newsContent');
+
+    // 撈瓶子的動畫效果
+    waterLayerToday.classList.add('shake'); // 啟動動畫
+
+    // 設定動畫結束後的動作
+    waterLayerToday.addEventListener('animationend', () => {
+        if (bottleImage) bottleImage.style.display = 'none'; // 隱藏瓶子
+        newsContent.classList.add('show'); // 顯示新聞內容
+
+        // 移除動畫類，重置狀態
+        waterLayerToday.classList.remove('shake');
+        bottleImage.style.transform = ''; // 重置transform样式
+    }, { once: true }); // 確保事件只觸發一次
+}
+
 /*-------------側邊欄點擊-----------*/
 const poolLinks = document.querySelectorAll('.pool-option[data-pool]');
 
@@ -265,15 +291,7 @@ const bottleImage = document.getElementById('bottleimg');
 const newsContent = document.getElementById('newsContent');
 const ToDaybutton=document.getElementById('ToDaybutton');
 ToDaybutton.addEventListener('click', async event => {
-    // 撈瓶子的動畫效果
-    waterLayer_today.classList.add('shake'); // 啟動動畫
-
-    // 設定動畫結束後的動作
-    const bottleImage = waterLayer_today.querySelector('img');
-    waterLayer_today.addEventListener('animationend', () => {
-        if (bottleImage) bottleImage.style.display = 'none'; // 隱藏瓶子
-        newsContent.classList.add('show'); // 顯示新聞內容
-    });
+    bottleshack();
     // 這裡可以根據隨機決定要顯示哪一個內容（新聞或KKBOX）
     const randomtoday = Math.random();
     if (randomtoday < 0.5) fetchNews();
