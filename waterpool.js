@@ -1,6 +1,6 @@
 const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
-const apiBaseUrl = 'http://localhost:8080'; // API 根網址 ＃要改
+const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃要改
 // 撈瓶子按鈕
 pickBottle.addEventListener('click', event => {
     event.preventDefault(); // 阻止默認行為
