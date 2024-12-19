@@ -169,6 +169,7 @@ function fetchNews() {
           newsContent.innerHTML = ''; // 清空內容
           newsContent.innerHTML = `
             <p class = "content" id = "title">${title}</p>
+            <hr>
             <p class = "content">${description}</p>
           `;
         } else {
