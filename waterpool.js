@@ -84,7 +84,11 @@ const closeformButtons = document.querySelectorAll('.formcloseOverlay');
 closeButtons.forEach(button => {
     button.addEventListener('click', event => {
         const overlay = event.target.closest('.overlay');
-        bottleback();
+        const bottleImage = overlay.querySelector('.bottle');
+        if (bottleImage) {
+            bottleImage.style.display = 'block'; // 恢復瓶子的顯示
+            bottleImage.dataset.used = 'false'; // 重置瓶子的狀態
+        }
         if (overlay) {
             overlay.classList.add('hidden');
             const inlay = overlay.querySelector('.news-container'); // 直接抓取
@@ -107,16 +111,12 @@ closeformButtons.forEach(button => {
     });
 });
 /*--------------瓶子動畫------------*/
-function bottleback() {
-    const bottleImage = document.getElementById('bottleimg');
-    bottleImage.style.display = 'block';
-}
 
-function bottleshack() {
-    const waterLayerToday = document.getElementById('waterLayer_today');
-    const bottleImage = document.getElementById('bottleimg');
-    const newsContent = document.getElementById('newsContent');
-
+async function bottleshack(layerid,bottleid,contentid) {
+    const waterLayerToday = document.getElementById(layerid);
+    const bottleImage = document.getElementById(bottleid);
+    const newsContent = document.getElementById(contentid);
+    if (!waterLayerToday || !bottleImage || !newsContent) return;
     // 撈瓶子的動畫效果
     waterLayerToday.classList.add('shake'); // 啟動動畫
 
@@ -151,6 +151,11 @@ poolLinks.forEach(link => {
         // 顯示選中的水池層
         if (targetLayer) {
             targetLayer.classList.remove('hidden');
+            const bottleImage = targetLayer.querySelector('.bottle');
+            if (bottleImage) {
+                bottleImage.style.display = 'block'; // 瓶子顯示
+                bottleImage.dataset.used = 'false'; // 重置狀態
+            }
         }
     });
 });
@@ -161,7 +166,7 @@ poolLinks.forEach(link => {
 //
 /*-------------今日--------------*/
 /*-------------新聞--------------*/
-function fetchNews() {
+async function fetchNews() {
     // 直接使用 NewsAPI 的 HTTP 請求，而不是 require
     const apiKey = 'f076c58eb1d24bf18489cc021bf02feb'; // 你的 NewsAPI API 金鑰
     const today = new Date();
@@ -208,7 +213,7 @@ function fetchNews() {
       });
   }
 /*-------------KKBOX--------------*/
-function fetchKKBOX(){
+async function fetchKKBOX(){
     const today = new Date();
     const year = today.getFullYear();
     const formatDate = (date) => {
@@ -287,22 +292,27 @@ function fetchKKBOX(){
             }
     })
 }
-const bottleImage = document.getElementById('bottleimg');
 const newsContent = document.getElementById('newsContent');
 const ToDaybutton=document.getElementById('ToDaybutton');
 ToDaybutton.addEventListener('click', async event => {
-    bottleshack();
+    const bottleImage = document.getElementById('todaybot');
+    if (bottleImage.dataset.used === 'true') return;
+    await bottleshack("waterLayer_today","todaybot","newsContent");
     // 這裡可以根據隨機決定要顯示哪一個內容（新聞或KKBOX）
     const randomtoday = Math.random();
-    if (randomtoday < 0.5) fetchNews();
-    else fetchKKBOX();
+    if (randomtoday < 0.5) await fetchNews();
+    else await fetchKKBOX();
     const InnerLayer = document.getElementById(`newsContent`); // 找到對應的遮罩層
     InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
 });
+
 /*-----------幸運河---------------*/
 // 顯示幸運河的詩籤結果
 const luckybuttom = document.getElementById(`luckybuttom`); 
 luckybuttom.addEventListener('click', async event =>  {
+    const bottleImage = document.getElementById('poembot');
+    if (bottleImage.dataset.used === 'true') return;
+    await bottleshack("waterLayer_fortune","poembot","luckyContent");
     try {
         // 讀取詩籤資料
         const response = await fetch("poems.json");
@@ -345,6 +355,9 @@ luckybuttom.addEventListener('click', async event =>  {
 const bottleButton = document.getElementById('bottleButton');
 bottleButton.addEventListener('click', async event => {
     event.preventDefault(); // 阻止默認跳轉行為
+    const bottleImage = document.getElementById('thebot');
+    if (bottleImage.dataset.used === 'true') return;
+    await bottleshack("waterLayer_bottle","thebot","bottleContent");
     try {
         const tableName = 'bottles';
         const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
@@ -378,6 +391,9 @@ bottleButton.addEventListener('click', async event => {
   const devButton = document.getElementById('devButton');
   devButton.addEventListener('click', async event => {
       event.preventDefault(); // 阻止默認跳轉行為
+      const bottleImage = document.getElementById('devbot');
+     if (bottleImage.dataset.used === 'true') return;
+     await bottleshack("waterLayer_developer","devbot","developerContent");
       try {
         const tableName = 'wtfdevelopersay';
         const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
