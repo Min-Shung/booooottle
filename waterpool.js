@@ -104,25 +104,37 @@ closeButtons.forEach(button => {
 closeformButtons.forEach(button => {
     button.addEventListener('click', event => {
         const overlay = event.target.closest('.overlay');
+        
         if (overlay) {
             overlay.classList.add('hidden');
         }
-        
+        bottleback();
     });
 });
 /*--------------瓶子動畫------------*/
-
+function bottleback() {
+    const todaybotimg = document.getElementById('todaybot');
+    const poembotimg = document.getElementById('poembot');
+    const thebotimg = document.getElementById('thebot');
+    const devbotimg = document.getElementById('devbot');
+    todaybotimg.style.display = 'block';
+    poembotimg.style.display = 'block';
+    thebotimg.style.display = 'block';
+    devbotimg.style.display = 'block';
+}
 async function bottleshack(layerid,bottleid,contentid) {
     const waterLayerToday = document.getElementById(layerid);
     const bottleImage = document.getElementById(bottleid);
     const newsContent = document.getElementById(contentid);
     if (!waterLayerToday || !bottleImage || !newsContent) return;
     // 撈瓶子的動畫效果
+    newsContent.classList.add('hiddenForInner');
     waterLayerToday.classList.add('shake'); // 啟動動畫
 
     // 設定動畫結束後的動作
     waterLayerToday.addEventListener('animationend', () => {
         if (bottleImage) bottleImage.style.display = 'none'; // 隱藏瓶子
+        newsContent.classList.remove('hiddenForInner');
         newsContent.classList.add('show'); // 顯示新聞內容
 
         // 移除動畫類，重置狀態
@@ -297,6 +309,7 @@ const ToDaybutton=document.getElementById('ToDaybutton');
 ToDaybutton.addEventListener('click', async event => {
     const bottleImage = document.getElementById('todaybot');
     if (bottleImage.dataset.used === 'true') return;
+    
     await bottleshack("waterLayer_today","todaybot","newsContent");
     // 這裡可以根據隨機決定要顯示哪一個內容（新聞或KKBOX）
     const randomtoday = Math.random();

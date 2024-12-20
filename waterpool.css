@@ -176,6 +176,7 @@
 
 /* 新聞內容容器 */
 .news-container {
+    display: none;
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 8px;
@@ -184,6 +185,11 @@
     margin-top: 20px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.news-container.show {
+    display: block; /* 显示内容 */
+    transition: opacity 0.3s ease; /* 添加渐入效果（可选） */
 }
 
 .news-container h3 {
@@ -286,4 +292,10 @@
     margin: 10px 0;
     color: #555;
     text-shadow: none;
+}
+
+#developerContent, #bottleContent{
+    border-style: double;
+    border: 1px solid #9b8660b7;
+    border-width: 5px;
 }
