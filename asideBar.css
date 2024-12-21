@@ -67,9 +67,43 @@
     transform: translateX(5px);
 }
 
-  
   /* 顯示下拉選單 */
   .dropdown:hover .dropdown-menu {
     display: block;
     position: static; /* 保持選單在 aside 內部 */
+}
+
+/*快速說明*/
+.illustrate{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 450px;
+    width: 340px;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #695a41;
+    
+}
+.illustrate li{
+  font-weight: bold;
+  text-align: left;
+  margin-left: 0;
+  font-size: 18px;
+}
+
+.illustrate h3{
+  text-align: center;
+  margin-bottom: 3px; /* 縮小 <h4> 底部的間距 */
+}
+
+.illustrate p{
+  font-size: 15px;
+  text-align: justify;
+  margin-left: 0;
+  margin-top: 0; /* 移除 <p> 上方的默認間距 */
 }
