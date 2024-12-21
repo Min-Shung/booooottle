@@ -31,7 +31,7 @@ app.listen(8080, function () {
     console.log('Node app is running on port 8080');
 });
 //登入
-app.post('/ogin', async (req, res) => {
+app.post('/login', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   const { account, password } = req.body;
