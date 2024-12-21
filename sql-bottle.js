@@ -30,6 +30,41 @@ client.connect()
 app.listen(8080, function () {
     console.log('Node app is running on port 8080');
 });
+//登入
+app.post('/login', async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  const { account, password } = req.body;
+  if (!account || !password) {
+      return res.status(400).json({ error: '帳號或密碼不得為空！' });
+  }
+
+  try {
+      // 查詢用戶資料
+      const query = 'SELECT username, pw FROM users WHERE username = $1';
+      const values = [account];
+      const result = await client.query(query, values);
+
+      // 如果找不到用戶
+      if (result.rows.length === 0) {
+          return res.status(401).json({ error: '帳號或密碼不正確！' });
+      }
+      const user = result.rows[0]; // 查詢結果中的用戶資料
+
+      // 驗證密碼
+      const isMatch = await bcrypt.compare(password, user.pw);
+      if (!isMatch) {
+          return res.status(401).json({ error: '帳號或密碼不正確！' });
+      }
+
+      // 成功登錄
+      return res.status(200).json({ message: '登錄成功！' });
+  } catch (error) {
+      console.error('伺服器錯誤:', error);
+      return res.status(500).json({ error: '伺服器錯誤，請稍後再試！' });
+  }
+});
+
 //撈
 app.get('/show', async function (req, res) {
     try {
