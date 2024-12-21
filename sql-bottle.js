@@ -5,7 +5,7 @@ const cors = require('cors');
 const axios = require('axios');
 
 const app = express();
-
+app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,15 +34,15 @@ app.listen(8080, function () {
 app.post('/login', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  const { account, password } = req.body;
-  if (!account || !password) {
+  const { username, pw } = req.body;
+  if (!username || !pw) {
       return res.status(400).json({ error: '帳號或密碼不得為空！' });
   }
 
   try {
       // 查詢用戶資料
       const query = 'SELECT username, pw FROM users WHERE username = $1';
-      const values = [account];
+      const values = [username];
       const result = await client.query(query, values);
 
       // 如果找不到用戶
@@ -52,7 +52,7 @@ app.post('/login', async (req, res) => {
       const user = result.rows[0]; // 查詢結果中的用戶資料
 
       // 驗證密碼
-      const isMatch = await bcrypt.compare(password, user.pw);
+      const isMatch = await bcrypt.compare(pw, user.pw);
       if (!isMatch) {
           return res.status(401).json({ error: '帳號或密碼不正確！' });
       }
