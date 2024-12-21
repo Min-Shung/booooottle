@@ -35,7 +35,6 @@ app.post('/login', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   const { username, pw } = req.body;
-  return res.json({ username, pw });
   if (!username || !pw) {
       return res.status(400).json({ error: '帳號或密碼不得為空！' });
   }
