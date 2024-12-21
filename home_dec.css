@@ -25,54 +25,14 @@ body {
     background-color: #FDF2E0;
     transition: all 0.3s ease;
     text-align: center;
-    border: 2.5px solid #695a41; /* 移除按鈕預設邊框 */
+    border: 2.5px solid #695a41;
     cursor: pointer; /* 鼠標樣式 */
+    font-size: 16px;
 }
 
 #sign-container button:hover {
     background-color: #FDF9ED;
     border: 2.5px solid #FDF9ED;
-}
-/*登入框框樣式*/
-#loginModal form {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    justify-content: center; /* 垂直居中 */
-    align-items: center; /* 水平居中 */
-    height: 250px;
-    width: 340px;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f2e6;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px #695a41;
-}
-/*註冊框框樣式*/
-#registerModal form {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    justify-content: center; /* 垂直居中 */
-    align-items: center; /* 水平居中 */
-    height: 350px;
-    width: 340px;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f2e6;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px #695a41;
-}
-/*登入註冊輸入框*/
-.sign_input{
-    width: 100%; /* 寬度設為300px */
-    height: 30px;
-    padding: 5px 10px; /* 內邊距，增加內部文字的間距 */
-    font-size: 16px; /* 字體大小 */
-    border: 1px solid #ccc; /* 邊框顏色 */
-    border-radius: 5px; /* 輸入框邊角圓滑 */
-    box-sizing: border-box; /* 確保寬度包含 padding 和 border */
-    transition: border-color 0.3s ease;
 }
 
 /* 主內容樣式 */

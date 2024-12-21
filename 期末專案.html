@@ -45,39 +45,7 @@
     <main>
         <!--登入註冊-->
         <div id="sign-container">
-            <button id="loginButton" type="button">登入</button>
-            <button id="registerButton" type="button">註冊</button>
-        </div>
-        <!-- 登入模態框 -->
-        <div id="loginModal" class="overlay hidden">
-            <div class="form-container">
-                
-                <form action="logcheck.php" method="post">
-                    <h1>登入</h1>
-                    <input type="text" name="account" pattern="\d{6}" class="sign_input" placeholder="輸入帳號(6位數字)" required>
-                    <input type="password" name="password" class="sign_input" placeholder="輸入密碼" required>
-                    <button type="submit"  class="text_buttom">登入</button>
-                    <button id="closeLogin" class="formcloseOverlay">X</button>
-                </form>
-                
-            </div>
-        </div>
-
-        <!-- 註冊模態框 -->
-        <div id="registerModal" class="overlay hidden">
-            <div class="form-container">
-                
-                <form action="add.php" method="post">
-                    <h1>註冊</h1>
-                    <input type="text" name="account" class="sign_input" placeholder="輸入帳號(6位數字)" required>
-                    <input type="text" name="password" class="sign_input" placeholder="輸入密碼" required>
-                    <input type="password" name="pwcheck" class="sign_input" placeholder="再次輸入密碼" required>
-                    <input type="text" name="name" class="sign_input" placeholder="輸入姓名" required>
-                    <button type="submit" class="text_buttom">註冊</button>
-                    <button id="closeRegister" class="formcloseOverlay">X</button>
-                </form>
-                
-            </div>
+            <button id="loginButton" type="button">登入或註冊</button>
         </div>
         <!-- 初始、丟撈瓶子 -->
         <section id="home">
