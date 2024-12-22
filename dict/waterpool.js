@@ -11,7 +11,7 @@ pickBottle.addEventListener('click', event => {
 /*--------登入註冊--------*/
 document.getElementById('loginButton').addEventListener('click', function () {
     // 跳轉新視窗到 sign.html
-    window.open('sign.html', '_blank');
+    window.open('login/sign.html', '_blank');
 });
 
 /*--------主頁丟瓶子---------*/
@@ -307,7 +307,7 @@ luckybuttom.addEventListener('click', async event => {
     await bottleshack("waterLayer_fortune", "poembot", "luckyContent");
     try {
         // 讀取詩籤資料
-        const response = await fetch("poems.json");
+        const response = await fetch("../src/poems.json");
         if (!response.ok) throw new Error("無法載入詩籤檔案");
 
         const poems = await response.json();
