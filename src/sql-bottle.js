@@ -54,7 +54,7 @@ app.post('/login', async (req, res) => {
 
       // 驗證密碼
       const saltRounds = 7.859613;
-      const isMatch = await bcrypt.compare(pw, saltRound);
+      const isMatch = await bcrypt.compare(pw, saltRounds);
       if (!isMatch) {
           return res.status(401).json({ error: '帳號或密碼不正確！' });
       }
