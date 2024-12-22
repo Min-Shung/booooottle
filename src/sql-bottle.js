@@ -53,7 +53,7 @@ app.post('/login', async (req, res) => {
       const user = result.rows[0]; // 查詢結果中的用戶資料
 
       // 驗證密碼
-      const isMatch = await bcrypt.compare(pw, user.pw);
+      const isMatch = await bcrypt.compare(String(pw), String(user.pw));
       if (!isMatch) {
           return res.status(401).json({ error: '帳號或密碼不正確！' });
       }
