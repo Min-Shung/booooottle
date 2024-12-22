@@ -277,8 +277,8 @@
             <div class="container sign-container" id="sign-container">               
                 <form action="#" method="post" class="form" id="signform">
                     <h1 class="form_tittle tittle">登入帳號</h1>
-                    <input type="text"  class="form_input" placeholder="輸入帳號" required>
-                    <input type="text" name="form_input" class="form_input" placeholder="輸入密碼(6位數字)" required>
+                    <input type="text"  class="form_input" placeholder="輸入帳號(英文)" required>
+                    <input type="password" name="form_input" class="form_input" placeholder="輸入密碼(6位數字)" required>
                     <a href="" class="form_link">忘記密碼?</a>
                     <button type="submit" class="form_buttom button submit" id="signIn">SIGN IN</button>
                 </form>      
@@ -472,12 +472,15 @@
                     }
                 })
                 .then(data => {
+                    localStorage.setItem('username', data.username);
                     console.log('登錄成功:', data);
                     showPop('登入成功！');
+                    setTimeout(() => {
+                        showPop('跳轉中...');
+                }, 600)
                     setTimeout(() => { 
-                        window.open('../index.html', '_blank');
-                    }, 1000)
-                
+                        window.open('../index.html', '_self');
+                    }, 1800)
                 })
                 .catch(error => {
                     console.error('登錄錯誤:', error);

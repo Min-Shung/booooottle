@@ -11,9 +11,16 @@ pickBottle.addEventListener('click', event => {
 /*--------登入註冊--------*/
 document.getElementById('loginButton').addEventListener('click', function () {
     // 跳轉新視窗到 sign.html
-    window.open('login/sign.html', '_blank');
+    window.open('login/sign.html', '_self');
 });
-
+document.addEventListener('DOMContentLoaded', () => {
+    const username = localStorage.getItem('username'); // 從 localStorage 獲取用戶名稱
+    const loginButton = document.getElementById('loginButton'); // 假設按鈕的 ID 是 loginButton
+    if (username) {
+        // 如果有用戶名稱，更新按鈕文字
+        loginButton.textContent = `歡迎，${username}`;
+    }
+});
 /*--------主頁丟瓶子---------*/
 
 const addData = async () => {
