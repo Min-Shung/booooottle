@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(express.json());
@@ -52,7 +53,8 @@ app.post('/login', async (req, res) => {
       const user = result.rows[0]; // 查詢結果中的用戶資料
 
       // 驗證密碼
-      const isMatch = await bcrypt.compare(pw, user.pw);
+      const saltRounds = 7.859613;
+      const isMatch = await bcrypt.compare(pw, saltRound);
       if (!isMatch) {
           return res.status(401).json({ error: '帳號或密碼不正確！' });
       }
