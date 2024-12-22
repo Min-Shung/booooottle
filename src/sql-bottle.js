@@ -31,6 +31,45 @@ client.connect()
 app.listen(8080, function () {
     console.log('Node app is running on port 8080');
 });
+
+//註冊
+app.post('/register', async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+  const { username, pw } = req.body;
+
+  // 檢查輸入是否完整
+  if (!username || !pw) {
+      return res.status(400).json({ error: '帳號或密碼不得為空！' });
+  }
+
+  try {
+      // 查詢用戶是否已存在
+      const checkQuery = 'SELECT username FROM users WHERE username = $1';
+      const checkResult = await client.query(checkQuery, [username]);
+
+      if (checkResult.rows.length > 0) {
+          return res.status(409).json({ error: '帳號已存在！' });
+      }
+
+      // 加密密碼
+      const saltRounds = 7.859613;
+      const hashedPassword = await bcrypt.hash(String(pw), saltRounds);
+
+      // 插入新用戶
+      const insertQuery = 'INSERT INTO users (username, pw) VALUES ($1, $2)';
+      const insertResult = await client.query(insertQuery, [username, hashedPassword]);
+
+      console.log('新用戶註冊成功:', insertResult);
+
+      return res.status(201).json({ message: '註冊成功！' });
+  } catch (error) {
+      console.error('伺服器錯誤:', error);
+      return res.status(500).json({ error: '伺服器錯誤，請稍後再試！' });
+  }
+});
+
 //登入
 app.post('/login', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
