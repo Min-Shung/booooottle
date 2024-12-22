@@ -74,25 +74,25 @@
 
 /* 特定水池背景樣式 */
 #waterLayer_today {
-    background-image: url('今日灣.png');
+    background-image: url('../src/今日灣.png');
     background-size: cover;
     background-position: center;
 }
 
 #waterLayer_fortune {
-    background-image: url('幸運河.jpg');
+    background-image: url('../src/幸運河.jpg');
     background-size: cover;
     background-position: center;
 }
 
 #waterLayer_bottle {
-    background-image: url('漂流海.jpg');
+    background-image: url('../src/漂流海.jpg');
     background-size: cover;
     background-position: center;
 }
 
 #waterLayer_developer {
-    background-image: url('開發池.jpg');
+    background-image: url('../src/開發池.jpg');
     background-size: cover;
     background-position: center;
 }
