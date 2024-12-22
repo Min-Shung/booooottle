@@ -66,6 +66,9 @@ app.post('/register', async (req, res) => {
       return res.status(201).json({ message: '註冊成功！' });
   } catch (error) {
       console.error('伺服器錯誤:', error);
+      if (error.code === '23505') { // 唯一約束違反錯誤代碼
+        return res.status(409).json({ error: '帳號已存在！' });
+    }
       return res.status(500).json({ error: '伺服器錯誤，請稍後再試！' });
   }
 });
