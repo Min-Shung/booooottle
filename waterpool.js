@@ -89,6 +89,7 @@ closeformButtons.forEach(button => {
     });
 });
 /*--------------瓶子動畫------------*/
+
 function bottleback() {
     const todaybotimg = document.getElementById('todaybot');
     const poembotimg = document.getElementById('poembot');
@@ -107,13 +108,15 @@ async function bottleshack(layerid,bottleid,contentid) {
     // 撈瓶子的動畫效果
     newsContent.classList.add('hiddenForInner');
     waterLayerToday.classList.add('shake'); // 啟動動畫
+    void waterLayerToday.offsetWidth; // 強制瀏覽器重新渲染
+    waterLayerToday.classList.add('shake');
 
     // 設定動畫結束後的動作
     waterLayerToday.addEventListener('animationend', () => {
         if (bottleImage) bottleImage.style.display = 'none'; // 隱藏瓶子
         newsContent.classList.remove('hiddenForInner');
         newsContent.classList.add('show'); // 顯示新聞內容
-
+        
         // 移除動畫類，重置狀態
         waterLayerToday.classList.remove('shake');
         bottleImage.style.transform = ''; // 重置transform样式
@@ -298,47 +301,68 @@ ToDaybutton.addEventListener('click', async event => {
 
 /*-----------幸運河---------------*/
 // 顯示幸運河的詩籤結果
-const luckybuttom = document.getElementById(`luckybuttom`); 
-luckybuttom.addEventListener('click', async event =>  {
+luckybuttom.addEventListener('click', async event => {
     const bottleImage = document.getElementById('poembot');
     if (bottleImage.dataset.used === 'true') return;
-    await bottleshack("waterLayer_fortune","poembot","luckyContent");
+    await bottleshack("waterLayer_fortune", "poembot", "luckyContent");
     try {
         // 讀取詩籤資料
         const response = await fetch("poems.json");
         if (!response.ok) throw new Error("無法載入詩籤檔案");
 
         const poems = await response.json();
+        console.log("詩籤資料：", poems);
 
-        // 隨機抽取一條詩籤
-        const poemKeys = Object.keys(poems);
-        const randomKey = poemKeys[Math.floor(Math.random() * poemKeys.length)];
-        const randomPoem = poems[randomKey];
+        // 權重設定
+        const weightMap = { "大吉": 9, "中吉": 20, "小吉": 20, "吉": 30, "小凶": 18, "凶": 3 };
+        const weightedPool = [];
+        for (const [key, weight] of Object.entries(weightMap)) {
+            for (let i = 0; i < weight; i++) {
+                weightedPool.push(key);
+            }
+        }
 
-        // 美化框框內顯示詩籤內容
+        // 從權重池中隨機選擇
+        const randomCategory = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+        console.log("隨機類別：", randomCategory);
+
+        // 選取符合該類別的詩籤
+        const filteredPoems = Object.values(poems).filter(
+            poem => typeof poem === "object" && poem.吉凶 === randomCategory
+        );
+
+        if (filteredPoems.length === 0) {
+            throw new Error(`無符合的詩籤類別：${randomCategory}`);
+        }
+
+        const randomPoem = filteredPoems[Math.floor(Math.random() * filteredPoems.length)];
+        if (!randomPoem) {
+            throw new Error("無法選取隨機詩籤");
+        }
+
+        // 顯示詩籤內容
         const luckyContent = document.getElementById('luckyContent');
-        luckyContent.innerHTML = ''; 
         luckyContent.innerHTML = `
             <h4>詩籤內容</h4>
-            <p id = "lucky"><strong></strong>${randomPoem.吉凶}</p>
-            <p id = "poem"><strong></strong>${randomPoem.詩籤}</p>
+            <p id="lucky"><strong></strong>${randomPoem.吉凶}</p>
+            <p id="poem"><strong></strong>${randomPoem.詩籤}</p>
             <hr>
-            <p id = "ex"><strong></strong>${randomPoem.解釋}</p>
-            <p class = "content"><strong>願望：</strong>${randomPoem.願望}</p>
-            <p class = "content"><strong>疾病：</strong>${randomPoem.疾病}</p>
-            <p class = "content"><strong>盼望的人：</strong>${randomPoem.盼望的人}</p>
-            <p class = "content"><strong>遺失物：</strong>${randomPoem.遺失物}</p>
-            <p class = "content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
-            <p class = "content"><strong>交往：</strong>${randomPoem.交往}</p>
-            <p class = "content"><strong>旅行：</strong>${randomPoem.旅行}</p>
+            <p id="ex"><strong></strong>${randomPoem.解釋}</p>
+            <p class="content"><strong>願望：</strong>${randomPoem.願望}</p>
+            <p class="content"><strong>疾病：</strong>${randomPoem.疾病}</p>
+            <p class="content"><strong>盼望的人：</strong>${randomPoem.盼望的人}</p>
+            <p class="content"><strong>遺失物：</strong>${randomPoem.遺失物}</p>
+            <p class="content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
+            <p class="content"><strong>交往：</strong>${randomPoem.交往}</p>
+            <p class="content"><strong>旅行：</strong>${randomPoem.旅行}</p>
         `;
-
     } catch (error) {
         console.error("錯誤:", error);
         alert("無法載入詩籤，請稍後再試！");
     }
-    const InnerLayer = document.getElementById(`luckyContent`); // 找到對應的遮罩層
-    InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
+
+    const InnerLayer = document.getElementById('luckyContent');
+    InnerLayer.classList.remove('hiddenForInner');
 });
 
 /*--------漂流瓶撈瓶子---------*/
