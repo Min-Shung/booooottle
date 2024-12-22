@@ -9,33 +9,7 @@ pickBottle.addEventListener('click', event => {
     targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
 });
 /*--------登入註冊--------*/
-// 取得按鈕與模態框的 DOM 元素
-const loginButton = document.getElementById('loginButton');
-const registerButton = document.getElementById('registerButton');
-const loginModal = document.getElementById('loginModal');
-const registerModal = document.getElementById('registerModal');
-const closeLogin = document.getElementById('closeLogin');
-const closeRegister = document.getElementById('closeRegister');
 
-// 顯示登入模態框
-loginButton.addEventListener('click', () => {
-    loginModal.classList.remove('hidden');
-});
-
-// 顯示註冊模態框
-registerButton.addEventListener('click', () => {
-    registerModal.classList.remove('hidden');
-});
-
-// 關閉登入模態框
-closeLogin.addEventListener('click', () => {
-    loginModal.classList.add('hidden');
-});
-
-// 關閉註冊模態框
-closeRegister.addEventListener('click', () => {
-    registerModal.classList.add('hidden');
-});
 
 /*--------主頁丟瓶子---------*/
 
