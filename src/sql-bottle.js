@@ -36,7 +36,6 @@ app.post('/login', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   const { username, pw } = req.body;
-  const inputPassword = String(pw);
   if (!username || !pw) {
       return res.status(400).json({ error: '帳號或密碼不得為空！' });
   }
@@ -54,8 +53,7 @@ app.post('/login', async (req, res) => {
       const user = result.rows[0]; // 查詢結果中的用戶資料
 
       // 驗證密碼
-      const saltRounds = 7.859613;
-      const isMatch = await bcrypt.compare(inputPassword, saltRounds);
+      const isMatch = await bcrypt.compare(pw, user.pw);
       if (!isMatch) {
           return res.status(401).json({ error: '帳號或密碼不正確！' });
       }
