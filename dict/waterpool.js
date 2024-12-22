@@ -11,7 +11,7 @@ pickBottle.addEventListener('click', event => {
 /*--------登入註冊--------*/
 document.getElementById('loginButton').addEventListener('click', function () {
     // 跳轉新視窗到 sign.html
-    window.open('sign.html', '_blank');
+    window.open('login/sign.html', '_blank');
 });
 
 /*--------主頁丟瓶子---------*/
