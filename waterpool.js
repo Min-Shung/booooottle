@@ -9,7 +9,10 @@ pickBottle.addEventListener('click', event => {
     targetLayer.classList.remove('hidden'); // 顯示對應遮罩層
 });
 /*--------登入註冊--------*/
-
+document.getElementById('loginButton').addEventListener('click', function () {
+    // 跳轉新視窗到 sign.html
+    window.open('sign.html', '_blank');
+});
 
 /*--------主頁丟瓶子---------*/
 
@@ -400,3 +403,19 @@ bottleButton.addEventListener('click', async event => {
           alert('獲取資料失敗');
       }
       });
+/*---------快速說明----------*/
+const quickGuideButton = document.getElementById('sideExp');
+// 快速說明的彈出框
+const quickGuideOverlay = document.getElementById('quickGuideOverlay');
+// 關閉按鈕
+const closeQuickGuideButton = document.getElementById('formcloseOverlay');
+
+// 顯示快速說明彈出框
+quickGuideButton.addEventListener('click', () => {
+    quickGuideOverlay.classList.remove('hidden');
+});
+
+// 關閉快速說明彈出框
+closeQuickGuideButton.addEventListener('click', () => {
+    quickGuideOverlay.classList.add('hidden');
+});
