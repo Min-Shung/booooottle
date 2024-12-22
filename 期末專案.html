@@ -45,39 +45,7 @@
     <main>
         <!--登入註冊-->
         <div id="sign-container">
-            <button id="loginButton" type="button">登入</button>
-            <button id="registerButton" type="button">註冊</button>
-        </div>
-        <!-- 登入模態框 -->
-        <div id="loginModal" class="overlay hidden">
-            <div class="form-container">
-                
-                <form action="logcheck.php" method="post">
-                    <h1>登入</h1>
-                    <input type="text" name="account" pattern="\d{6}" class="sign_input" placeholder="輸入帳號(6位數字)" required>
-                    <input type="password" name="password" class="sign_input" placeholder="輸入密碼" required>
-                    <button type="submit"  class="text_buttom">登入</button>
-                    <button id="closeLogin" class="formcloseOverlay">X</button>
-                </form>
-                
-            </div>
-        </div>
-
-        <!-- 註冊模態框 -->
-        <div id="registerModal" class="overlay hidden">
-            <div class="form-container">
-                
-                <form action="add.php" method="post">
-                    <h1>註冊</h1>
-                    <input type="text" name="account" class="sign_input" placeholder="輸入帳號(6位數字)" required>
-                    <input type="text" name="password" class="sign_input" placeholder="輸入密碼" required>
-                    <input type="password" name="pwcheck" class="sign_input" placeholder="再次輸入密碼" required>
-                    <input type="text" name="name" class="sign_input" placeholder="輸入姓名" required>
-                    <button type="submit" class="text_buttom">註冊</button>
-                    <button id="closeRegister" class="formcloseOverlay">X</button>
-                </form>
-                
-            </div>
+            <button id="loginButton" type="button">登入或註冊</button>
         </div>
         <!-- 初始、丟撈瓶子 -->
         <section id="home">
@@ -127,6 +95,23 @@
             <img src="瓶子2-removebg-preview.png" class="bottle" id="devbot"  width="70px" height="70px">
             <button class="releaseBottle" id="devButton">撈瓶子</button>
             <div class="news-container hiddenForInner" id="developerContent"></div>
+        </div>
+        <!-- 快速說明 -->
+        <div id="quickGuideOverlay" class="overlay hidden">
+            <div class="illustrate">
+                <h3>歡迎來到<br>Booooottle漂流瓶小遊戲<br>遊戲說明</h3>
+                <p><li>主頁</li>
+                    ◆丟瓶子：一天可以寫下六段話（丟六次瓶子），每段限100字。<br>
+                    ◆撈瓶子：主頁撈瓶子次數無限制，可以按表情符號。<br>
+                    ◆信箱：查看丟出的瓶子收到的留言。<br>
+                    <li>指定水池</li>
+                    ◇今日灣：可以撈到今日新聞、音樂排行榜、股票行情的每日資訊。<br>
+                    ◇幸運河：可抽取當日運勢和籤詩。<br>
+                    ◇漂流海：每日限六，可以撈取其他用戶的漂流瓶。<br>
+                    ◇開發池：每日限二，可以撈到開發者的碎碎念。<br>
+                    </p>
+                <button id="formcloseOverlay" class="formcloseOverlay">X</button>
+            </div>
         </div>
     <!-- 錯誤訊息區域 -->
     <p id="errorMessage" style="color: red; font-weight: bold;"></p>
