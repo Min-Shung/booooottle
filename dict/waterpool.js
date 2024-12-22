@@ -307,7 +307,7 @@ luckybuttom.addEventListener('click', async event => {
     await bottleshack("waterLayer_fortune", "poembot", "luckyContent");
     try {
         // 讀取詩籤資料
-        const response = await fetch("poems.json");
+        const response = await fetch("../src/poems.json");
         if (!response.ok) throw new Error("無法載入詩籤檔案");
 
         const poems = await response.json();
