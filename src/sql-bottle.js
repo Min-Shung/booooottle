@@ -84,7 +84,7 @@ app.post('/login', async (req, res) => {
 
   try {
       // 查詢用戶資料
-      const query = 'SELECT username, pw FROM users WHERE username = $1';
+      const query = 'SELECT username, pw, userid FROM users WHERE username = $1';
       const values = [username];
       const result = await client.query(query, values);
 
@@ -101,7 +101,7 @@ app.post('/login', async (req, res) => {
       }
 
       // 成功登錄
-      return res.status(200).json({ message: '登錄成功！', username: user.username });
+      return res.status(200).json({ message: '登錄成功！', username: user.username ,userid: user.useid });
   } catch (error) {
       console.error('伺服器錯誤:', error);
       return res.status(500).json({ error: '伺服器錯誤，請稍後再試！' });
