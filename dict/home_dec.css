@@ -224,3 +224,32 @@ h1 {
 .formcloseOverlay:hover {
     background: #ff3b3b; /* 懸停時變深紅色 */
 }
+/*彈窗*/
+.thewindow {
+    display: none; /* 初始隱藏 */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: 42px;
+    width: auto;
+    background: #4e4f50;
+    position: absolute;
+    border-right:15px solid  #4e4f50;
+    border-left:15px solid  #4e4f50;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1500; /* 確保浮於最上層 */
+}
+
+.thewindow p {
+    color: #f9f9f9;
+    font-size: 15px;
+    text-align: center; 
+}
+
+.thewindow.show {
+    display: flex; /* 顯示時更改為 flex */
+}

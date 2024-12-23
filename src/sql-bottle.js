@@ -152,7 +152,7 @@ app.post('/add', async (req, res) => {
         }
 
         const insertResult = await client.query(
-            'INSERT INTO bottles (UserID, Content) VALUES ($1, $2)', [UserID, Content]
+            'INSERT INTO bottles (userid, content) VALUES ($1, $2)', [UserID, Content]
         );
 
         return res.send({ error: false, data: insertResult, message: 'Submission successful!' });

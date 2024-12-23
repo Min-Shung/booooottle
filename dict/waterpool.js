@@ -1,5 +1,6 @@
 const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
+const today = new Date().toISOString().split('T')[0];
 const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃要改
 // 撈瓶子按鈕
 pickBottle.addEventListener('click', event => {
@@ -15,14 +16,13 @@ document.getElementById('loginButton').addEventListener('click', function () {
 });
 document.addEventListener('DOMContentLoaded', () => {
     const username = localStorage.getItem('username'); // 從 localStorage 獲取用戶名稱
-    const loginButton = document.getElementById('loginButton'); // 假設按鈕的 ID 是 loginButton
+    const loginButton = document.getElementById('loginButton'); 
     if (username) {
         // 如果有用戶名稱，更新按鈕文字
         loginButton.textContent = `歡迎，${username}`;
     }
 });
 /*--------主頁丟瓶子---------*/
-
 const addData = async () => {
     const UserID = 1; // 使用者ID，根據實際情況獲取   #要修改
     const Content = document.getElementById('bottletext_input').value;
@@ -37,12 +37,20 @@ const addData = async () => {
         const result = await response.json();
         console.log('Response:', response.status, result);//debug
         if (response.ok) {
-            alert(result.message);
+            showPop("提交成功");
         }
         else {
             alert(result.message); // 禁用字錯誤或其他問題
-            document.getElementById('errorMessage').textContent = result.message;
         }
+        releaseClick.count++;
+        let releasetime=DAILY_LIMIT-releaseClick.count;
+        localStorage.setItem('releaseTime', JSON.stringify(releaseClick));
+        setTimeout(() => {
+            showPop(`今日丟瓶子次數：${releaseClick.count} ，剩餘次數：${releasetime}`);
+        }, 2000);
+        setTimeout(() => {
+            document.getElementById('bottletext_input').value = '';
+        }, 1000);
     } 
     catch (error) {
         console.error('Error:', error);
@@ -54,11 +62,21 @@ const text_buttom = document.getElementById('text_buttom');
 text_buttom.addEventListener('click', event => { 
     addData(); 
 });
-
+const RELEASE_LIMIT = 6;
+let releaseClick = JSON.parse(localStorage.getItem('releaseTime')) || { count: 0, date: "" };
+if (releaseClick.date !== today) {
+    releaseClick = { count: 0, date: today };
+  }
 releaseBottle.addEventListener('click', event => {
-    event.preventDefault();
-    const targetLayer = document.getElementById(`releasebox`);
-    targetLayer.classList.remove('hidden');
+    if (releaseClick.count < RELEASE_LIMIT) {
+        event.preventDefault();
+        const targetLayer = document.getElementById(`releasebox`);
+        targetLayer.classList.remove('hidden');
+    }
+    else
+    {
+        showPop("今日丟瓶子次數已達上限！");
+    }
 });
 
 /*-----------關閉按鈕-----------*/
@@ -373,40 +391,56 @@ luckybuttom.addEventListener('click', async event => {
 });
 
 /*--------漂流瓶撈瓶子---------*/
+const DAILY_LIMIT = 6;
+let clickData = JSON.parse(localStorage.getItem('buttonClickData')) || { count: 0, date: "" };
+
+// 檢查是否為今天，並重置次數
+if (clickData.date !== today) {
+  clickData = { count: 0, date: today };
+}
 const bottleButton = document.getElementById('bottleButton');
 bottleButton.addEventListener('click', async event => {
     event.preventDefault(); // 阻止默認跳轉行為
-    const bottleImage = document.getElementById('thebot');
-    if (bottleImage.dataset.used === 'true') return;
-    await bottleshack("waterLayer_bottle","thebot","bottleContent");
-    try {
-        const tableName = 'bottles';
-        const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
-        const result = await response.json();
+    if (clickData.count < DAILY_LIMIT) {
+        clickData.count++;
+        let clicktime=DAILY_LIMIT-clickData.count;
+        localStorage.setItem('buttonClickData', JSON.stringify(clickData));
+        showPop(`今日撈取次數：${clickData.count} ，剩餘${clicktime}`);
+        const bottleImage = document.getElementById('thebot');
+        if (bottleImage.dataset.used === 'true') return;
+        await bottleshack("waterLayer_bottle","thebot","bottleContent");
+        try {
+            const tableName = 'bottles';
+            const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
+            const result = await response.json();
 
-        const dataList = document.getElementById('bottleContent');
-        dataList.innerHTML = ''; // 清空舊資料
-        if (result.data && result.data.length > 0) {
-            // 隨機選擇一個項目
-            const randomIndex = Math.floor(Math.random() * result.data.length);
-            const randomItem = result.data[randomIndex];
-            const InnerLayer = document.getElementById('bottleContent');
-            InnerLayer.innerHTML ='';
-            InnerLayer.innerHTML = `
-                <p class = "content"> ${randomItem.content}</p>
-                <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}<p>
-            `;
-           }
-        else {
-            dataList.innerHTML = '<li>水裡空空的>w<</li>';
+            const dataList = document.getElementById('bottleContent');
+            dataList.innerHTML = ''; // 清空舊資料
+            if (result.data && result.data.length > 0) {
+                // 隨機選擇一個項目
+                const randomIndex = Math.floor(Math.random() * result.data.length);
+                const randomItem = result.data[randomIndex];
+                const InnerLayer = document.getElementById('bottleContent');
+                InnerLayer.innerHTML ='';
+                InnerLayer.innerHTML = `
+                    <p class = "content"> ${randomItem.content}</p>
+                    <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}<p>
+                `;
+            }
+            else {
+                dataList.innerHTML = '<li>水裡空空的>w<</li>';
+            }
+            const InnerLayer = document.getElementById(`bottleContent`); // 找到對應的遮罩層
+            InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
         }
-        const InnerLayer = document.getElementById(`bottleContent`); // 找到對應的遮罩層
-        InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
+        catch (error) {
+            console.error('Error fetching data:', error);
+            alert('獲取資料失敗');
+        }
     } 
-    catch (error) {
-        console.error('Error fetching data:', error);
-        alert('獲取資料失敗');
-    }
+    else {
+        showPop('漂流海的撈取次數已達上限！');
+      }
     });
 /*--------開發碎碎念---------*/
   const devButton = document.getElementById('devButton');
@@ -450,3 +484,14 @@ quickGuideButton.addEventListener('click', () => {
 closeQuickGuideButton.addEventListener('click', () => {
     quickGuideOverlay.classList.add('hidden');
 });
+
+/*--------彈出提示----------*/
+function showPop(message){
+    const windowcontext = document.querySelector('#windowcontext');
+    windowcontext.innerHTML=message;
+    const theWindow = document.querySelector('#resign');
+    theWindow.classList.add('show');
+    setTimeout(() => {
+        theWindow.classList.remove('show');
+    }, 1000);
+}
