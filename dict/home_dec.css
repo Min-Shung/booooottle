@@ -81,17 +81,6 @@ section {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/*主頁撈瓶子*/
-#pickbox .content-box {
-    background-color: white;
-    padding: 20px;
-    width: 80%;
-    margin: auto;
-    position: relative;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 /* 關閉按鈕 */
 #pickbox .closeOverlay {
     position: absolute;
@@ -223,4 +212,45 @@ h1 {
 
 .formcloseOverlay:hover {
     background: #ff3b3b; /* 懸停時變深紅色 */
+}
+
+/* 主頁撈瓶子 */
+#pickbox {
+    position: absolute;  /* 使用固定定位 */
+    top: 50%;  /* 垂直居中 */
+    left: 50%;  /* 水平居中 */
+    transform: translate(-50%, -50%);  /* 精確居中，將元素向左和向上偏移自身的50% */
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 450px;
+    width: 340px;
+    padding: 20px;
+    background-color: #f9f2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #695a41;
+}
+#HomeContent{
+    position: absolute;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    max-height: 400px; 
+    line-height: 1;
+    overflow-y: auto;
+}
+
+.home-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.home-container.show {
+    display: block; /* 显示内容 */
+    transition: opacity 0.3s ease; /* 添加渐入效果（可选）*/ 
+    z-index: 2000;
 }

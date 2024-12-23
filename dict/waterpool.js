@@ -42,6 +42,8 @@ const addData = async () => {
         alert('提交失敗，請再試一次。');
     }
 };
+
+
 //提交表單（漂流瓶）
 const text_buttom = document.getElementById('text_buttom');
 text_buttom.addEventListener('click', event => { 
@@ -71,9 +73,10 @@ closeButtons.forEach(button => {
             const inlay = overlay.querySelector('.news-container'); // 直接抓取
             if (inlay) {
                 inlay.classList.add('hiddenForInner');
-                
+                inlay.classList.remove('show');
+                inlay.innerHTML = ''; // 清空內容
             }
-            inlay.innerHTML = ''; // 清空內容
+            
         }
     });
 });
@@ -81,11 +84,10 @@ closeButtons.forEach(button => {
 closeformButtons.forEach(button => {
     button.addEventListener('click', event => {
         const overlay = event.target.closest('.overlay');
-        
+        console.log('關閉按鈕被點擊');
         if (overlay) {
             overlay.classList.add('hidden');
         }
-        bottleback();
     });
 });
 /*--------------瓶子動畫------------*/
@@ -109,7 +111,6 @@ async function bottleshack(layerid,bottleid,contentid) {
     newsContent.classList.add('hiddenForInner');
     waterLayerToday.classList.add('shake'); // 啟動動畫
     void waterLayerToday.offsetWidth; // 強制瀏覽器重新渲染
-    waterLayerToday.classList.add('shake');
 
     // 設定動畫結束後的動作
     waterLayerToday.addEventListener('animationend', () => {
@@ -158,7 +159,7 @@ poolLinks.forEach(link => {
 //
 /*-------------今日--------------*/
 /*-------------新聞--------------*/
-async function fetchNews() {
+async function fetchNews(contentid) {
     // 直接使用 NewsAPI 的 HTTP 請求，而不是 require
     const apiKey = 'f076c58eb1d24bf18489cc021bf02feb'; // 你的 NewsAPI API 金鑰
     const today = new Date();
@@ -188,7 +189,7 @@ async function fetchNews() {
           const title = article.title;
           const description = article.description;
   
-          const newsContent = document.getElementById('newsContent');
+          const newsContent = document.getElementById(`${contentid}`);
           newsContent.innerHTML = ''; // 清空內容
           newsContent.innerHTML = `
             <p class = "content" id = "title">${title}</p>
@@ -205,7 +206,7 @@ async function fetchNews() {
       });
   }
 /*-------------KKBOX--------------*/
-async function fetchKKBOX(){
+async function fetchKKBOX(contentid){
     const today = new Date();
     const year = today.getFullYear();
     const formatDate = (date) => {
@@ -245,7 +246,7 @@ async function fetchKKBOX(){
         .then(response => response.json())
         .then(responseData => {
             const newReleases = responseData.data.charts.newrelease;
-            const newsContent = document.getElementById('newsContent');
+            const newsContent = document.getElementById(contentid);
             newsContent.innerHTML = ''; // 清空內容
             const displayMode = Math.random() < 0.5 ? 0 : 1;
             if (displayMode === 0) {
@@ -293,8 +294,8 @@ ToDaybutton.addEventListener('click', async event => {
     await bottleshack("waterLayer_today","todaybot","newsContent");
     // 這裡可以根據隨機決定要顯示哪一個內容（新聞或KKBOX）
     const randomtoday = Math.random();
-    if (randomtoday < 0.5) await fetchNews();
-    else await fetchKKBOX();
+    if (randomtoday < 0.5) await fetchNews("newsContent");
+    else await fetchKKBOX("newsContent");
     const InnerLayer = document.getElementById(`newsContent`); // 找到對應的遮罩層
     InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
 });
@@ -442,4 +443,69 @@ quickGuideButton.addEventListener('click', () => {
 // 關閉快速說明彈出框
 closeQuickGuideButton.addEventListener('click', () => {
     quickGuideOverlay.classList.add('hidden');
+});
+
+/*--------主頁撈瓶子--------*/
+pickBottle.addEventListener('click', async (event) => {
+    event.preventDefault(); // 阻止默認行為
+    const pickbox = document.getElementById("HomeContent"); // 找到 pickbox 容器
+    pickbox.classList.remove('hidden'); // 顯示 pickbox
+    const randombottle = Math.random();
+    try {
+        if (!pickbox) {
+            console.error("Element with id 'pickbox' not found.");
+            alert("無法顯示內容");
+            return;
+        }
+        pickbox.innerHTML = ''; // 清空舊資料
+        pickbox.classList.remove('hiddenForInner');
+        pickbox.classList.add('show');
+        if (randombottle < 0.35) {
+            // 35% 機率抓取 News
+            await fetchNews("HomeContent");
+        } else if (randombottle < 0.7) {
+            // 35% 機率抓取 KKBOX
+            await fetchKKBOX("HomeContent");
+        } else if (randombottle < 0.99) {
+            // 29% 機率抓取 BottleContent
+            if (!pickbox) {
+                console.error("Element with id 'BottleContent' not found.");
+                return;
+            }
+            const response = await fetch(`${apiBaseUrl}/show?table=bottles`);
+            const result = await response.json();
+            if (result.data && result.data.length > 0) {
+                const randomIndex = Math.floor(Math.random() * result.data.length);
+                const randomItem = result.data[randomIndex];
+                pickbox.innerHTML = `
+                    <p class="content">${randomItem.content}</p>
+                    <p class="content">${new Date(randomItem.createdat).toLocaleString()}</p>
+                `;
+            } else {
+                pickbox.innerHTML = '<li>水裡空空的>w<</li>';
+            }
+            pickbox.classList.remove('hidden');
+        } else {
+            // 1% 機率抓取 DevContent
+            if (!pickbox) {
+                console.error("Element with id 'DevContent' not found.");
+                return;
+            }
+            const response = await fetch(`${apiBaseUrl}/show?table=wtfdevelopersay`);
+            const result = await response.json();
+            if (result.data && result.data.length > 0) {
+                const randomIndex = Math.floor(Math.random() * result.data.length);
+                const randomItem = result.data[randomIndex];
+                pickbox.innerHTML = `
+                    <p class="content">${randomItem.content}</p>
+                `;
+            } else {
+                pickbox.innerHTML = '<li>開發池裡空空的>w<</li>';
+            }
+            devContent.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        alert('獲取資料失敗');
+    }
 });

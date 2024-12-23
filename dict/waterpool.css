@@ -300,5 +300,11 @@
     border-width: 5px;
 }
 
-/*登入註冊*/
+/*主頁撈瓶子*/
+.overlay.hidden {
+    display: none;
+}
 
+.overlay.show {
+    display: block;
+}
