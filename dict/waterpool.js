@@ -59,6 +59,7 @@ const addData = async () => {
 //提交表單（漂流瓶）
 const text_buttom = document.getElementById('text_buttom');
 text_buttom.addEventListener('click', event => { 
+    event.preventDefault(); 
     addData(); 
 });
 const RELEASE_LIMIT = 6;
@@ -412,14 +413,14 @@ bottleButton.addEventListener('click', async event => {
             const tableName = 'bottles';
             const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
             const result = await response.json();
-
+            const randomItem = result.data; 
             const dataList = document.getElementById('bottleContent');
             dataList.innerHTML = ''; // 清空舊資料
-            if (result.data && result.data.length > 0) {
+            if (result.data) {
                 const InnerLayer = document.getElementById('bottleContent');
                 InnerLayer.innerHTML ='';
                 InnerLayer.innerHTML = `
-                    <p class = "content"> ${result.data}</p>
+                    <p class = "content"> ${randomItem.content.replace(/\n/g, '<br>')}</p>
                     <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}<p>
                 `;
             }
@@ -449,13 +450,12 @@ bottleButton.addEventListener('click', async event => {
         const tableName = 'wtfdevelopersay';
         const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
         const result = await response.json();
+        const randomItem = result.data; 
         const dataList = document.getElementById('developerContent');
         dataList.innerHTML = ''; // 清空舊資料
               // 隨機選擇一個項目
-              const randomIndex = Math.floor(Math.random() * result.data.length);
-              const randomItem = result.data[randomIndex];
               dataList.innerHTML = `
-                  <p class="content">${randomItem.content}</p>
+                  <p class="content">${randomItem.content.replace(/\n/g, '<br>')}</p>
               `;
         dataList.classList.remove('hiddenForInner'); // 顯示對應遮罩層
       } 
