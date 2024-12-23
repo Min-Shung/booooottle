@@ -214,63 +214,27 @@ poolLinks.forEach(link => {
 //
 /*-------------今日--------------*/
 /*-------------新聞--------------*/
-async function fetchNews(contentid) {
-    // 直接使用 NewsAPI 的 HTTP 請求，而不是 require
-    const apiKey = 'f076c58eb1d24bf18489cc021bf02feb'; // 你的 NewsAPI API 金鑰
-    const today = new Date();
-    const lastWeek = new Date(today);
-    lastWeek.setDate(today.getDate() - 7);
-  
-    // 格式化日期
-    const formatDate = (date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
-  
-    // 定義隨機關鍵字陣列
-    const keywords = ['政治', '社會', '財經', '生活', '影視', '體育', '金融' ,'麥當勞', '蘋果','早餐','颱風','宣布', '地震','天氣'];
-    const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
-  
-    // 使用 fetch 發送 HTTP 請求
-    const url = `https://newsapi.org/v2/everything?q=${randomKeyword}&language=zh&from=${formatDate(lastWeek)}&to=${formatDate(today)}&pageSize=1&apiKey=${apiKey}`;
-    fetch(url)
-      .then(response => response.json())
-      .then(responseData => {
-        if (responseData && responseData.articles && responseData.articles.length > 0) {
-          const article = responseData.articles[0]; // 只取得第一篇文章
-          const title = article.title;
-          const description = article.description;
-  
-          const newsContent = document.getElementById(`${contentid}`);
-          newsContent.innerHTML = ''; // 清空內容
-          newsContent.innerHTML = `
-            <p class = "content" id = "title">${title}</p>
-            <hr>
-            <p class = "content">${description}</p>
-          `;
+async function fetchNews(contentId) {
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/news`); // 修改成後端的 URL
+        const article = await response.json();
+        const newsContent = document.getElementById(contentId);
+
+        if (article && article.title && article.description) {
+            newsContent.innerHTML = `
+                <p class="content" id="title">${article.title}</p>
+                <hr>
+                <p class="content">${article.description}</p>
+            `;
+        } else {
+            newsContent.innerHTML = `<p class="content">No news available</p>`;
         }
-         else {
-            fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=f076c58eb1d24bf18489cc021bf02feb")
-            .then(response => response.json())
-            .then(responseData => {
-                const randomIndex = Math.floor(Math.random() * responseData.articles.length);                
-                const article = responseData.articles[randomIndex]; // 只取得第一篇文章
-                const title = article.title;
-                const description = article.description;
-        
-                const newsContent = document.getElementById(`${contentid}`);
-                newsContent.innerHTML = ''; // 清空內容
-                newsContent.innerHTML = `
-                    <p class = "content" id = "title">${title}</p>
-                    <hr>
-                    <p class = "content">${description}</p>
-                `;
-                })
-         }
-      })
-  }
+    } catch (error) {
+        console.error('Error fetching news:', error);
+        const newsContent = document.getElementById(contentId);
+        newsContent.innerHTML = `<p class="content">Error loading news</p>`;
+    }
+}
 /*-------------KKBOX--------------*/
 async function fetchKKBOX(contentid){
     const today = new Date();
