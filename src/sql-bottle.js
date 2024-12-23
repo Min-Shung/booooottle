@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,48 @@ client.connect()
 app.listen(8080, function () {
     console.log('Node app is running on port 8080');
 });
+
+//註冊
+app.post('/register', async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+  const { username, pw } = req.body;
+
+  // 檢查輸入是否完整
+  if (!username || !pw) {
+      return res.status(400).json({ error: '帳號或密碼不得為空！' });
+  }
+
+  try {
+      // 查詢用戶是否已存在
+      const checkQuery = 'SELECT username FROM users WHERE username = $1';
+      const checkResult = await client.query(checkQuery, [username]);
+
+      if (checkResult.rows.length > 0) {
+          return res.status(409).json({ error: '帳號已存在！' });
+      }
+
+      // 加密密碼
+      const saltRounds = 7.859613;
+      const hashedPassword = await bcrypt.hash(String(pw), saltRounds);
+
+      // 插入新用戶
+      const insertQuery = 'INSERT INTO users (username, pw) VALUES ($1, $2)';
+      const insertResult = await client.query(insertQuery, [username, hashedPassword]);
+
+      console.log('新用戶註冊成功:', insertResult);
+
+      return res.status(201).json({ message: '註冊成功！' });
+  } catch (error) {
+      console.error('伺服器錯誤:', error);
+      if (error.code === '23505') { // 唯一約束違反錯誤代碼
+        return res.status(409).json({ error: '帳號已存在！' });
+    }
+      return res.status(500).json({ error: '伺服器錯誤，請稍後再試！' });
+  }
+});
+
 //登入
 app.post('/login', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -41,10 +84,10 @@ app.post('/login', async (req, res) => {
 
   try {
       // 查詢用戶資料
-      const query = 'SELECT username, pw FROM users WHERE username = $1';
+      const query = 'SELECT username, pw, userid FROM users WHERE username = $1';
       const values = [username];
       const result = await client.query(query, values);
-
+      console.log(result.rows);
       // 如果找不到用戶
       if (result.rows.length === 0) {
           return res.status(401).json({ error: '帳號或密碼不正確！' });
@@ -52,13 +95,13 @@ app.post('/login', async (req, res) => {
       const user = result.rows[0]; // 查詢結果中的用戶資料
 
       // 驗證密碼
-      const isMatch = await bcrypt.compare(pw, user.pw);
+      const isMatch = await bcrypt.compare(String(pw), String(user.pw));
       if (!isMatch) {
           return res.status(401).json({ error: '帳號或密碼不正確！' });
       }
 
       // 成功登錄
-      return res.status(200).json({ message: '登錄成功！' });
+      return res.status(200).json({ message: '登錄成功！', username: user.username ,userid: user.userid });
   } catch (error) {
       console.error('伺服器錯誤:', error);
       return res.status(500).json({ error: '伺服器錯誤，請稍後再試！' });
@@ -77,7 +120,9 @@ app.get('/show', async function (req, res) {
             return res.status(400).send({ error: true, message: 'Invalid table name.' });
         }
         const result = await client.query(`SELECT * FROM ${tableName}`);
-        return res.send({ error: false, data: result.rows, message: `${tableName} list.` });
+        const randomIndex = Math.floor(Math.random() * result.rows.length);
+        const randomItem = result.rows[randomIndex];
+        return res.send({ error: false, data: randomItem, message: `${tableName} list.` });
     } catch (error) {
         console.error(error);  
         return res.status(500).send({ error: true, message: 'Database query failed.' });
@@ -109,7 +154,7 @@ app.post('/add', async (req, res) => {
         }
 
         const insertResult = await client.query(
-            'INSERT INTO bottles (UserID, Content) VALUES ($1, $2)', [UserID, Content]
+            'INSERT INTO bottles (userid, content) VALUES ($1, $2)', [UserID, Content]
         );
 
         return res.send({ error: false, data: insertResult, message: 'Submission successful!' });

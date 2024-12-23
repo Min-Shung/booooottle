@@ -20,7 +20,7 @@
             display: flex;
             font-size: 12px;
             color: #a0a5a8;
-            background: rgba(255, 255, 255, 0.7) url('海.jpg') no-repeat center center;
+            background: rgba(255, 255, 255, 0.7) url('../../src/海.jpg') no-repeat center center;
             background-size: cover;
         }
         /*登入註冊*/
@@ -277,8 +277,8 @@
             <div class="container sign-container" id="sign-container">               
                 <form action="#" method="post" class="form" id="signform">
                     <h1 class="form_tittle tittle">登入帳號</h1>
-                    <input type="text"  class="form_input" placeholder="輸入帳號" required>
-                    <input type="text" name="form_input" class="form_input" placeholder="輸入密碼(6位數字)" required>
+                    <input type="text"  class="form_input" placeholder="輸入帳號(英文)" required>
+                    <input type="password" name="form_input" class="form_input" placeholder="輸入密碼(6位數字)" required>
                     <a href="" class="form_link">忘記密碼?</a>
                     <button type="submit" class="form_buttom button submit" id="signIn">SIGN IN</button>
                 </form>      
@@ -355,82 +355,149 @@
     });
     /*---------註冊---------*/
     // 獲取註冊表單和表單元素
-const signUpForm = document.getElementById('regform');
-const usernameInput = signUpForm.querySelector('input[placeholder="輸入帳號(英文)"]');
-const passwordInput = signUpForm.querySelector('input[placeholder="輸入密碼(6位數字)"]');
-const confirmPasswordInput = signUpForm.querySelector('input[placeholder="再次輸入密碼"]');
+        const signUpForm = document.getElementById('regform');
+        const usernameInput = signUpForm.querySelector('input[placeholder="輸入帳號(英文)"]');
+        const passwordInput = signUpForm.querySelector('input[placeholder="輸入密碼(6位數字)"]');
+        const confirmPasswordInput = signUpForm.querySelector('input[placeholder="再次輸入密碼"]');
 
-// 添加表單提交事件監聽器
-signUpForm.addEventListener('submit', function (event) {
-    event.preventDefault(); // 防止表單默認提交行為
-    // 簡單驗證
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value.trim();
-    const confirmPassword = confirmPasswordInput.value.trim();
+        // 添加表單提交事件監聽器
+        signUpForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // 防止表單默認提交行為
+            // 簡單驗證
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            const confirmPassword = confirmPasswordInput.value.trim();
 
-    if (!username || !/^[a-zA-Z]+$/.test(username)) {
-        showPop('請輸入有效的帳號（僅限英文）！');
-        usernameInput.value = '';
-        return;
-    }
-
-    if (!password || !/^[0-9]{6}$/.test(password)) {
-        showPop('請輸入6位數字的密碼！');
-        passwordInput.value= '';
-        confirmPasswordInput.value= '';
-        return;
-    }
-
-    if (password !== confirmPassword) {
-        showPop('兩次輸入的密碼不一致！');
-        passwordInput.value= '';
-        confirmPasswordInput.value= '';
-        return;
-    }
-
-    // 模擬表單數據提交
-    const formData = {
-        username: username,
-        password: password
-    };
-
-    console.log('正在提交註冊表單數據:', formData);
-
-    // 可在此進行 AJAX 請求或其他操作
-    fetch('#', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('註冊失敗，請檢查帳號和密碼！');
+            if (!username || !/^[a-zA-Z]+$/.test(username)) {
+                showPop('請輸入有效的帳號（僅限英文）！');
+                usernameInput.value = '';
+                return;
             }
-        })
-        .then(data => {
-            console.log('註冊成功:', data);
-            showPop('註冊成功！');
-            // 可在此跳轉至其他頁面
-        })
-        .catch(error => {
-            console.error('註冊錯誤:', error);
-            showPop(error.message);
-        });
-});
-function showPop(message){
-    const windowcontext = document.querySelector('#windowcontext');
-    windowcontext.innerHTML=message;
-    const theWindow = document.querySelector('#resign');
-    theWindow.classList.add('show');
-    setTimeout(() => {
-        theWindow.classList.remove('show');
-    }, 1000);
-}
 
+            if (!password || !/^[0-9]{6}$/.test(password)) {
+                showPop('請輸入6位數字的密碼！');
+                passwordInput.value= '';
+                confirmPasswordInput.value= '';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showPop('兩次輸入的密碼不一致！');
+                passwordInput.value= '';
+                confirmPasswordInput.value= '';
+                return;
+            }
+
+            // 模擬表單數據提交
+            const formData = {
+                username: username, 
+                pw: password
+            };
+
+            console.log('正在提交註冊表單數據:', formData);
+
+            // 可在此進行 AJAX 請求或其他操作
+            fetch('https://final-proj-w8vi.onrender.com/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('註冊失敗，請檢查帳號和密碼！');
+                    }
+                })
+                .then(data => {
+                    console.log('註冊成功:', data);
+                    showPop('註冊成功！刷新頁面中...');
+                    setTimeout(() => {
+                    location.reload(); // 替換為你的目標跳轉網址
+                }, 1000)
+                })
+                .catch(error => {
+                    console.error('註冊錯誤:', error);
+                    showPop(error.message);
+                });
+        });
+
+        /*---------登入---------*/
+        const signInform = document.getElementById('signform');
+        const usernameIn = signInform.querySelector('input[placeholder="輸入帳號(英文)"]');
+        const passwordIn = signInform.querySelector('input[placeholder="輸入密碼(6位數字)"]');
+        signInform.addEventListener('submit', function (event) {
+            event.preventDefault(); // 防止表單默認提交行為
+            // 簡單驗證
+            const account = usernameIn.value.trim();
+            const password = passwordIn.value.trim();
+
+            if (!account) {
+                showPop('請輸入帳號！');
+                usernameIn.value = '';
+            }
+
+            if (!password || !/^[0-9]{6}$/.test(password)) {
+                showPop('請輸入6位數字的密碼！');
+                passwordIn.value= '';
+            }
+
+            // 模擬表單數據提交
+            const formData = {
+                account: account,
+                password: password
+            };
+
+            console.log('正在提交登錄表單數據:', formData);
+
+            // 可在此進行 AJAX 請求或其他操作
+            // 使用 Fetch API 作為示例
+            fetch('https://final-proj-w8vi.onrender.com/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                username: account, 
+                pw: password,      
+            }),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('登錄失敗，請檢查帳號和密碼！');
+                    }
+                })
+                .then(data => {
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('userid', data.userid);
+                    console.log('登錄成功:', data);
+                    showPop('登入成功！');
+                    setTimeout(() => {
+                        showPop('跳轉中...');
+                }, 600)
+                    setTimeout(() => { 
+                        window.open('../index.html', '_self');
+                    }, 1800)
+                })
+                .catch(error => {
+                    console.error('登錄錯誤:', error);
+                    showPop(error.message);
+                });
+        });
+
+        function showPop(message){
+            const windowcontext = document.querySelector('#windowcontext');
+            windowcontext.innerHTML=message;
+            const theWindow = document.querySelector('#resign');
+            theWindow.classList.add('show');
+            setTimeout(() => {
+                theWindow.classList.remove('show');
+            }, 1000);
+        }
     </script>
 </body>
 </html>
