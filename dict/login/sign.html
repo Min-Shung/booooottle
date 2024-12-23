@@ -473,6 +473,7 @@
                 })
                 .then(data => {
                     localStorage.setItem('username', data.username);
+                    localStorage.setItem('userid', data.userid);
                     console.log('登錄成功:', data);
                     showPop('登入成功！');
                     setTimeout(() => {

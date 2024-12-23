@@ -120,7 +120,9 @@ app.get('/show', async function (req, res) {
             return res.status(400).send({ error: true, message: 'Invalid table name.' });
         }
         const result = await client.query(`SELECT * FROM ${tableName}`);
-        return res.send({ error: false, data: result.rows, message: `${tableName} list.` });
+        const randomIndex = Math.floor(Math.random() * result.rows.length);
+        const randomItem = result.rows[randomIndex];
+        return res.send({ error: false, data: randomItem, message: `${tableName} list.` });
     } catch (error) {
         console.error(error);  
         return res.status(500).send({ error: true, message: 'Database query failed.' });

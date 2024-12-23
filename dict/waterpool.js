@@ -24,10 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 /*--------主頁丟瓶子---------*/
 const addData = async () => {
-    const UserID = 1; // 使用者ID，根據實際情況獲取   #要修改
-    const Content = document.getElementById('bottletext_input').value;
-
     try {
+        const UserID = localStorage.getItem('userid');; // 使用者ID，根據實際情況獲取
+        const Content = document.getElementById('bottletext_input').value;
         const response = await fetch(`${apiBaseUrl}/add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -417,13 +416,10 @@ bottleButton.addEventListener('click', async event => {
             const dataList = document.getElementById('bottleContent');
             dataList.innerHTML = ''; // 清空舊資料
             if (result.data && result.data.length > 0) {
-                // 隨機選擇一個項目
-                const randomIndex = Math.floor(Math.random() * result.data.length);
-                const randomItem = result.data[randomIndex];
                 const InnerLayer = document.getElementById('bottleContent');
                 InnerLayer.innerHTML ='';
                 InnerLayer.innerHTML = `
-                    <p class = "content"> ${randomItem.content}</p>
+                    <p class = "content"> ${result.data}</p>
                     <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}<p>
                 `;
             }
