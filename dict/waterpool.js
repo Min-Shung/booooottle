@@ -624,7 +624,7 @@ pickBottle.addEventListener('click', async (event) => {
             } else {
                 pickbox.innerHTML = '<li>開發池裡空空的>w<</li>';
             }
-            devContent.classList.remove('hidden');
+            pickbox.classList.remove('hidden');
         }
     } catch (error) {
         console.error('Error fetching data:', error);
