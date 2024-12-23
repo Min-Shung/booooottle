@@ -391,7 +391,7 @@ luckybuttom.addEventListener('click', async event => {
 });
 
 /*--------漂流瓶撈瓶子---------*/
-const DAILY_LIMIT = 6;
+const DAILY_LIMIT = 600;
 let clickData = JSON.parse(localStorage.getItem('buttonClickData')) || { count: 0, date: "" };
 
 // 檢查是否為今天，並重置次數
