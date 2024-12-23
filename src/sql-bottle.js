@@ -87,7 +87,7 @@ app.post('/login', async (req, res) => {
       const query = 'SELECT username, pw, userid FROM users WHERE username = $1';
       const values = [username];
       const result = await client.query(query, values);
-
+      console.log(result.rows);
       // 如果找不到用戶
       if (result.rows.length === 0) {
           return res.status(401).json({ error: '帳號或密碼不正確！' });
