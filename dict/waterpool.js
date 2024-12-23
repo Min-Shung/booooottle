@@ -195,7 +195,6 @@ poolLinks.forEach(link => {
             document.querySelectorAll('.overlay').forEach(layer => {
                 layer.classList.add('hidden');
             });
-
             // 顯示選中的水池層
             if (targetLayer) {
                 targetLayer.classList.remove('hidden');
