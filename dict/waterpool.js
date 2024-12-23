@@ -200,12 +200,11 @@ async function fetchNews(contentid) {
     };
   
     // 定義隨機關鍵字陣列
-    const keywords = ['政治', '社會', '財經', '生活', '影視', '體育', '金融'];
+    const keywords = ['政治', '社會', '財經', '生活', '影視', '體育', '金融' ,'麥當勞', '蘋果','早餐','颱風','宣布', '地震','天氣'];
     const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
   
     // 使用 fetch 發送 HTTP 請求
     const url = `https://newsapi.org/v2/everything?q=${randomKeyword}&language=zh&from=${formatDate(lastWeek)}&to=${formatDate(today)}&pageSize=1&apiKey=${apiKey}`;
-  
     fetch(url)
       .then(response => response.json())
       .then(responseData => {
@@ -221,14 +220,26 @@ async function fetchNews(contentid) {
             <hr>
             <p class = "content">${description}</p>
           `;
-        } else {
-          alert('未找到任何文章');
         }
+         else {
+            fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=f076c58eb1d24bf18489cc021bf02feb")
+            .then(response => response.json())
+            .then(responseData => {
+                const randomIndex = Math.floor(Math.random() * responseData.articles.length);                
+                const article = responseData.articles[randomIndex]; // 只取得第一篇文章
+                const title = article.title;
+                const description = article.description;
+        
+                const newsContent = document.getElementById(`${contentid}`);
+                newsContent.innerHTML = ''; // 清空內容
+                newsContent.innerHTML = `
+                    <p class = "content" id = "title">${title}</p>
+                    <hr>
+                    <p class = "content">${description}</p>
+                `;
+                })
+         }
       })
-      .catch(error => {
-        console.error('無法取得新聞資料:', error.message);
-        alert('無法取得新聞資料');
-      });
   }
 /*-------------KKBOX--------------*/
 async function fetchKKBOX(contentid){
@@ -511,11 +522,10 @@ pickBottle.addEventListener('click', async (event) => {
             }
             const response = await fetch(`${apiBaseUrl}/show?table=bottles`);
             const result = await response.json();
-            if (result.data && result.data.length > 0) {
-                const randomIndex = Math.floor(Math.random() * result.data.length);
-                const randomItem = result.data[randomIndex];
+            const randomItem = result.data;
+            if (result.data) {
                 pickbox.innerHTML = `
-                    <p class="content">${randomItem.content}</p>
+                    <p class="content">${randomItem.content.replace(/\n/g, '<br>')}</p>
                     <p class="content">${new Date(randomItem.createdat).toLocaleString()}</p>
                 `;
             } else {
@@ -530,11 +540,10 @@ pickBottle.addEventListener('click', async (event) => {
             }
             const response = await fetch(`${apiBaseUrl}/show?table=wtfdevelopersay`);
             const result = await response.json();
+            const randomItem = result.data;
             if (result.data && result.data.length > 0) {
-                const randomIndex = Math.floor(Math.random() * result.data.length);
-                const randomItem = result.data[randomIndex];
                 pickbox.innerHTML = `
-                    <p class="content">${randomItem.content}</p>
+                    <p class="content">${randomItem.content.replace(/\n/g, '<br>')}</p>
                 `;
             } else {
                 pickbox.innerHTML = '<li>開發池裡空空的>w<</li>';
