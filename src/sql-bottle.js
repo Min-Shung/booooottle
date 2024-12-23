@@ -101,7 +101,7 @@ app.post('/login', async (req, res) => {
       }
 
       // 成功登錄
-      return res.status(200).json({ message: '登錄成功！', username: user.username ,userid: user.useid });
+      return res.status(200).json({ message: '登錄成功！', username: user.username ,userid: user.userid });
   } catch (error) {
       console.error('伺服器錯誤:', error);
       return res.status(500).json({ error: '伺服器錯誤，請稍後再試！' });
