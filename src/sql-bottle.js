@@ -204,7 +204,7 @@ app.get('/proxy', async (req, res) => {
     }
   });
 //NEWSAPI
-const newsAPI_KEY = 'f076c58eb1d24bf18489cc021bf02feb'; // 替換成你的 NewsAPI API 金鑰
+const newsAPI_KEY = '3d29c7d7f9304476afaa830b7d888dad'; // 替換成你的 NewsAPI API 金鑰
 
 // 啟用 CORS，允許前端訪問
 app.use(cors());
