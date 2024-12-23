@@ -25,9 +25,8 @@ document.getElementById('loginButton').addEventListener('click', function () {
     // 跳轉新視窗到 sign.html
     window.open('login/sign.html', '_self');
 });
-let username = localStorage.getItem('username'); // 宣告全域變數
 document.addEventListener('DOMContentLoaded', () => {
-    username = localStorage.getItem('username'); // 從 localStorage 獲取用戶名稱
+    const username = localStorage.getItem('username'); // 從 localStorage 獲取用戶名稱
     const loginButton = document.getElementById('loginButton'); 
     if (username) {
         // 如果有用戶名稱，更新按鈕文字
@@ -81,7 +80,6 @@ let releaseClick = JSON.parse(localStorage.getItem('releaseTime')) || { count: 0
 if (releaseClick.date !== today) {
     releaseClick = { count: 0, date: today };
   }
-
 releaseBottle.addEventListener('click', event => {
     const username = localStorage.getItem('username'); 
     if (!username) {
@@ -127,7 +125,6 @@ closeButtons.forEach(button => {
 // 點擊主頁丟瓶子的關閉按鈕
 closeformButtons.forEach(button => {
     button.addEventListener('click', event => {
-        
         const overlay = event.target.closest('.overlay');
         console.log('關閉按鈕被點擊');
         if (overlay) {
@@ -174,36 +171,26 @@ const poolLinks = document.querySelectorAll('.pool-option[data-pool]');
 
 // 當點擊水池選項時，顯示對應的水池
 poolLinks.forEach(link => {
-        link.addEventListener('click', event => {
-            event.preventDefault(); // 阻止默認行為
-            const username = localStorage.getItem('username');
-            if (!username) {
-                showPop("請先登入！");
-                return;
-            }
-            else{
-                if (releaseClick.count < RELEASE_LIMIT) {
-                    const targetLayer = document.getElementById(`releasebox`);
-                    targetLayer.classList.remove('hidden');
-                }
-                
-            // 獲取對應的水池層ID
-            const targetId = link.getAttribute('data-pool');
-            const targetLayer = document.getElementById(`waterLayer_${targetId}`);
+    link.addEventListener('click', event => {
+        
+        event.preventDefault(); // 阻止默認行為
 
-            // 隱藏所有水池層
-            document.querySelectorAll('.overlay').forEach(layer => {
-                layer.classList.add('hidden');
-            });
+        // 獲取對應的水池層ID
+        const targetId = link.getAttribute('data-pool');
+        const targetLayer = document.getElementById(`waterLayer_${targetId}`);
 
-            // 顯示選中的水池層
-            if (targetLayer) {
-                targetLayer.classList.remove('hidden');
-                const bottleImage = targetLayer.querySelector('.bottle');
-                if (bottleImage) {
-                    bottleImage.style.display = 'block'; // 瓶子顯示
-                    bottleImage.dataset.used = 'false'; // 重置狀態
-                }
+        // 隱藏所有水池層
+        document.querySelectorAll('.overlay').forEach(layer => {
+            layer.classList.add('hidden');
+        });
+
+        // 顯示選中的水池層
+        if (targetLayer) {
+            targetLayer.classList.remove('hidden');
+            const bottleImage = targetLayer.querySelector('.bottle');
+            if (bottleImage) {
+                bottleImage.style.display = 'block'; // 瓶子顯示
+                bottleImage.dataset.used = 'false'; // 重置狀態
             }
         }
     });
@@ -625,7 +612,7 @@ pickBottle.addEventListener('click', async (event) => {
             } else {
                 pickbox.innerHTML = '<li>開發池裡空空的>w<</li>';
             }
-            devContent.classList.remove('hidden');
+            pickbox.classList.remove('hidden');
         }
     } catch (error) {
         console.error('Error fetching data:', error);
