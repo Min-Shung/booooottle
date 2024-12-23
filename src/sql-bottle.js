@@ -203,3 +203,50 @@ app.get('/proxy', async (req, res) => {
       }
     }
   });
+//NEWSAPI
+const newsAPI_KEY = 'f076c58eb1d24bf18489cc021bf02feb'; // 替換成你的 NewsAPI API 金鑰
+
+// 啟用 CORS，允許前端訪問
+app.use(cors());
+
+app.get('/api/news', async (req, res) => {
+    try {
+        const today = new Date();
+        const lastWeek = new Date(today);
+        lastWeek.setDate(today.getDate() - 7);
+
+        // 格式化日期
+        const formatDate = (date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        // 隨機關鍵字
+        const keywords = ['政治', '社會', '財經', '生活', '影視', '體育', '金融', '麥當勞', '蘋果', '早餐', '颱風', '宣布', '地震', '天氣'];
+        const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
+
+        // 主請求
+        const url = `https://newsapi.org/v2/everything?q=${randomKeyword}&language=zh&from=${formatDate(lastWeek)}&to=${formatDate(today)}&pageSize=1&apiKey=${newsAPI_KEY}`;
+        const response = await axios.get(url);
+
+        if (response.data && response.data.articles && response.data.articles.length > 0) {
+            res.json(response.data.articles[0]); // 回傳第一篇文章
+        } else {
+            // 備用請求
+            const fallbackUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`;
+            const fallbackResponse = await axios.get(fallbackUrl);
+            const randomIndex = Math.floor(Math.random() * fallbackResponse.data.articles.length);
+            res.json(fallbackResponse.data.articles[randomIndex]);
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch news data', details: error.message });
+    }
+});
+
+// 啟動伺服器
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
