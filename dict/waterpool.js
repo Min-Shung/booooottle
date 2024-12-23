@@ -81,6 +81,11 @@ if (releaseClick.date !== today) {
     releaseClick = { count: 0, date: today };
   }
 releaseBottle.addEventListener('click', event => {
+    const username = localStorage.getItem('username'); 
+    if (!username) {
+        showPop("請先登入！");
+    }
+    else{
     if (releaseClick.count < RELEASE_LIMIT) {
         event.preventDefault();
         const targetLayer = document.getElementById(`releasebox`);
@@ -89,6 +94,7 @@ releaseBottle.addEventListener('click', event => {
     else
     {
         showPop("今日丟瓶子次數已達上限！");
+    }
     }
 });
 
