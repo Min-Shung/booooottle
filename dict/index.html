@@ -86,7 +86,15 @@
             <button class="closeOverlay">關閉</button>
             <img src="../src/瓶子2-removebg-preview.png" class="bottle" id="thebot" width="70px" height="70px">
             <button class="releaseBottle" id="bottleButton">撈瓶子</button>
-            <div class="news-container hiddenForInner" id="bottleContent"></div>
+            <div class="news-container hiddenForInner switch" id="bottleContent"></div>
+            <div class="news-container hiddenForInner switch" id="comment">
+                <form action="#" method="post">
+                    <p>回覆</p>
+                    <textarea type="text" name="commenttext" id="commenttext"></textarea><br>
+                    <input type="submit" value="提交" id="commenttext_buttom">
+                    <button class="formcloseOverlay">X</button>
+                </form>   
+            </div>
          </div>
         <!-- 開發者碎碎念 -->
         <div id="waterLayer_developer" class="overlay hidden">
@@ -116,6 +124,12 @@
     <p id="errorMessage" style="color: red; font-weight: bold;"></p>
     </main>
     <div class="thewindow" id="resign"><p id="windowcontext"></p></div> 
+    <div class="overlay hidden" id="mailindex">
+        <div class="illustrate">
+        <p>空空如也</p><br>
+        <button id="mailclose" class="formcloseOverlay">X</button>
+    </div>
+    </div>
 
     <!-- 引入 JS -->
     <script src="waterpool.js"></script>

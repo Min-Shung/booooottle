@@ -2,6 +2,17 @@ const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
 const today = new Date().toISOString().split('T')[0];
 const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃要改
+//信箱
+    const mailbox = document.getElementById('mailbox');
+    const mailindex = document.getElementById('mailindex');
+    const closeBottum = document.getElementById('mailclose');
+    mailbox.addEventListener('click', () => {
+        mailindex.classList.remove('hidden');
+    });
+    closeBottum.addEventListener('click', () => {
+        mailindex.classList.add('hidden');
+    });
+
 // 撈瓶子按鈕
 pickBottle.addEventListener('click', event => {
     event.preventDefault(); // 阻止默認行為
@@ -338,72 +349,93 @@ ToDaybutton.addEventListener('click', async event => {
 
 /*-----------幸運河---------------*/
 // 顯示幸運河的詩籤結果
+let luckyData = JSON.parse(localStorage.getItem('LuckyClickTime')) || { count: 0, date: "" };
+if (luckyData.date !== today) {
+    luckyData = { count: 0, date: today };
+  }
+let luckystorage='';
+const luckybuttom=document.getElementById('luckybuttom');
 luckybuttom.addEventListener('click', async event => {
-    const bottleImage = document.getElementById('poembot');
-    if (bottleImage.dataset.used === 'true') return;
-    await bottleshack("waterLayer_fortune", "poembot", "luckyContent");
-    try {
-        // 讀取詩籤資料
-        const response = await fetch("../src/poems.json");
-        if (!response.ok) throw new Error("無法載入詩籤檔案");
+    if (luckyData.count===0) {
+        const bottleImage = document.getElementById('poembot');
+        if (bottleImage.dataset.used === 'true') return;
+        await bottleshack("waterLayer_fortune", "poembot", "luckyContent");
+        try {
+            // 讀取詩籤資料
+            const response = await fetch("../src/poems.json");
+            if (!response.ok) throw new Error("無法載入詩籤檔案");
 
-        const poems = await response.json();
-        console.log("詩籤資料：", poems);
+            const poems = await response.json();
+            console.log("詩籤資料：", poems);
 
-        // 權重設定
-        const weightMap = { "大吉": 9, "中吉": 20, "小吉": 20, "吉": 30, "小凶": 18, "凶": 3 };
-        const weightedPool = [];
-        for (const [key, weight] of Object.entries(weightMap)) {
-            for (let i = 0; i < weight; i++) {
-                weightedPool.push(key);
+            // 權重設定
+            const weightMap = { "大吉": 9, "中吉": 20, "小吉": 20, "吉": 30, "小凶": 18, "凶": 3 };
+            const weightedPool = [];
+            for (const [key, weight] of Object.entries(weightMap)) {
+                for (let i = 0; i < weight; i++) {
+                    weightedPool.push(key);
+                }
             }
+
+            // 從權重池中隨機選擇
+            const randomCategory = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+            console.log("隨機類別：", randomCategory);
+
+            // 選取符合該類別的詩籤
+            const filteredPoems = Object.values(poems).filter(
+                poem => typeof poem === "object" && poem.吉凶 === randomCategory
+            );
+
+            if (filteredPoems.length === 0) {
+                throw new Error(`無符合的詩籤類別：${randomCategory}`);
+            }
+
+            const randomPoem = filteredPoems[Math.floor(Math.random() * filteredPoems.length)];
+            if (!randomPoem) {
+                throw new Error("無法選取隨機詩籤");
+            }
+
+            // 顯示詩籤內容
+            const luckyContent = document.getElementById('luckyContent');
+            luckyContent.innerHTML='';
+            luckystorage=`
+                <h4>詩籤內容</h4>
+                <p id="lucky"><strong></strong>${randomPoem.吉凶}</p>
+                <p id="poem"><strong></strong>${randomPoem.詩籤}</p>
+                <hr>
+                <p id="ex"><strong></strong>${randomPoem.解釋}</p>
+                <p class="content"><strong>願望：</strong>${randomPoem.願望}</p>
+                <p class="content"><strong>疾病：</strong>${randomPoem.疾病}</p>
+                <p class="content"><strong>盼望的人：</strong>${randomPoem.盼望的人}</p>
+                <p class="content"><strong>遺失物：</strong>${randomPoem.遺失物}</p>
+                <p class="content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
+                <p class="content"><strong>交往：</strong>${randomPoem.交往}</p>
+                <p class="content"><strong>旅行：</strong>${randomPoem.旅行}</p>
+            `
+            luckyContent.innerHTML += luckystorage ;
+            luckyData.count = 1;
+            localStorage.setItem('luckystorage', luckystorage);
+        } catch (error) {
+            console.error("錯誤:", error);
+            alert("無法載入詩籤，請稍後再試！");
         }
-
-        // 從權重池中隨機選擇
-        const randomCategory = weightedPool[Math.floor(Math.random() * weightedPool.length)];
-        console.log("隨機類別：", randomCategory);
-
-        // 選取符合該類別的詩籤
-        const filteredPoems = Object.values(poems).filter(
-            poem => typeof poem === "object" && poem.吉凶 === randomCategory
-        );
-
-        if (filteredPoems.length === 0) {
-            throw new Error(`無符合的詩籤類別：${randomCategory}`);
-        }
-
-        const randomPoem = filteredPoems[Math.floor(Math.random() * filteredPoems.length)];
-        if (!randomPoem) {
-            throw new Error("無法選取隨機詩籤");
-        }
-
-        // 顯示詩籤內容
-        const luckyContent = document.getElementById('luckyContent');
-        luckyContent.innerHTML = `
-            <h4>詩籤內容</h4>
-            <p id="lucky"><strong></strong>${randomPoem.吉凶}</p>
-            <p id="poem"><strong></strong>${randomPoem.詩籤}</p>
-            <hr>
-            <p id="ex"><strong></strong>${randomPoem.解釋}</p>
-            <p class="content"><strong>願望：</strong>${randomPoem.願望}</p>
-            <p class="content"><strong>疾病：</strong>${randomPoem.疾病}</p>
-            <p class="content"><strong>盼望的人：</strong>${randomPoem.盼望的人}</p>
-            <p class="content"><strong>遺失物：</strong>${randomPoem.遺失物}</p>
-            <p class="content"><strong>蓋新居：</strong>${randomPoem.蓋新居}</p>
-            <p class="content"><strong>交往：</strong>${randomPoem.交往}</p>
-            <p class="content"><strong>旅行：</strong>${randomPoem.旅行}</p>
-        `;
-    } catch (error) {
-        console.error("錯誤:", error);
-        alert("無法載入詩籤，請稍後再試！");
     }
-
+    else{
+        showPop("今日已經撈過了～");
+        const bottleImage = document.getElementById('poembot');
+        if (bottleImage.dataset.used === 'true') return;
+        await bottleshack("waterLayer_fortune", "poembot", "luckyContent");
+        const luckyContent = document.getElementById('luckyContent');
+        const storedLuckystorage = localStorage.getItem('luckystorage');
+        luckyContent.innerHTML ='';
+        luckyContent.innerHTML += storedLuckystorage ;
+    }
     const InnerLayer = document.getElementById('luckyContent');
     InnerLayer.classList.remove('hiddenForInner');
 });
 
 /*--------漂流瓶撈瓶子---------*/
-const DAILY_LIMIT = 600;
+const DAILY_LIMIT = 6;
 let clickData = JSON.parse(localStorage.getItem('buttonClickData')) || { count: 0, date: "" };
 
 // 檢查是否為今天，並重置次數
@@ -434,6 +466,7 @@ bottleButton.addEventListener('click', async event => {
                 InnerLayer.innerHTML = `
                     <p class = "content"> ${randomItem.content.replace(/\n/g, '<br>')}</p>
                     <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}<p>
+                    <button class="switch" id="commentbut">留言</button>
                 `;
             }
             else {
@@ -441,6 +474,30 @@ bottleButton.addEventListener('click', async event => {
             }
             const InnerLayer = document.getElementById(`bottleContent`); // 找到對應的遮罩層
             InnerLayer.classList.remove('hiddenForInner'); // 顯示對應遮罩層
+            const bottleContent = document.getElementById('bottleContent');
+            const comment = document.getElementById('comment');
+            const commentButton = document.getElementById('commentbut');
+            const formCloseButton = document.querySelector('.formcloseOverlay');
+
+            // 显示 comment 区域
+            commentButton.addEventListener('click', () => {
+                bottleContent.classList.remove('show');
+                bottleContent.classList.add('hidden');
+
+                comment.classList.remove('hidden');
+                comment.classList.add('show');
+            });
+
+            // 关闭 comment 区域并返回 bottleContent
+            formCloseButton.addEventListener('click', (e) => {
+                e.preventDefault(); // 阻止表单默认行为
+
+                comment.classList.remove('show');
+                comment.classList.add('hidden');
+
+                bottleContent.classList.remove('hidden');
+                bottleContent.classList.add('show');
+    });
         }
         catch (error) {
             console.error('Error fetching data:', error);
