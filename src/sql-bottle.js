@@ -235,7 +235,7 @@ app.get('/api/news', async (req, res) => {
             res.json(response.data.articles[0]); // 回傳第一篇文章
         } else {
             // 備用請求
-            const fallbackUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`;
+            const fallbackUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${newsAPI_KEY}`;
             const fallbackResponse = await axios.get(fallbackUrl);
             const randomIndex = Math.floor(Math.random() * fallbackResponse.data.articles.length);
             res.json(fallbackResponse.data.articles[randomIndex]);
