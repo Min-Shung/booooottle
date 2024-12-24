@@ -106,25 +106,21 @@ const closeformButtons = document.querySelectorAll('.formcloseOverlay');
 // 點擊關閉按鈕
 closeButtons.forEach(button => {
     button.addEventListener('click', event => {
-        if (event.target.id === 'commentClose') {
-            return;
-        }
         const overlay = event.target.closest('.overlay');
-
-        if (overlay && overlay.id !== 'waterLayer_bottle') {
-            const bottleImage = overlay.querySelector('.bottle');
-            if (bottleImage) {
-                bottleImage.style.display = 'block'; // 恢復瓶子的顯示
-                bottleImage.dataset.used = 'false'; // 重置瓶子的狀態
-            }
-
-            overlay.classList.add('hidden'); // 隱藏當前 overlay
+        const bottleImage = overlay.querySelector('.bottle');
+        if (bottleImage) {
+            bottleImage.style.display = 'block'; // 恢復瓶子的顯示
+            bottleImage.dataset.used = 'false'; // 重置瓶子的狀態
+        }
+        if (overlay) {
+            overlay.classList.add('hidden');
             const inlay = overlay.querySelector('.news-container'); // 直接抓取
             if (inlay) {
                 inlay.classList.add('hiddenForInner');
                 inlay.classList.remove('show');
                 inlay.innerHTML = ''; // 清空內容
             }
+            
         }
     });
 });
