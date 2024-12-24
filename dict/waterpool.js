@@ -106,21 +106,25 @@ const closeformButtons = document.querySelectorAll('.formcloseOverlay');
 // 點擊關閉按鈕
 closeButtons.forEach(button => {
     button.addEventListener('click', event => {
-        const overlay = event.target.closest('.overlay');
-        const bottleImage = overlay.querySelector('.bottle');
-        if (bottleImage) {
-            bottleImage.style.display = 'block'; // 恢復瓶子的顯示
-            bottleImage.dataset.used = 'false'; // 重置瓶子的狀態
+        if (event.target.id === 'commentClose') {
+            return;
         }
-        if (overlay) {
-            overlay.classList.add('hidden');
+        const overlay = event.target.closest('.overlay');
+
+        if (overlay && overlay.id !== 'waterLayer_bottle') {
+            const bottleImage = overlay.querySelector('.bottle');
+            if (bottleImage) {
+                bottleImage.style.display = 'block'; // 恢復瓶子的顯示
+                bottleImage.dataset.used = 'false'; // 重置瓶子的狀態
+            }
+
+            overlay.classList.add('hidden'); // 隱藏當前 overlay
             const inlay = overlay.querySelector('.news-container'); // 直接抓取
             if (inlay) {
                 inlay.classList.add('hiddenForInner');
                 inlay.classList.remove('show');
                 inlay.innerHTML = ''; // 清空內容
             }
-            
         }
     });
 });
@@ -460,7 +464,7 @@ bottleButton.addEventListener('click', async event => {
             const bottleContent = document.getElementById('bottleContent');
             const comment = document.getElementById('comment');
             const commentButton = document.getElementById('commentbut');
-            const formCloseButton = document.querySelector('.formcloseOverlay');
+            const commentCloseButton = document.getElementById('commentClose');
 
             // 显示 comment 区域
             commentButton.addEventListener('click', () => {
@@ -472,9 +476,9 @@ bottleButton.addEventListener('click', async event => {
             });
 
             // 关闭 comment 区域并返回 bottleContent
-            formCloseButton.addEventListener('click', event => {
+            commentCloseButton.addEventListener('click', event => {
                  event.preventDefault(); 
-                
+                 event.stopPropagation();
                 comment.classList.remove('show');
                 comment.classList.add('hidden');
 
@@ -491,6 +495,7 @@ bottleButton.addEventListener('click', async event => {
         showPop('漂流海的撈取次數已達上限！');
       }
     });
+
 /*--------開發碎碎念---------*/
   const devButton = document.getElementById('devButton');
   devButton.addEventListener('click', async event => {

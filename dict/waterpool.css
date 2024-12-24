@@ -49,7 +49,23 @@
 .closeOverlay:hover {
     background: #ff3b3b; /* 懸停時變深紅色 */
 }
-
+.formclose{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff6b6b; /* 紅色按鈕，帶有漸變效果 */
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: auto;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s; /* 懸停效果的過渡 */
+}
+.formclose:hover {
+    background: #ff3b3b; /* 懸停時變深紅色 */
+}
 /* 標題樣式*/
 #overlay-title {
     position: absolute;
