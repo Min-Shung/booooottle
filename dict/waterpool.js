@@ -463,7 +463,7 @@ bottleButton.addEventListener('click', async event => {
             const formCloseButton = document.querySelector('.formcloseOverlay');
 
             // 显示 comment 区域
-            commentButton.addEventListener('click', event => {
+            commentButton.addEventListener('click', () => {
                 bottleContent.classList.remove('show');
                 bottleContent.classList.add('hidden');
 
@@ -472,9 +472,9 @@ bottleButton.addEventListener('click', async event => {
             });
 
             // 关闭 comment 区域并返回 bottleContent
-            formCloseButton.addEventListener('click', (e) => {
-                event.preventDefault(); 
-
+            formCloseButton.addEventListener('click', event => {
+                 event.preventDefault(); 
+                
                 comment.classList.remove('show');
                 comment.classList.add('hidden');
 
