@@ -127,7 +127,7 @@ closeButtons.forEach(button => {
 // 點擊主頁丟瓶子的關閉按鈕
 closeformButtons.forEach(button => {
     button.addEventListener('click', event => {
-        
+        event.preventDefault(); 
         const overlay = event.target.closest('.overlay');
         console.log('關閉按鈕被點擊');
         if (overlay) {
@@ -463,7 +463,7 @@ bottleButton.addEventListener('click', async event => {
             const formCloseButton = document.querySelector('.formcloseOverlay');
 
             // 显示 comment 区域
-            commentButton.addEventListener('click', () => {
+            commentButton.addEventListener('click', event => {
                 bottleContent.classList.remove('show');
                 bottleContent.classList.add('hidden');
 
@@ -473,7 +473,7 @@ bottleButton.addEventListener('click', async event => {
 
             // 关闭 comment 区域并返回 bottleContent
             formCloseButton.addEventListener('click', (e) => {
-                e.preventDefault(); // 阻止表单默认行为
+                event.preventDefault(); 
 
                 comment.classList.remove('show');
                 comment.classList.add('hidden');
