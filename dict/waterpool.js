@@ -13,37 +13,38 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
         mailindex.classList.add('hidden');
     });
 
-    document.getElementById("commenttext_buttom").addEventListener("submit", async function (e) {
-        e.preventDefault();
-    
-        // 收集表單數據
-        const articleId = localStorage.getItem('bottleid');
-        const recipient_id = localStorage.getItem('posterid');
-        const sender_id = localStorage.getItem('userid');
-        const retext =  document.getElementById('commenttext');
-        // 發送留言到後端
-        const response = await fetch(`${apiBaseUrl}/api/messages`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                retext:retext,
-                recipient_id:recipient_id,
-                sender_id:sender_id,
-                article_id:  articleId
-            })
-        });
-    
-        if (response.ok) {
-            showPop("留言提交成功！");
-            document.getElementById("commenttext").value = ""; // 清空表單
-            mailindex.classList.add('hidden');
-        } else {
-            showPop("提交失敗，請稍後再試。");
-        }
+    document.getElementById("commenttext_buttom").addEventListener("submit",event => {
+        event.preventDefault(); // 阻止默認行為
+        sendMsn();
     });
-    
+async function sendMsn(){
+    // 收集表單數據
+    const articleId = localStorage.getItem('bottleid');
+    const recipient_id = localStorage.getItem('posterid');
+    const sender_id = localStorage.getItem('userid');
+    const retext =  document.getElementById('commenttext');
+    // 發送留言到後端
+    const response = await fetch(`${apiBaseUrl}/api/messages`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            retext:retext,
+            recipient_id:recipient_id,
+            sender_id:sender_id,
+            article_id:  articleId
+        })
+    });
+
+    if (response.ok) {
+        showPop("留言提交成功！");
+        document.getElementById("commenttext").value = ""; // 清空表單
+        mailindex.classList.add('hidden');
+    } else {
+        showPop("提交失敗，請稍後再試。");
+    }
+}   
 // 撈瓶子按鈕
 pickBottle.addEventListener('click', event => {
     event.preventDefault(); // 阻止默認行為
