@@ -28,7 +28,6 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                posterid: posterId,
                 retext:retext,
                 recipient_id:recipient_id,
                 sender_id:sender_id,
@@ -489,8 +488,8 @@ bottleButton.addEventListener('click', async event => {
             const result = await response.json();
             const randomItem = result.data; 
             const dataList = document.getElementById('bottleContent');
-            localStorage.setItem('posterid', data.userid);
-            localStorage.setItem('bottleid', data.username);
+            localStorage.setItem('posterid', randomItem.userid);
+            localStorage.setItem('bottleid', randomItem.username);
             dataList.innerHTML = ''; // 清空舊資料
             if (result.data) {
                 const InnerLayer = document.getElementById('bottleContent');
