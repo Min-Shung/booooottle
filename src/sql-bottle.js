@@ -152,7 +152,7 @@ app.get('/show/bottles', async function (req, res) {
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
       // Query to fetch all columns
-      const result = await client.query('SELECT userid, bottleid, content FROM bottles');
+      const result = await client.query('SELECT * FROM bottles');
 
       if (result.rows.length === 0) {
           return res.send({ error: false, data: null, message: 'No data found in bottles.' });
