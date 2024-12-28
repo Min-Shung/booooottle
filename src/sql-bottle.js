@@ -107,7 +107,22 @@ app.post('/login', async (req, res) => {
       return res.status(500).json({ error: '伺服器錯誤，請稍後再試！' });
   }
 });
+//留言
+app.post("/api/messages", async (req, res) => {
+  const { sender_id, recipient_id, article_id ,retext} = req.body;
 
+  try {
+      const result = await pool.query(
+          `INSERT INTO messages (sender_id, recipient_id, content, article_id) 
+           VALUES ($1, $2, $3, $4) RETURNING *`,
+          [sender_id, recipient_id, retext, article_id]
+      );
+      res.status(201).json({ message: "留言已成功送出", data: result.rows[0] });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "伺服器錯誤，請稍後再試。" });
+  }
+});
 //撈
 app.get('/show', async function (req, res) {
     try {
@@ -128,6 +143,49 @@ app.get('/show', async function (req, res) {
         return res.status(500).send({ error: true, message: 'Database query failed.' });
     }
 });
+
+// Route for 'bottles' table
+app.get('/show/bottles', async function (req, res) {
+  try {
+      // CORS
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+      // Query to fetch all columns
+      const result = await client.query('SELECT userid, bottleid, content FROM bottles');
+
+      if (result.rows.length === 0) {
+          return res.send({ error: false, data: null, message: 'No data found in bottles.' });
+      }
+
+      const randomIndex = Math.floor(Math.random() * result.rows.length);
+      const randomItem = result.rows[randomIndex];
+
+      return res.send({ error: false, data: randomItem, message: 'Bottles list.' });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).send({ error: true, message: '資料獲取失敗' });
+  }
+});
+
+//wtfdevelopersay
+app.get('/show/wtfdevelopersay', async function (req, res) {
+  try {
+      // CORS
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+      const result = await client.query('SELECT * FROM wtfdevelopersay');
+
+      const randomIndex = Math.floor(Math.random() * result.rows.length);
+      const randomItem = result.rows[randomIndex];
+
+      return res.send({ error: false, data: randomItem, message: 'Developers Say list.' });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).send({ error: true, message: '資料獲取失敗' });
+  }
+});
 //丟
 app.post('/add', async (req, res) => {
     try {
@@ -137,12 +195,8 @@ app.post('/add', async (req, res) => {
         const { UserID, Content } = req.body;  
 
         if (!Content) {
-            return res.status(400).send({ error: true, message: 'Please fill in content!' });
+            return res.status(400).send({ error: true, message: '請填寫內容～' });
         }
-        if (!UserID) {
-            return res.status(400).send({ error: true, message: 'No user data!' });
-        }
-
         // 禁用字列表
         const result = await client.query('SELECT word FROM sensitive_words');
         const forbiddenWords = result.rows.map(row => row.word);
@@ -150,17 +204,17 @@ app.post('/add', async (req, res) => {
         // 檢查内容中是否包含禁用字
         const hasForbiddenWord = forbiddenWords.some(word => Content.includes(word));
         if (hasForbiddenWord) {
-            return res.status(400).send({ error: true, message: 'Content contains forbidden words, please re-enter.' });
+            return res.status(400).send({ error: true, message: '內容含有違禁詞，請重新輸入。' });
         }
 
         const insertResult = await client.query(
             'INSERT INTO bottles (userid, content) VALUES ($1, $2)', [UserID, Content]
         );
 
-        return res.send({ error: false, data: insertResult, message: 'Submission successful!' });
+        return res.send({ error: false, data: insertResult, message: '提交成功！' });
     } catch (error) {
         console.error('Error:', error);
-        return res.status(500).send({ error: true, message: 'Server error, please try again later.' });
+        return res.status(500).send({ error: true, message: '伺服器錯誤，請稍後重試。' });
     }
 });
 //kkbox代理
