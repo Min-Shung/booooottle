@@ -22,7 +22,7 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
         const sender_id = localStorage.getItem('userid');
         const retext =  document.getElementById('commenttext');
         // 發送留言到後端
-        const response = await fetch("/api/messages", {
+        const response = await fetch(`${apiBaseUrl}/api/messages`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
