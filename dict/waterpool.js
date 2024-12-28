@@ -90,7 +90,7 @@ text_buttom.addEventListener('click', event => {
     text_buttom.disabled = false;
     }, 1000); 
 });
-const RELEASE_LIMIT = 1;
+const RELEASE_LIMIT = 6;
 const todaytime = new Date().toISOString().split('T')[0]; // 獲取當天日期（YYYY-MM-DD 格式）
 let releaseClick = JSON.parse(localStorage.getItem('releaseTime')) || { count: 0, date: "" };
 
@@ -109,9 +109,6 @@ releaseBottle.addEventListener('click', event => {
 
     if (releaseClick.count < RELEASE_LIMIT) {
         event.preventDefault();
-        releaseClick.count++; // 更新計數
-        localStorage.setItem('releaseTime', JSON.stringify(releaseClick)); // 儲存到 LocalStorage
-        
         const targetLayer = document.getElementById('releasebox');
         targetLayer.classList.remove('hidden');
     } else {
