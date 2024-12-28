@@ -112,7 +112,7 @@ app.post("/api/messages", async (req, res) => {
   const { sender_id, recipient_id, article_id ,retext} = req.body;
 
   try {
-      const result = await pool.query(
+      const result = await client.query(
           `INSERT INTO messages (sender_id, recipient_id, content, article_id) 
            VALUES ($1, $2, $3, $4) RETURNING *`,
           [sender_id, recipient_id, retext, article_id]
