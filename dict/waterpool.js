@@ -49,23 +49,23 @@ const addData = async () => {
         console.log('Response:', response.status, result);//debug
         if (response.ok) {
             showPop("提交成功");
+            releaseClick.count++;
+            const releasetime = RELEASE_LIMIT - releaseClick.count;
+            localStorage.setItem('releaseTime', JSON.stringify(releaseClick));
+            setTimeout(() => {
+                showPop(`今日丟瓶子次數：${releaseClick.count} ，剩餘次數：${releasetime}`);
+            },900);
+            setTimeout(() => {
+                document.getElementById('bottletext_input').value = '';
+            }, 1000);
         }
         else {
-            alert(result.message); // 禁用字錯誤或其他問題
+            showPop(result.message); // 禁用字錯誤或其他問題
         }
-        releaseClick.count++;
-        let releasetime=DAILY_LIMIT-releaseClick.count;
-        localStorage.setItem('releaseTime', JSON.stringify(releaseClick));
-        setTimeout(() => {
-            showPop(`今日丟瓶子次數：${releaseClick.count} ，剩餘次數：${releasetime}`);
-        }, 2000);
-        setTimeout(() => {
-            document.getElementById('bottletext_input').value = '';
-        }, 1000);
     } 
     catch (error) {
         console.error('Error:', error);
-        alert('提交失敗，請再試一次。');
+        showPop('提交失敗，請再試一次。');
     }
 };
 
@@ -74,31 +74,51 @@ const addData = async () => {
 const text_buttom = document.getElementById('text_buttom');
 text_buttom.addEventListener('click', event => { 
     event.preventDefault(); 
-    addData(); 
+    if (releaseClick.count >= RELEASE_LIMIT) {
+        showPop("今日丟瓶子次數已達上限！");
+        return;
+    }
+
+    // 禁用按鈕以防止多次提交
+    text_buttom.disabled = true;
+
+    // 嘗試提交資料
+    addData();
+
+    // 恢復按鈕啟用
+    setTimeout(() => {
+    text_buttom.disabled = false;
+    }, 1000); 
 });
-const RELEASE_LIMIT = 6;
+const RELEASE_LIMIT = 1;
+const todaytime = new Date().toISOString().split('T')[0]; // 獲取當天日期（YYYY-MM-DD 格式）
 let releaseClick = JSON.parse(localStorage.getItem('releaseTime')) || { count: 0, date: "" };
-if (releaseClick.date !== today) {
-    releaseClick = { count: 0, date: today };
-  }
+
+// 檢查日期是否過期，重置計數
+if (releaseClick.date !== todaytime) {
+    releaseClick = { count: 0, date: todaytime };
+    localStorage.setItem('releaseTime', JSON.stringify(releaseClick));
+}
 
 releaseBottle.addEventListener('click', event => {
     const username = localStorage.getItem('username'); 
     if (!username) {
         showPop("請先登入！");
+        return;
     }
-    else{
+
     if (releaseClick.count < RELEASE_LIMIT) {
         event.preventDefault();
-        const targetLayer = document.getElementById(`releasebox`);
+        releaseClick.count++; // 更新計數
+        localStorage.setItem('releaseTime', JSON.stringify(releaseClick)); // 儲存到 LocalStorage
+        
+        const targetLayer = document.getElementById('releasebox');
         targetLayer.classList.remove('hidden');
-    }
-    else
-    {
+    } else {
         showPop("今日丟瓶子次數已達上限！");
     }
-    }
 });
+
 
 /*-----------關閉按鈕-----------*/
 const closeButtons = document.querySelectorAll('.closeOverlay');
