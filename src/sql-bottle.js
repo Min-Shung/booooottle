@@ -131,7 +131,7 @@ app.get('/mailbox/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   try {
-      const messages = await client.query(
+      const result = await client.query(
           'SELECT * FROM messages WHERE recipient_id = $1 ORDER BY created_at DESC',
           [userId]
       );
