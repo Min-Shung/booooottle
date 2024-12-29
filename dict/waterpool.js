@@ -6,15 +6,11 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
     const mailbox = document.getElementById('mailbox');
     const mailindex = document.getElementById('mailindex');
     const closeBottum = document.getElementById('mailclose');
-    mailbox.addEventListener('click', () => {
+
+    mailbox.addEventListener('click', async () => {
         mailindex.classList.remove('hidden');
-    });
-    closeBottum.addEventListener('click', () => {
-        mailindex.classList.add('hidden');
-    });
-    document.getElementById('mailboxButton').addEventListener('click', async () => {
         const recipientId = localStorage.getItem('userid'); // 獲取接收方 ID
-        const response = await fetch(`/api/messages/${recipientId}`);
+        const response = await fetch(`${apiBaseUrl}/mailbox/${recipientId}`);
         const data = await response.json();
       
         if (response.ok) {
@@ -40,7 +36,9 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
           messageContainer.appendChild(messageElement);
         });
       }
-      
+    closeBottum.addEventListener('click', () => {
+        mailindex.classList.add('hidden');
+    });
 //留言
     document.getElementById("commenttext_buttom").addEventListener("submit",event => {
         event.preventDefault(); // 阻止默認行為
