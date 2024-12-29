@@ -284,3 +284,45 @@ h1 {
 .thewindow.show {
     display: flex; /* 顯示時更改為 flex */
 }
+
+
+/*先測試*/
+#mailcontent {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .mail-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .mail-content-header h3 {
+    margin: 0;
+  }
+  .view-button {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  
+  .button-unread {
+    background-color: #ffcc00;
+    color: black;
+  }
+  
+  .button-read {
+    background-color: #ccc;
+    color: white;
+    cursor: default;
+  }

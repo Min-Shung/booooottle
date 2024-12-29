@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
 const bcrypt = require('bcrypt');
-const WebSocket = require('ws');
+
 
 const app = express();
 app.use(express.json());
@@ -135,7 +135,7 @@ app.get('/mailbox/:userId', async (req, res) => {
           'SELECT * FROM messages WHERE recipient_id = $1 ORDER BY created_at DESC',
           [userId]
       );
-      console.log('Requesting messages SQL:' ,  userId);
+      console.log('查詢的資料:', result.rows);
       res.status(200).json({ messages: result.rows });
   } catch (error) {
       console.error('無法取得信件:', error);
