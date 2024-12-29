@@ -13,6 +13,38 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
         mailindex.classList.add('hidden');
     });
 
+    document.getElementById("commenttext_buttom").addEventListener("submit",event => {
+        event.preventDefault(); // 阻止默認行為
+        sendMsn();
+    });
+async function sendMsn(){
+    // 收集表單數據
+    const articleId = localStorage.getItem('bottleid');
+    const recipient_id = localStorage.getItem('posterid');
+    const sender_id = localStorage.getItem('userid');
+    const retext =  document.getElementById('commenttext');
+    // 發送留言到後端
+    const response = await fetch(`${apiBaseUrl}/api/messages`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            retext:retext,
+            recipient_id:recipient_id,
+            sender_id:sender_id,
+            article_id:  articleId
+        })
+    });
+
+    if (response.ok) {
+        showPop("留言提交成功！");
+        document.getElementById("commenttext").value = ""; // 清空表單
+        mailindex.classList.add('hidden');
+    } else {
+        showPop("提交失敗，請稍後再試。");
+    }
+}   
 // 撈瓶子按鈕
 pickBottle.addEventListener('click', event => {
     event.preventDefault(); // 阻止默認行為
@@ -25,9 +57,8 @@ document.getElementById('loginButton').addEventListener('click', function () {
     // 跳轉新視窗到 sign.html
     window.open('login/sign.html', '_self');
 });
-let username = localStorage.getItem('username'); // 宣告全域變數
 document.addEventListener('DOMContentLoaded', () => {
-    username = localStorage.getItem('username'); // 從 localStorage 獲取用戶名稱
+    const username = localStorage.getItem('username'); // 從 localStorage 獲取用戶名稱
     const loginButton = document.getElementById('loginButton'); 
     if (username) {
         // 如果有用戶名稱，更新按鈕文字
@@ -49,23 +80,23 @@ const addData = async () => {
         console.log('Response:', response.status, result);//debug
         if (response.ok) {
             showPop("提交成功");
+            releaseClick.count++;
+            const releasetime = RELEASE_LIMIT - releaseClick.count;
+            localStorage.setItem('releaseTime', JSON.stringify(releaseClick));
+            setTimeout(() => {
+                showPop(`今日丟瓶子次數：${releaseClick.count} ，剩餘次數：${releasetime}`);
+            },900);
+            setTimeout(() => {
+                document.getElementById('bottletext_input').value = '';
+            }, 1000);
         }
         else {
-            alert(result.message); // 禁用字錯誤或其他問題
+            showPop(result.message); // 禁用字錯誤或其他問題
         }
-        releaseClick.count++;
-        let releasetime=DAILY_LIMIT-releaseClick.count;
-        localStorage.setItem('releaseTime', JSON.stringify(releaseClick));
-        setTimeout(() => {
-            showPop(`今日丟瓶子次數：${releaseClick.count} ，剩餘次數：${releasetime}`);
-        }, 2000);
-        setTimeout(() => {
-            document.getElementById('bottletext_input').value = '';
-        }, 1000);
     } 
     catch (error) {
         console.error('Error:', error);
-        alert('提交失敗，請再試一次。');
+        showPop('提交失敗，請再試一次。');
     }
 };
 
@@ -74,31 +105,48 @@ const addData = async () => {
 const text_buttom = document.getElementById('text_buttom');
 text_buttom.addEventListener('click', event => { 
     event.preventDefault(); 
-    addData(); 
+    if (releaseClick.count >= RELEASE_LIMIT) {
+        showPop("今日丟瓶子次數已達上限！");
+        return;
+    }
+
+    // 禁用按鈕以防止多次提交
+    text_buttom.disabled = true;
+
+    // 嘗試提交資料
+    addData();
+
+    // 恢復按鈕啟用
+    setTimeout(() => {
+    text_buttom.disabled = false;
+    }, 1000); 
 });
 const RELEASE_LIMIT = 6;
+const todaytime = new Date().toISOString().split('T')[0]; // 獲取當天日期（YYYY-MM-DD 格式）
 let releaseClick = JSON.parse(localStorage.getItem('releaseTime')) || { count: 0, date: "" };
-if (releaseClick.date !== today) {
-    releaseClick = { count: 0, date: today };
-  }
+
+// 檢查日期是否過期，重置計數
+if (releaseClick.date !== todaytime) {
+    releaseClick = { count: 0, date: todaytime };
+    localStorage.setItem('releaseTime', JSON.stringify(releaseClick));
+}
 
 releaseBottle.addEventListener('click', event => {
     const username = localStorage.getItem('username'); 
     if (!username) {
         showPop("請先登入！");
+        return;
     }
-    else{
+
     if (releaseClick.count < RELEASE_LIMIT) {
         event.preventDefault();
-        const targetLayer = document.getElementById(`releasebox`);
+        const targetLayer = document.getElementById('releasebox');
         targetLayer.classList.remove('hidden');
-    }
-    else
-    {
+    } else {
         showPop("今日丟瓶子次數已達上限！");
     }
-    }
 });
+
 
 /*-----------關閉按鈕-----------*/
 const closeButtons = document.querySelectorAll('.closeOverlay');
@@ -437,11 +485,12 @@ bottleButton.addEventListener('click', async event => {
         if (bottleImage.dataset.used === 'true') return;
         await bottleshack("waterLayer_bottle","thebot","bottleContent");
         try {
-            const tableName = 'bottles';
-            const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
+            const response = await fetch(`${apiBaseUrl}/show/bottles`);
             const result = await response.json();
             const randomItem = result.data; 
             const dataList = document.getElementById('bottleContent');
+            localStorage.setItem('posterid', randomItem.userid);
+            localStorage.setItem('bottleid', randomItem.username);
             dataList.innerHTML = ''; // 清空舊資料
             if (result.data) {
                 const InnerLayer = document.getElementById('bottleContent');
@@ -500,8 +549,7 @@ bottleButton.addEventListener('click', async event => {
      if (bottleImage.dataset.used === 'true') return;
      await bottleshack("waterLayer_developer","devbot","developerContent");
       try {
-        const tableName = 'wtfdevelopersay';
-        const response = await fetch(`${apiBaseUrl}/show?table=${tableName}`);
+        const response = await fetch(`${apiBaseUrl}/show/wtfdevelopersay`);
         const result = await response.json();
         const randomItem = result.data; 
         const dataList = document.getElementById('developerContent');
