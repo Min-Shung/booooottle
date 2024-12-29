@@ -135,11 +135,28 @@ app.get('/mailbox/:userId', async (req, res) => {
           'SELECT * FROM messages WHERE recipient_id = $1 ORDER BY created_at DESC',
           [userId]
       );
-      console.log('查詢的資料:', result.rows);
       res.status(200).json({ messages: result.rows });
   } catch (error) {
       console.error('無法取得信件:', error);
       res.status(500).json({ error: '無法取得信件' });
+  }
+});
+app.get('/article/:article_id', async (req, res) => {
+  const articleId = req.params.article_id;
+
+  try {
+    const result = await client.query(
+      'SELECT content FROM bottles WHERE bottleid = $1',
+      [articleId]
+    );
+    if (result.rows.length > 0) {
+      res.status(200).json({ content: result.rows[0].content });
+    } else {
+      res.status(404).json({ error: '文章未找到' });
+    }
+  } catch (error) {
+    console.error('無法取得文章:', error);
+    res.status(500).json({ error: '無法取得文章' });
   }
 });
 

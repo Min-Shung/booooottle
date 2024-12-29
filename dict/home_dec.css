@@ -287,42 +287,64 @@ h1 {
 
 
 /*先測試*/
-#mailcontent {
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 60%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* 主容器樣式 */
+#mailexcontent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   
-  .mail-content-header {
+  /* 每條訊息的樣式 */
+  #mailexcontent  .message-item {
+    display: flex;
+    flex-direction: column;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+  }
+  
+  /* 顯示訊息的標題 */
+#mailexcontent .message-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
   }
   
-  .mail-content-header h3 {
-    margin: 0;
+  /* 發送者資訊 */
+  #mailexcontent  .sender-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  .view-button {
+  
+  /* 日期樣式 */
+  #mailexcontent .date {
+    font-size: 14px;
+    color: gray;
+  }
+  
+  /* 按鈕樣式 */
+  #mailexcontent .view-button {
     border: none;
     padding: 5px 10px;
     cursor: pointer;
     font-size: 14px;
     border-radius: 5px;
+    min-width: 60px;
   }
   
-  .button-unread {
-    background-color: #ffcc00;
+  #mailexcontent .button-unread {
+    background-color: #ffcc00; /* 明亮黃色 */
     color: black;
   }
   
-  .button-read {
-    background-color: #ccc;
+  #mailexcontent .button-read {
+    background-color: #ccc; /* 暗淡灰色 */
     color: white;
     cursor: default;
   }
+  
+  
