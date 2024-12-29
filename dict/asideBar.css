@@ -14,21 +14,25 @@
     font-size: 20px;
   }
   
-  .sidebar-links a {
+  .sidebar-links button {
+    font-size: 20px;
     text-decoration: none;
     color: #695a41;
     font-weight: bold;
     display: block;
-    padding: 5px 10px;
+    padding: 10px 20px;
     border-radius: 13px;
+    border: 1px solid #FDF2E0;
     background-color: #FDF2E0; 
     box-shadow: 0 4px 6px #695a41b7;
     transition: all 0.3s ease;
     text-align: center;
     margin-bottom: 15px; /* 增加垂直距離 */
+    width: 100%; /* 設定為容器的全寬 */
+    box-sizing: border-box; /* 確保內邊距和邊框包含在寬度中 */
 }
   
-.sidebar-links a:hover {
+.sidebar-links button:hover {
     background-color: #FDF9ED;
     transform: translateY(-3px);
     box-shadow: 0 6px 10px #d4d0c2;
@@ -50,7 +54,7 @@
     
 }
 
-.dropdown-menu a {
+.dropdown-menu button {
     text-decoration: none;
     color: #555;
     font-size: 16px;
@@ -61,7 +65,7 @@
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.dropdown-menu a:hover {
+.dropdown-menu button:hover {
     background: linear-gradient(45deg, #FDF9ED, #fdf9ede4);
     color: #000;
     transform: translateX(5px);
@@ -107,3 +111,4 @@
   margin-left: 0;
   margin-top: 0; /* 移除 <p> 上方的默認間距 */
 }
+

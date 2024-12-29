@@ -6,6 +6,7 @@ body {
     background-color: #f9f9f9;
     color: #333;
 }
+
 /*登入註冊按鈕*/
 #sign-container {
     display: flex; /* 使用 Flexbox 排列 */
