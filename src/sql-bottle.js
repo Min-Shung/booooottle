@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
 const bcrypt = require('bcrypt');
+const WebSocket = require('ws');
 
 const app = express();
 app.use(express.json());
@@ -31,6 +32,7 @@ client.connect()
 app.listen(8080, function () {
     console.log('Node app is running on port 8080');
 });
+
 
 //註冊
 app.post('/register', async (req, res) => {
@@ -123,27 +125,25 @@ app.post("/api/messages", async (req, res) => {
       res.status(500).json({ error: "伺服器錯誤，請稍後再試。" });
   }
 });
-//撈
-app.get('/show', async function (req, res) {
-    try {
-        //  CORS
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        const tableName = req.query.table;
-        const allowedTables = ['bottles', 'wtfdevelopersay']; 
-        if (!allowedTables.includes(tableName)) {
-            return res.status(400).send({ error: true, message: 'Invalid table name.' });
-        }
-        const result = await client.query(`SELECT * FROM ${tableName}`);
-        const randomIndex = Math.floor(Math.random() * result.rows.length);
-        const randomItem = result.rows[randomIndex];
-        return res.send({ error: false, data: randomItem, message: `${tableName} list.` });
-    } catch (error) {
-        console.error(error);  
-        return res.status(500).send({ error: true, message: 'Database query failed.' });
-    }
+
+// 獲取信箱訊息（依時間排序，最舊的在前）
+app.get('/mailbox/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+      const messages = await db.query(
+          'SELECT * FROM messages WHERE recipient_id = ? ORDER BY created_at ASC',
+          [userId]
+      );
+
+      res.status(200).json(messages);
+  } catch (error) {
+      console.error('無法取得信件:', error);
+      res.status(500).json({ error: '無法取得信件' });
+  }
 });
 
+//撈
 // Route for 'bottles' table
 app.get('/show/bottles', async function (req, res) {
   try {

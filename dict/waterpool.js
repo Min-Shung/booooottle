@@ -12,7 +12,8 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
     closeBottum.addEventListener('click', () => {
         mailindex.classList.add('hidden');
     });
-
+    
+//留言
     document.getElementById("commenttext_buttom").addEventListener("submit",event => {
         event.preventDefault(); // 阻止默認行為
         sendMsn();
@@ -655,3 +656,4 @@ function showPop(message){
         theWindow.classList.remove('show');
     }, 1000);
 }
+
