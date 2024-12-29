@@ -132,11 +132,11 @@ app.get('/mailbox/:userId', async (req, res) => {
 
   try {
       const messages = await client.query(
-          'SELECT * FROM messages WHERE recipient_id = ? ORDER BY created_at ASC',
+          'SELECT * FROM messages WHERE recipient_id = $1 ORDER BY created_at DESC',
           [userId]
       );
 
-      res.status(200).json(messages);
+      res.status(200).json({ messages: result.rows });
   } catch (error) {
       console.error('無法取得信件:', error);
       res.status(500).json({ error: '無法取得信件' });
