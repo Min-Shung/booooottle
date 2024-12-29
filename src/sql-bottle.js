@@ -135,7 +135,7 @@ app.get('/mailbox/:userId', async (req, res) => {
           'SELECT * FROM messages WHERE recipient_id = $1 ORDER BY created_at DESC',
           [userId]
       );
-
+      console.log('Requesting messages SQL:' ,  userId);
       res.status(200).json({ messages: result.rows });
   } catch (error) {
       console.error('無法取得信件:', error);
