@@ -12,7 +12,35 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
     closeBottum.addEventListener('click', () => {
         mailindex.classList.add('hidden');
     });
-    
+    document.getElementById('mailboxButton').addEventListener('click', async () => {
+        const recipientId = localStorage.getItem('userid'); // 獲取接收方 ID
+        const response = await fetch(`/api/messages/${recipientId}`);
+        const data = await response.json();
+      
+        if (response.ok) {
+          renderMessages(data.messages);
+        } else {
+          console.error('Error fetching messages:', data.error);
+          showPop('無法獲取留言，請稍後再試。');
+        }
+      });
+      function renderMessages(messages) {
+        const messageContainer = document.getElementById('messageContainer');
+        messageContainer.innerHTML = ''; // 清空現有內容
+      
+        messages.forEach((message) => {
+          const messageElement = document.createElement('div');
+          messageElement.className = 'message';
+      
+          messageElement.innerHTML = `
+            <p><strong>${message.sender_name}:</strong> ${message.content}</p>
+            <small>${new Date(message.created_at).toLocaleString()}</small>
+          `;
+      
+          messageContainer.appendChild(messageElement);
+        });
+      }
+      
 //留言
     document.getElementById("commenttext_buttom").addEventListener("submit",event => {
         event.preventDefault(); // 阻止默認行為
