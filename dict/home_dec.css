@@ -341,16 +341,32 @@ h1 {
 }
 
 
-/*先測試*/
 /* 主容器樣式 */
+#illustrate {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 450px;
+    width: 340px;
+    margin: 0;
+    padding: 20px; /* 這會在 illustrate 內部創建 20px 的內距 */
+    background-color: #f9f2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #695a41;
+  }
 #mailexcontent {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px; /* 設定 message-item 間的間距為 16px */
+    width: 100%; /* 確保 mailexcontent 填滿 illustrate 的寬度 */
+    height: 90%;
+    padding: 0; /* 確保 mailexcontent 沒有額外內距 */
+    margin: 0; /* 確保 mailexcontent 沒有額外外距 */
   }
   
-  /* 每條訊息的樣式 */
-  #mailexcontent  .message-item {
+  #mailexcontent .message-item {
     display: flex;
     flex-direction: column;
     background: #f9f9f9;
@@ -429,6 +445,7 @@ h1 {
     text-align: center; /* 內容置中 */
     color: #333;
     line-height: 1; /* 行距 */
+    height: 260px;
     width: 340px; /* 最大寬度 */
     overflow-y: auto;
   }

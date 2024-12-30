@@ -124,12 +124,19 @@
     <!-- 錯誤訊息區域 -->
     <p id="errorMessage" style="color: red; font-weight: bold;"></p>
     </main>
+    <!-- 彈出視窗 -->
     <div class="thewindow" id="resign"><p id="windowcontext"></p></div> 
+    <!-- 信箱 -->
     <div class="overlay hidden" id="mailindex">
-        <div class="illustrate">
-        <p>空空如也</p><br>
-        <button id="mailclose" class="formcloseOverlay">X</button>
+        <div  id="illustrate">
+            <button id="mailclose" class="formcloseOverlay">X</button>
+            <div id="mailexcontent">        
+            </div>
+        </div>
     </div>
+    <!-- 信箱詳情 -->
+    <div id="mailBack" class="overlay hidden">
+    <div class="mailboxBack" id="mailcontent"></div>
     </div>
 
     <!-- 引入 JS -->
