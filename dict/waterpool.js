@@ -56,9 +56,9 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
                 const articleData = await response.json();
                 // 填充 mailcontent 的內容
                 mailContent.innerHTML = `
-                  <p><strong>回覆時間：</strong> ${new Date(message.created_at).toLocaleDateString()}</p>
-                  <p><strong>回覆內容：</strong> ${message.content.replace(/\n/g, '<br>')}</p>
-                  <p>${articleData.content.replace(/\n/g, '<br>')}</p>
+                  <p id="msgTime">回覆時間： ${new Date(message.created_at).toLocaleDateString()}</p>
+                  <p id="msgInsg"><strong>回覆內容：</strong></p><p id="msgIndex">${message.content.replace(/\n/g, '<br>')}</p>
+                  <div id="msgBox"><p>${articleData.content.replace(/\n/g, '<br>')}</p><div>
                 <button class="formcloseOverlay" id="close-mailcontent">X</button>
                 `;
                 mailoverlay.classList.remove('hidden'); // 顯示 mailcontent
