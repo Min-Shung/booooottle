@@ -14,28 +14,88 @@ const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃�
         const data = await response.json();
       
         if (response.ok) {
-          renderMessages(data.messages);
+        renderMessages(data.messages);
         } else {
           console.error('Error fetching messages:', data.error);
           showPop('無法獲取留言，請稍後再試。');
         }
-      });
-      function renderMessages(messages) {
-        const messageContainer = document.getElementById('messageContainer');
-        messageContainer.innerHTML = ''; // 清空現有內容
-      
+    });
+    function renderMessages(messages) {
+        const overlay = document.getElementById("mailexcontent"); // 彈出框容器
+        const mailContent = document.querySelector('#mailcontent'); // 顯示完整內容的容器
+        const mailoverlay = document.getElementById("mailBack"); 
+        overlay.innerHTML = ''; // 清空之前的內容
+        // 當 messages 為空時，顯示提示訊息
+        if (messages.length === 0) {
+            const overlay =document.getElementById('mailexcontent');
+            overlay.innerHTML = `<p>空空如也</p>`;
+            return; // 結束函式執行
+        }
         messages.forEach((message) => {
-          const messageElement = document.createElement('div');
-          messageElement.className = 'message';
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message-item');
+            messageDiv.innerHTML = `
+              <div class="message-header">
+                <span class="date">${new Date(message.created_at).toLocaleDateString()}</span>
+                <button class="view-button ${
+                  message.is_read ? 'button-read' : 'button-unread'
+                }">${message.is_read ? '已讀' : '未讀'}</button>
+              </div>
+            `;
       
-          messageElement.innerHTML = `
-            <p><strong>${message.sender_name}:</strong> ${message.content}</p>
-            <small>${new Date(message.created_at).toLocaleString()}</small>
-          `;
+          // 點擊顯示完整內容
+          messageDiv.querySelector('.view-button').addEventListener(
+            'click',
+            async () => {
+              try {
+                // 發送請求以獲取被回覆的內容
+                const response = await fetch(`${apiBaseUrl}/article/${message.article_id}`);
+                if (!response.ok) {
+                  throw new Error('Failed to fetch article data');
+                }
+                const articleData = await response.json();
+                // 填充 mailcontent 的內容
+                mailContent.innerHTML = `
+                  <p><strong>回覆時間：</strong> ${new Date(message.created_at).toLocaleDateString()}</p>
+                  <p><strong>回覆內容：</strong> ${message.content.replace(/\n/g, '<br>')}</p>
+                  <p>${articleData.content.replace(/\n/g, '<br>')}</p>
+                <button class="formcloseOverlay" id="close-mailcontent">X</button>
+                `;
+                mailoverlay.classList.remove('hidden'); // 顯示 mailcontent
       
-          messageContainer.appendChild(messageElement);
+                // 關閉 mailcontent
+                mailoverlay.querySelector('#close-mailcontent').addEventListener('click', () => {
+                    mailoverlay.classList.add('hidden');
+                });
+              } catch (error) {
+                console.error('Error:', error);
+                alert('無法加載訊息，請稍後再試。');
+              }
+      
+              // 更新已讀狀態
+              if (!message.is_read) {
+                try {
+                  const markReadResponse = await fetch(`${apiBaseUrl}/markAsRead/${message.message_id}`, {
+                    method: 'POST',
+                  });
+                  if (markReadResponse.ok) {
+                    message.is_read = true;
+                    messageDiv.querySelector('.view-button').classList.remove('button-unread');
+                    messageDiv.querySelector('.view-button').classList.add('button-read');
+                    messageDiv.querySelector('.view-button').innerText = '已讀';
+                  }
+                } catch (error) {
+                  console.error('Error marking message as read:', error);
+                }
+              }
+            }
+          );
+      
+          overlay.appendChild(messageDiv); // 加入容器
         });
       }
+      
+      
     closeBottum.addEventListener('click', () => {
         mailindex.classList.add('hidden');
     });
