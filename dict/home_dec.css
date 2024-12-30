@@ -16,7 +16,7 @@ body {
         width: 100%;
         height: auto;
         display: flex;
-        justify-content: center
+        justify-content: center;
         padding: 10px 0;
         z-index: 1000; /* 確保側邊欄浮在其他內容之上 */
     }
