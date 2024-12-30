@@ -428,7 +428,7 @@ h1 {
   #mailBack.hidden {
     display: none;
 }
-  .mailboxBack{
+.mailboxBack{
     position: relative; /* 絕對定位 */
     background-color: #f9f2e6;
     padding: 15px;
@@ -440,4 +440,39 @@ h1 {
     height: 260px;
     width: 340px; /* 最大寬度 */
     overflow-y: auto;
-  }
+}
+#msgIndex {
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: underline;
+    display: inline-block;
+    opacity: 0; /* 初始文字透明 */
+    animation: fadeIn 3s forwards; /* 文字渐显动画，2秒内完成 */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1; /* 文字逐渐显示 */
+    }
+}
+
+
+
+#msgTime, #msgInsg{
+    font-size: 20px;
+    text-align: left;
+}
+#msgBox{
+    border: 2px solid white; /* 添加白色边框 */
+    border-radius: 5px;
+    display: flex; /* 使用 flexbox 布局 */
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: center; /* 水平居中对齐 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.115); /* 添加阴影效果 */
+    padding: 10px; /* 边框内的内边距，增加空间感 */
+    background-color: rgba(255, 255, 255, 0.326); /* 背景保持透明 */
+    margin-top: 15px; /* 将整个框下移，调整值可以控制下移的距离 */
+}
