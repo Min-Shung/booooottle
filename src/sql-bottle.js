@@ -159,6 +159,28 @@ app.get('/article/:article_id', async (req, res) => {
     res.status(500).json({ error: '無法取得文章' });
   }
 });
+app.post('/markAsRead/:id', async (req, res) => {
+  const messageId = req.params.id;
+
+  try {
+      const result = await client.query(
+          'UPDATE messages SET is_read = true WHERE message_id = $1 RETURNING *',
+          [messageId]
+      );
+
+      if (result.rowCount === 0) {
+          // 如果沒有找到對應的訊息
+          return res.status(404).json({ error: '訊息不存在或已經標記為已讀' });
+      }
+
+      console.log(`訊息 ${messageId} 已標記為已讀`);
+      return res.status(200).json({ message: '訊息已標記為已讀', data: result.rows[0] });
+  } catch (error) {
+      console.error('無法標記訊息為已讀:', error);
+      return res.status(500).json({ error: '伺服器錯誤，無法更新訊息狀態' });
+  }
+});
+
 
 //撈
 // Route for 'bottles' table

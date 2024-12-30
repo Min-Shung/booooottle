@@ -311,6 +311,9 @@ h1 {
     justify-content: space-between;
     align-items: center;
     gap: 10px;
+    position: relative;
+    width: 90%;
+    align-items: center;
   }
   
   /* 發送者資訊 */
@@ -347,4 +350,30 @@ h1 {
     cursor: default;
   }
   
-  
+  #mailBack{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background:rgba(0, 0, 0, 0.5) ;
+    justify-content: center;
+    align-items: center;
+    z-index: 500;
+  }
+  #mailBack.hidden {
+    display: none;
+}
+  .mailboxBack{
+    position: relative; /* 絕對定位 */
+    background-color: #f9f2e6;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    text-align: center; /* 內容置中 */
+    color: #333;
+    line-height: 1; /* 行距 */
+    width: 340px; /* 最大寬度 */
+    overflow-y: auto;
+  }
