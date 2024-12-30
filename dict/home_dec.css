@@ -386,14 +386,6 @@ h1 {
     width: 90%;
     align-items: center;
   }
-  
-  /* 發送者資訊 */
-  #mailexcontent  .sender-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
   /* 日期樣式 */
   #mailexcontent .date {
     font-size: 14px;
