@@ -7,6 +7,61 @@ body {
     color: #333;
 }
 
+/* 側邊欄樣式 - 小螢幕時調整 */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        z-index: 1000; /* 確保側邊欄浮在其他內容之上 */
+    }
+
+    .sidebar-links button {
+        font-size: 18px !important; /* 減小字體大小 */
+        padding: 5px 20px!important; /* 減少按鈕內間距 */
+        flex: 2; /* 平均分配按鈕寬度 */
+        margin: 0 5px; /* 增加按鈕之間的間距 */
+        font-size: 15px;
+        white-space: nowrap;
+        text-align: center;
+        width: auto; /* 讓寬度自適應 */
+    }
+
+    .sidebar-links {
+        display: flex;
+        flex-direction: column; /* 垂直排列 */
+        align-items: center; /* 將項目置中 */
+        width: 100%; /* 確保側邊欄內的內容占滿全寬 */
+    }
+
+    .sidebar-links li {
+        width: 100%; /* 讓列表項寬度100% */
+        text-align: center; /* 確保文字置中 */
+    }
+}
+
+/* 主內容區域按鈕 - 小螢幕固定於底部 */
+@media (max-width: 768px) {
+    #button-container {
+        flex-direction: column; /* 垂直排列 */
+        bottom: 70px; /* 避開側邊欄 */
+        left: 10px; /* 保持與螢幕左側距離 */
+        right: 10px; /* 保持與螢幕右側距離 */
+        gap: 10px; /* 增加按鈕之間的間距 */
+    }
+
+    #pickBottle, #releaseBottle {
+        font-size: 16px; /* 調整按鈕字體大小 */
+        padding: 10px 15px; /* 縮小按鈕尺寸 */
+    }
+}
+
+
 /*登入註冊按鈕*/
 #sign-container {
     display: flex; /* 使用 Flexbox 排列 */
@@ -373,7 +428,7 @@ h1 {
   #mailBack.hidden {
     display: none;
 }
-  .mailboxBack{
+.mailboxBack{
     position: relative; /* 絕對定位 */
     background-color: #f9f2e6;
     padding: 15px;
@@ -385,4 +440,39 @@ h1 {
     height: 260px;
     width: 340px; /* 最大寬度 */
     overflow-y: auto;
-  }
+}
+#msgIndex {
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: underline;
+    display: inline-block;
+    opacity: 0; /* 初始文字透明 */
+    animation: fadeIn 3s forwards; /* 文字渐显动画，2秒内完成 */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1; /* 文字逐渐显示 */
+    }
+}
+
+
+
+#msgTime, #msgInsg{
+    font-size: 20px;
+    text-align: left;
+}
+#msgBox{
+    border: 2px solid white; /* 添加白色边框 */
+    border-radius: 5px;
+    display: flex; /* 使用 flexbox 布局 */
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: center; /* 水平居中对齐 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.115); /* 添加阴影效果 */
+    padding: 10px; /* 边框内的内边距，增加空间感 */
+    background-color: rgba(255, 255, 255, 0.326); /* 背景保持透明 */
+    margin-top: 15px; /* 将整个框下移，调整值可以控制下移的距离 */
+}
