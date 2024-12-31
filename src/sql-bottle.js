@@ -33,7 +33,12 @@ app.listen(8080, function () {
     console.log('Node app is running on port 8080');
 });
 
+//觸發
+app.get('/activate' ,async(req, res)=>{
+  res.status(200).end;
+}
 
+)
 //註冊
 app.post('/register', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
