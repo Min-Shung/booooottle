@@ -1,7 +1,74 @@
 const pickBottle = document.getElementById('pickBottle');
 const releaseBottle = document.getElementById('releaseBottle');
 const today = new Date().toISOString().split('T')[0];
-const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 ＃要改
+const apiBaseUrl = 'https://final-proj-w8vi.onrender.com'; // API 根網址 
+// 選取元素
+const loadingDiv = document.getElementById('loading');
+const mainBackground = new Image();
+mainBackground.src = '../src/海.jpg';
+
+let backendActivated = false;
+let backendTimeout = false;
+
+// 啟動後端請求
+const activateBackend = async () => {
+  try {
+    const response = await fetch("https://final-proj-w8vi.onrender.com/activate");
+    if (response.ok) {
+      backendActivated = true;
+      console.log('Is ready!');
+    }
+  } catch (error) {
+    console.error('Backend activation failed:', error);
+  }
+};
+
+// 設置15秒後解除加載動畫的後端超時
+setTimeout(() => {
+  backendTimeout = true;
+  checkLoadingComplete();
+}, 12500);
+
+// 加載主頁背景圖片
+mainBackground.onload = () => {
+  checkLoadingComplete();
+};
+
+// 啟動後端請求
+activateBackend();
+
+// 檢查加載是否完成
+function checkLoadingComplete() {
+  if ((mainBackground.complete && mainBackground.naturalWidth > 0) && (backendActivated || backendTimeout)) {
+    loadingDiv.style.transition = 'transform 0.5s ease';
+    loadingDiv.style.transform = 'translateY(-100%)';
+    setTimeout(() => loadingDiv.remove(), 500); // 完全移除元素
+  }
+}
+
+// 懶加載其他背景圖片
+const lazyLoadBackgrounds = () => {
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = entry.target;
+        const lazyBackground = target.dataset.bg;
+        if (lazyBackground) {
+          target.style.backgroundImage = `url('${lazyBackground}')`;
+          observer.unobserve(target);
+        }
+      }
+    });
+  }, {
+    rootMargin: '0px',
+    threshold: 0.1
+  });
+
+  document.querySelectorAll('[data-bg]').forEach(element => observer.observe(element));
+};
+
+document.addEventListener('DOMContentLoaded', lazyLoadBackgrounds);
+
 //信箱
     const mailbox = document.getElementById('mailbox');
     const mailindex = document.getElementById('mailindex');
