@@ -476,3 +476,65 @@ h1 {
     background-color: rgba(255, 255, 255, 0.326); /* 背景保持透明 */
     margin-top: 15px; /* 将整个框下移，调整值可以控制下移的距离 */
 }
+.loadBack * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+  .loadBack {
+    all: initial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #121213;
+    z-index: 9999;
+    height: 100%;
+    width: 100%;
+    position: fixed; /* 改為固定定位 */
+    top: 0; /* 起始點從頂部 */
+    left: 0; /* 起始點從左側 */
+}
+
+  .loader{
+    position: relative;
+    display: inline-block;
+    font-family: 'Fira Code', 'Roboto Mono', 'Ubuntu Mono', 'IBM Plex Mono', monospace;
+  }  
+  .loader::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: #03e9f4;
+    animation: blinkCursor 0.8s steps(3) infinite;
+  }
+
+  @keyframes blinkCursor{
+    0%,75%{ 
+        opacity:1;
+    }
+    76%,100%{
+        opacity:0;
+    }
+  }
+  .loader h2{
+    position: relative;
+    color: #03e9f4;
+    letter-spacing: 5px;
+    font-size: 4em;
+    text-transform: uppercase;
+    animation: typing 8s steps(10) infinite;
+    overflow: hidden;
+  }
+  @keyframes typing{
+    0%,90%,100%{
+        width: 0;
+    }
+    30%,60%{
+        width: 11ch;
+    }
+  } 
