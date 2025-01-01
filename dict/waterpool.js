@@ -46,29 +46,31 @@ function checkLoadingComplete() {
   }
 }
 
-// 懶加載其他背景圖片
-const lazyLoadBackgrounds = () => {
-  const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const target = entry.target;
-        const lazyBackground = target.dataset.bg;
-        if (lazyBackground) {
-          target.style.backgroundImage = `url('${lazyBackground}')`;
-          observer.unobserve(target);
-        }
+// 加載其餘背景圖片的邏輯
+function loadAdditionalBackgrounds() {
+    const backgroundElements = document.querySelectorAll('[data-bg]');
+    backgroundElements.forEach(element => {
+      const lazyBackground = element.dataset.bg;
+      if (lazyBackground) {
+        element.style.backgroundImage = `url('${lazyBackground}')`;
+        console.log(`已加載背景圖片：${lazyBackground}`);
       }
     });
-  }, {
-    rootMargin: '0px',
-    threshold: 0.1
-  });
-
-  document.querySelectorAll('[data-bg]').forEach(element => observer.observe(element));
-};
-
-document.addEventListener('DOMContentLoaded', lazyLoadBackgrounds);
-
+  }
+  
+  // 檢查用戶是否已登入
+  function checkUserLoggedIn() {
+    const username = localStorage.getItem('username');
+    if (username) {
+      loadAdditionalBackgrounds();
+    } else {
+      console.log('未檢測到登入用戶，跳過加載其餘背景圖片');
+    }
+  }
+  
+  // 頁面加載時檢測
+  document.addEventListener('DOMContentLoaded', checkUserLoggedIn);
+  
 //信箱
     const mailbox = document.getElementById('mailbox');
     const mailindex = document.getElementById('mailindex');

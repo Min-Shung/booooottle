@@ -35,10 +35,10 @@
             <li class="dropdown">
                 <button><span id="sidePool" class="sideindex">水池</span></button>
                 <ul class="dropdown-menu">
-                    <li><button class="pool-option" data-pool="today">今日灣</button></li>
-                    <li><button class="pool-option" data-pool="fortune">幸運河</button></li>
-                    <li><button class="pool-option" data-pool="bottle">漂流海</button></li>
-                    <li><button class="pool-option" data-pool="developer">開發池</button></li>
+                    <li><button class="pool-option" data-pool="today" >今日灣</button></li>
+                    <li><button class="pool-option" data-pool="fortune" >幸運河</button></li>
+                    <li><button class="pool-option" data-pool="bottle" >漂流海</button></li>
+                    <li><button class="pool-option" data-pool="developer" >開發池</button></li>
                 </ul>
             </li>
             <li>
@@ -74,21 +74,21 @@
             <button class="formcloseOverlay">X</button>
         </div>
         <!-- 今日消息 -->
-        <div id="waterLayer_today" class="overlay hidden">
+        <div id="waterLayer_today" class="overlay hidden" data-bg="../src/今日灣.png">
             <button class="closeOverlay">關閉</button>
             <img src="../src/瓶子2-removebg-preview.png" class="bottle" id="todaybot" width="70px" height="70px">
             <button class="releaseBottle" id="ToDaybutton">撈瓶子</button>
             <div class="news-container hiddenForInner" id="newsContent"></div> 
         </div>
         <!-- 籤詩 -->
-        <div id="waterLayer_fortune" class="overlay hidden">
+        <div id="waterLayer_fortune" class="overlay hidden" data-bg="../src/幸運河.jpg">
             <button class="closeOverlay">關閉</button>
             <img src="../src/瓶子2-removebg-preview.png" class="bottle" id="poembot" width="70px" height="70px">
             <button class="releaseBottle" id="luckybuttom">撈瓶子</button>
             <div class="news-container hiddenForInner" id="luckyContent"></div>
         </div>
         <!-- 漂流瓶 -->
-        <div id="waterLayer_bottle" class="overlay hidden">
+        <div id="waterLayer_bottle" class="overlay hidden" data-bg="../src/漂流海.jpg">
             <button class="closeOverlay">關閉</button>
             <img src="../src/瓶子2-removebg-preview.png" class="bottle" id="thebot" width="70px" height="70px">
             <button class="releaseBottle" id="bottleButton">撈瓶子</button>
@@ -103,7 +103,7 @@
             </div>
          </div>
         <!-- 開發者碎碎念 -->
-        <div id="waterLayer_developer" class="overlay hidden">
+        <div id="waterLayer_developer" class="overlay hidden" data-bg="../src/開發池.jpg">
             <button class="closeOverlay">關閉</button>
             <img src="../src/瓶子2-removebg-preview.png" class="bottle" id="devbot"  width="70px" height="70px">
             <button class="releaseBottle" id="devButton">撈瓶子</button>
