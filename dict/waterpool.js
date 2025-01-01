@@ -63,6 +63,7 @@ function loadAdditionalBackgrounds() {
     const username = localStorage.getItem('username');
     if (username) {
       loadAdditionalBackgrounds();
+      loadingDiv.style.display = 'none';
     } else {
       console.log('未檢測到登入用戶，跳過加載其餘背景圖片');
     }
