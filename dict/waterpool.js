@@ -170,8 +170,8 @@ function loadAdditionalBackgrounds() {
         mailindex.classList.add('hidden');
     });
 //留言
-document.getElementById("commenttext_buttom").addEventListener("submit", (event) => {
-    event.preventDefault(); // 阻止表單提交的默認行為
+document.getElementById("comment").querySelector("form").addEventListener("submit", (event) => {
+    event.preventDefault(); // 阻止該表單的預設提交行為
     sendMsn();
 });
 async function sendMsn(){
