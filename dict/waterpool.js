@@ -184,7 +184,10 @@ async function sendMsn(){
         showPop("留言內容不能為空！");
         return;
     }
-
+    console.log("articleId:", articleId);
+    console.log("recipient_id:", recipient_id);
+    console.log("sender_id:", sender_id);
+    console.log("retext:", retext);
     // 發送留言到後端
     try {
         const response = await fetch(`${apiBaseUrl}/api/messages`, {
