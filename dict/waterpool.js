@@ -780,6 +780,8 @@ pickBottle.addEventListener('click', async (event) => {
             const result = await response.json();
             const randomItem = result.data; 
             if (result.data) {
+                console.log(randomItem.content.replace(/\n/g, '<br>'));
+                console.log(new Date(randomItem.createdat).toLocaleString());
                 pickbox.innerHTML ='';
                 pickbox.innerHTML = `
                     <p class = "content"> ${randomItem.content.replace(/\n/g, '<br>')}</p>
@@ -799,6 +801,7 @@ pickBottle.addEventListener('click', async (event) => {
             const result = await response.json();
             const randomItem = result.data;
             if (result.data && result.data.length > 0) {
+                console.log(randomItem.content.replace(/\n/g, '<br>'));
                 pickbox.innerHTML = `
                     <p class="content">${randomItem.content.replace(/\n/g, '<br>')}</p>
                 `;
