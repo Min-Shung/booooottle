@@ -294,9 +294,10 @@ app.get('/proxy', async (req, res) => {
           url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2025-01-01&lang=tc&limit=10&terr=tw&type=newrelease`;
         } else if (type === 'weekly') {
           url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2024-12-25&lang=tc&limit=10&terr=tw&type=newrelease`;
-          url = `https://kma.kkbox.com/charts/api/v1/yearly?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=2024`;
+        } else if (type === 'yearly') {
+          url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=2024`;
         }
-  
+        console.log('Requesting new URL:', url);
         response = await axios.get(url, {
           headers: {
             'User-Agent': 'YourAppName/1.0',
