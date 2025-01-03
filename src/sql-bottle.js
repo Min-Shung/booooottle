@@ -290,7 +290,12 @@ app.get('/proxy', async (req, res) => {
       },
     });
 
-    if (!response.data || (Array.isArray(response.data) && response.data.length === 0)) {
+    if (
+      !response.data || 
+      response.data.code !== "0" || 
+      !response.data.data || 
+      response.data.data.charts.newrelease === null
+    ) {
       console.log('Received empty or invalid data, retrying with fallback parameters...');
       if (type === 'daily') {
         url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2025-01-01&lang=tc&limit=10&terr=tw&type=newrelease`;
