@@ -664,7 +664,7 @@ bottleButton.addEventListener('click', async event => {
                 InnerLayer.innerHTML ='';
                 InnerLayer.innerHTML = `
                     <p class = "content"> ${randomItem.content.replace(/\n/g, '<br>')}</p>
-                    <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}<p>
+                    <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}</p>
                     <button class="switch" id="commentbut">留言</button>
                 `;
             }
@@ -780,12 +780,10 @@ pickBottle.addEventListener('click', async (event) => {
             const result = await response.json();
             const randomItem = result.data; 
             if (result.data) {
-                const InnerLayer = document.getElementById('bottleContent');
-                InnerLayer.innerHTML ='';
-                InnerLayer.innerHTML = `
+                pickbox.innerHTML ='';
+                pickbox.innerHTML = `
                     <p class = "content"> ${randomItem.content.replace(/\n/g, '<br>')}</p>
-                    <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}<p>
-                    <button class="switch" id="commentbut">留言</button>
+                    <p class = "content"> ${new Date(randomItem.createdat).toLocaleString()}</p>
                 `;
             } else {
                 pickbox.innerHTML = '<li>水裡空空的>w<</li>';
