@@ -180,19 +180,25 @@ async function sendMsn(){
     const recipient_id = localStorage.getItem('posterid');
     const sender_id = localStorage.getItem('userid');
     const retext =  document.getElementById('commenttext');
+    if (!retext.trim()) {
+        showPop("留言內容不能為空！");
+        return;
+    }
+
     // 發送留言到後端
-    const response = await fetch(`${apiBaseUrl}/api/messages`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            retext:retext,
-            recipient_id:recipient_id,
-            sender_id:sender_id,
-            article_id:  articleId
-        })
-    });
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/messages`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                retext: retext,
+                recipient_id: recipient_id,
+                sender_id: sender_id,
+                article_id: articleId
+            })
+        });
 
     if (response.ok) {
         showPop("留言提交成功！");
@@ -201,7 +207,12 @@ async function sendMsn(){
     } else {
         showPop("提交失敗，請稍後再試。");
     }
-}   
+    }   
+    catch (error) {
+        console.error("Error submitting message:", error);
+        showPop("提交失敗，請檢查您的網絡連接或稍後再試。");
+    }
+    }
 // 撈瓶子按鈕
 pickBottle.addEventListener('click', event => {
     event.preventDefault(); // 阻止默認行為
