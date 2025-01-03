@@ -261,63 +261,65 @@ app.post('/add', async (req, res) => {
 });
 //kkbox代理
 app.get('/proxy', async (req, res) => {
-    const { type, category, date, year } = req.query;
-  
-    // 驗證參數
-    if (!type || !category || (!date && type !== 'yearly') || (type === 'yearly' && !year)) {
-      return res.status(400).send('Missing required query parameters');
-    }
-  
-    let url;
-    if (type === 'daily') {
-      url = `https://kma.kkbox.com/charts/api/v1/daily?category=${category}&date=${date}&lang=tc&limit=10&terr=tw&type=newrelease`;
-    } else if (type === 'weekly') {
-      url = `https://kma.kkbox.com/charts/api/v1/weekly?category=${category}&date=${date}&lang=tc&limit=10&terr=tw&type=newrelease`;
-    } else if (type === 'yearly') {
-      url = `https://kma.kkbox.com/charts/api/v1/yearly?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=${year}`;
-    } else {
-      return res.status(400).send('Invalid type parameter');
-    }
-  
-    console.log('Requesting KKBOX API with URL:', url);
-  
-    try {
-      let response = await axios.get(url, {
+  const { type, category, date, year } = req.query;
+
+  // 驗證
+  const allowedTypes = ['daily', 'weekly', 'yearly'];
+  if (!allowedTypes.includes(type)) {
+    return res.status(400).send('Invalid type parameter');
+  }
+  if (!category || (type !== 'yearly' && !date) || (type === 'yearly' && !year)) {
+    return res.status(400).send('Missing required query parameters');
+  }
+
+  let url;
+  if (type === 'daily') {
+    url = `https://kma.kkbox.com/charts/api/v1/daily?category=${category}&date=${date}&lang=tc&limit=10&terr=tw&type=newrelease`;
+  } else if (type === 'weekly') {
+    url = `https://kma.kkbox.com/charts/api/v1/weekly?category=${category}&date=${date}&lang=tc&limit=10&terr=tw&type=newrelease`;
+  } else if (type === 'yearly') {
+    url = `https://kma.kkbox.com/charts/api/v1/yearly?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=${year}`;
+  }
+
+  console.log('Requesting KKBOX API with URL:', url);
+
+  try {
+    let response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'YourAppName/1.0',
+      },
+    });
+
+    if (!response.data || (Array.isArray(response.data) && response.data.length === 0)) {
+      console.log('Received empty or invalid data, retrying with fallback parameters...');
+      if (type === 'daily') {
+        url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2025-01-01&lang=tc&limit=10&terr=tw&type=newrelease`;
+      } else if (type === 'weekly') {
+        url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2024-12-25&lang=tc&limit=10&terr=tw&type=newrelease`;
+      } else if (type === 'yearly') {
+        url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=2024`;
+      }
+
+      response = await axios.get(url, {
         headers: {
           'User-Agent': 'YourAppName/1.0',
         },
       });
-  
-      if (!response.data || response.data.length === 0) {
-        console.log('Received null data, retrying with fallback parameters...');
-        if (type === 'daily') {
-          url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2025-01-01&lang=tc&limit=10&terr=tw&type=newrelease`;
-        } else if (type === 'weekly') {
-          url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2024-12-25&lang=tc&limit=10&terr=tw&type=newrelease`;
-        } else if (type === 'yearly') {
-          url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=2024`;
-        }
-        console.log('Requesting new URL:', url);
-        response = await axios.get(url, {
-          headers: {
-            'User-Agent': 'YourAppName/1.0',
-          },
-        });
-      }
-  
-      res.json(response.data);
-    } 
-    catch (error) {
-      console.error('Error fetching data from KKBOX API:', error.message);
-      if (error.response) {
-        console.error('Response status:', error.response.status);
-        console.error('Response data:', error.response.data);
-        res.status(error.response.status).send(error.response.data);
-      } else {
-        res.status(500).send('Failed to fetch data from KKBOX API');
-      }
     }
-  });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching data from KKBOX API:', error.message);
+    if (error.response) {
+      console.error('Response status:', error.response.status);
+      console.error('Response data:', error.response.data);
+      res.status(error.response.status).send('Failed to fetch KKBOX data. Please try again later.');
+    } else {
+      res.status(500).send('Internal server error');
+    }
+  }
+});
+
 //NEWSAPI
 const newsAPI_KEY = '3d29c7d7f9304476afaa830b7d888dad'; // 替換成你的 NewsAPI API 金鑰
 
