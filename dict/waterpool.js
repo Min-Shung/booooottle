@@ -661,7 +661,7 @@ bottleButton.addEventListener('click', async event => {
             const randomItem = result.data; 
             const dataList = document.getElementById('bottleContent');
             localStorage.setItem('posterid', randomItem.userid);
-            localStorage.setItem('bottleid', randomItem.username);
+            localStorage.setItem('bottleid', randomItem.bottleid);
             dataList.innerHTML = ''; // 清空舊資料
             if (result.data) {
                 const InnerLayer = document.getElementById('bottleContent');
