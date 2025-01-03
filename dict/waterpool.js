@@ -797,7 +797,7 @@ pickBottle.addEventListener('click', async (event) => {
                 console.error("Element with id 'DevContent' not found.");
                 return;
             }
-            const response = await fetch(`${apiBaseUrl}/show?table=wtfdevelopersay`);
+            const response = await fetch(`${apiBaseUrl}/show/wtfdevelopersay`);
             const result = await response.json();
             const randomItem = result.data;
             if (result.data && result.data.length > 0) {
