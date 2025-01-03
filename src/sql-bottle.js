@@ -282,13 +282,30 @@ app.get('/proxy', async (req, res) => {
     console.log('Requesting KKBOX API with URL:', url);
   
     try {
-      const response = await axios.get(url, {
+      let response = await axios.get(url, {
         headers: {
           'User-Agent': 'YourAppName/1.0',
         },
       });
+  
+      if (!response.data || response.data.length === 0) {
+        console.log('Received null data, retrying with fallback parameters...');
+        if (type === 'daily' || type === 'weekly') {
+          url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2025-01-01&lang=tc&limit=10&terr=tw&type=newrelease`;
+        } else if (type === 'yearly') {
+          url = `https://kma.kkbox.com/charts/api/v1/yearly?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=2024`;
+        }
+  
+        response = await axios.get(url, {
+          headers: {
+            'User-Agent': 'YourAppName/1.0',
+          },
+        });
+      }
+  
       res.json(response.data);
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error fetching data from KKBOX API:', error.message);
       if (error.response) {
         console.error('Response status:', error.response.status);
