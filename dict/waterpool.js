@@ -179,8 +179,8 @@ async function sendMsn(){
     const articleId = localStorage.getItem('bottleid');
     const recipient_id = localStorage.getItem('posterid');
     const sender_id = localStorage.getItem('userid');
-    const retext =  document.getElementById('commenttext');
-    if (!retext.trim()) {
+    const retext = document.getElementById('commenttext').value.trim();
+    if (!retext) {
         showPop("留言內容不能為空！");
         return;
     }
