@@ -170,10 +170,10 @@ function loadAdditionalBackgrounds() {
         mailindex.classList.add('hidden');
     });
 //留言
-    document.getElementById("commenttext_buttom").addEventListener("submit",event => {
-        event.preventDefault(); // 阻止默認行為
-        sendMsn();
-    });
+document.getElementById("commenttext_buttom").addEventListener("submit", (event) => {
+    event.preventDefault(); // 阻止表單提交的默認行為
+    sendMsn();
+});
 async function sendMsn(){
     // 收集表單數據
     const articleId = localStorage.getItem('bottleid');

@@ -290,9 +290,10 @@ app.get('/proxy', async (req, res) => {
   
       if (!response.data || response.data.length === 0) {
         console.log('Received null data, retrying with fallback parameters...');
-        if (type === 'daily' || type === 'weekly') {
+        if (type === 'daily') {
           url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2025-01-01&lang=tc&limit=10&terr=tw&type=newrelease`;
-        } else if (type === 'yearly') {
+        } else if (type === 'weekly') {
+          url = `https://kma.kkbox.com/charts/api/v1/${type}?category=${category}&date=2024-12-25&lang=tc&limit=10&terr=tw&type=newrelease`;
           url = `https://kma.kkbox.com/charts/api/v1/yearly?category=${category}&lang=tc&limit=10&terr=tw&type=newrelease&year=2024`;
         }
   
