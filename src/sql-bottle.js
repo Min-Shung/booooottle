@@ -14,10 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // PostgreSQL 
 const client = new Client({
-    host: 'dpg-cthjlud2ng1s73abp7c0-a.singapore-postgres.render.com',  
-    user: 'bottle_storage_user',           
-    password: 'UPd0VCwkhvvI97fbngzVby1trGpdHCxu', 
-    database: 'bottle_storage',    
+    host: 'dpg-cu4tepq3esus73ak29h0-a.singapore-postgres.render.com',  
+    user: 'dev',           
+    password: '53KTutCfkfuwQKrBwVHmjXoVtVgRzAAx', 
+    database: 'dev_d2bv',    
     port: 5432,
     ssl: {
       rejectUnauthorized: false   
