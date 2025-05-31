@@ -75,6 +75,7 @@ graph LR
 - 查看丟出瓶子收到的留言
 - 顯示已讀／未讀狀態
 - 點選查看留言詳細內容
+  
 **信箱介面示意圖**
   
 ![信箱介面示意圖](https://github.com/Min-Shung/booooottle/blob/main/ProjectSlide%20and%20Page%20Pic/mailbox.png)
